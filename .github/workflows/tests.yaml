@@ -17,7 +17,12 @@ jobs:
       run: chmod +x bin/cr_once
 
     - name: "prepare modules"
-      run: "mkdir -p ~/.config/calcit/modules/ && cd ~/.config/calcit/modules/ && git clone https://github.com/calcit-lang/stir-template && cd stir-template/ && git checkout 0.0.1-a1"
+      run: >
+        mkdir -p ~/.config/calcit/modules/
+        && cd ~/.config/calcit/modules/
+        && git clone https://github.com/calcit-lang/stir-template
+        && cd stir-template/
+        && git checkout 0.0.1-a1
 
     - name: "build page"
       run: ./bin/cr_once
