@@ -22,7 +22,7 @@ jobs:
         && cd ~/.config/calcit/modules/
         && git clone https://github.com/calcit-lang/stir-template
         && cd stir-template/
-        && git checkout 0.0.1-a1
+        && git checkout 0.0.1-a3
 
     - name: "build page"
       run: ./bin/cr_once
