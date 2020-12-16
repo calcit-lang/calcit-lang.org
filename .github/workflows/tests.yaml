@@ -1,4 +1,4 @@
-name: Tests
+name: Test page building
 
 on:
   push:
@@ -12,12 +12,32 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: wget
-      run: mkdir ci-bin/ && wget -O ci-bin/cr_once http://repo.calcit-lang.org/binaries/linux/cr_once
+      run: mkdir bin/ && wget -O bin/cr_once http://bin.calcit-lang.org/linux/cr_once
     - name: "permission"
-      run: chmod +x ci-bin/cr_once
+      run: chmod +x bin/cr_once
 
     - name: "prepare modules"
-      run: mkdir -p ~/.config/calcit/modules/ && cd ~/.config/calcit/modules/ && echo 'no deps'
+      run: >
+        mkdir -p ~/.config/calcit/modules/
+        && cd ~/.config/calcit/modules/
+        && git clone https://github.com/calcit-lang/stir-template
+        && cd stir-template/
+        && git checkout 0.0.1-a3
 
-    - name: "test"
-      run: env=ci ./ci-bin/cr_once
+    - name: "build page"
+      run: ./bin/cr_once
+
+    - name: upload HTML to server
+      id: deploy
+      uses: Pendect/action-rsyncer@v1.1.0
+      env:
+        DEPLOY_KEY: ${{secrets.rsync_private_key}}
+      with:
+        flags: '-avzr --progress'
+        options: ''
+        ssh_options: ''
+        src: 'index.html'
+        dest: 'rsync-user@calcit-lang.org:/web-assets/repo/calcit-lang/calcit-lang.org/'
+
+    - name: display status from deploy
+      run: echo "${{ steps.deploy.outputs.status }}"
