@@ -20,7 +20,7 @@ jobs:
       run: >
         mkdir -p ~/.config/calcit/modules/
         && cd ~/.config/calcit/modules/
-        && git clone https://github.com/calcit-lang/stir-template
+        && git clone https://github.com/calcit-lang/stir-template --branch=0.0.2
 
     - name: "build page"
       run: ./bin/cr_once
