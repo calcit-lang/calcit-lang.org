@@ -1,4 +1,4 @@
-name: Test page building
+name: Upload
 
 on:
   push:
@@ -12,20 +12,26 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: wget
-      run: mkdir bin/ && wget -O bin/cr_once http://bin.calcit-lang.org/linux/cr_once
+      run: mkdir ci-bin/ && wget -O ci-bin/cr http://repo.calcit-lang.org/binaries/linux/cr
     - name: "permission"
-      run: chmod +x bin/cr_once
+      run: chmod +x ci-bin/cr
 
     - name: "prepare modules"
       run: >
-        mkdir -p ~/.config/calcit/modules/
-        && cd ~/.config/calcit/modules/
-        && git clone https://github.com/calcit-lang/stir-template --branch=0.0.2
+        mkdir -p ~/.config/calcit/modules/ && cd ~/.config/calcit/modules/
+        && git clone https://github.com/calcit-lang/lilac.git
+        && git clone https://github.com/calcit-lang/memof.git
+        && git clone https://github.com/Respo/respo.calcit.git
+        && git clone https://github.com/Respo/reel.calcit.git --branch 0.5.3
+        && git clone https://github.com/Respo/respo-markdown.calcit.git
+        && git clone https://github.com/Respo/respo-ui.calcit.git
 
-    - name: "build page"
-      run: ./bin/cr_once
+    - name: "compiles to js"
+      run: >
+        ./ci-bin/cr --emit-js --once
+        && yarn && yarn vite build --base=./
 
-    - name: upload HTML to server
+    - name: Deploy to server
       id: deploy
       uses: Pendect/action-rsyncer@v1.1.0
       env:
@@ -34,8 +40,8 @@ jobs:
         flags: '-avzr --progress'
         options: ''
         ssh_options: ''
-        src: 'index.html'
-        dest: 'rsync-user@calcit-lang.org:/web-assets/repo/calcit-lang/calcit-lang.org/'
+        src: 'dist/*'
+        dest: 'rsync-user@tiye.me:/web-assets/repo/${{ github.repository }}'
 
-    - name: display status from deploy
+    - name: Display status from deploy
       run: echo "${{ steps.deploy.outputs.status }}"
