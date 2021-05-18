@@ -2,4 +2,6 @@
 .compact-inc.cirru
 .calcit-error.cirru
 
-index.html
+js-out/
+node_modules/
+dist/
