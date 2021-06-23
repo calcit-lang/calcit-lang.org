@@ -226,7 +226,7 @@
                                       |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1621318607214) (:text |{})
                                   |r $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1621318747111)
                                     :data $ {}
-                                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1621318607214) (:text "|\"Calcit was a project compiling Cirru to Clojure(Script), and calcit-runner makes it possible to interpret the snapshot file directly, without compiling to another language. The interpreter is not experimental, with several useful tools from my old works. You can take it as a toy scripting language like Clojure, but implemented with a special editor, which is calcit-editor.\n")
+                                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1624472692703) (:text "|\"Calcit was a project compiling Cirru to Clojure(Script), and calcit-runner makes it possible to interpret the snapshot file directly, without compiling to another language. The interpreter is currently experimental, with several useful tools from my old works. You can take it as a toy scripting language like Clojure, but implemented with a special editor, which is calcit-editor.\n")
                                       |D $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1621318747804) (:text |<>)
                               |yx $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1621318607214)
                                 :data $ {}
