@@ -1,9 +1,30 @@
 
 Calcit is an interpreter and code emitter for snapshot file from [calcit-editor](https://github.com/Cirru/calcit-editor). It's inspired mostly by ClojureScript. Calcit-js is emitted in ES Modules syntax. And it's hot-swapping friendly.
 
+Ubuntu 20.04 binaries can be found on [bin.calcit-lang.org](http://bin.calcit-lang.org/linux/). For other platforms, you have to built from source via `cargo install --path=./`.
+
+Example of a `compact.cirru` file from calcit-editor:
+
+```cirru
+{} (:package |app)
+  :configs $ {} (:init-fn |app.main/main!) (:reload-fn |app.main/reload!)
+    :modules $ []
+  :files $ {}
+    |app.main $ {}
+      :ns $ quote
+        ns app.main $ :require
+      :defs $ {}
+        |main! $ quote
+          defn main! () (+ 1 2)
+        |reload! $ quote
+          defn reload! ()
+```
+
+If you want to write in a text editor, check out `bundle_calcit` command in project.
+
 ## Features
 
-* Immutabilit Data
+* Immutable Data
 
 Values and states are represented in different data structures, which is the semantics from functional programming. Internally it's [`im` in Rust](https://crates.io/crates/im) and custom [finger trees](https://github.com/calcit-lang/ternary-tree.ts) in JavaScript.
 
@@ -15,20 +36,31 @@ Calcit-js was designed based on experiences from ClojureScript, with a bunch of 
 
 With the bundler command, Calcit code can be written like a indentation-based language. So you don't have to match parentheses like in Clojure. It also means now you need to handle indentations very carefully.
 
+* Hot code swapping
+
+Calcit was built with how swapping in mind. Combined with calcit-editor, it watches changes by default, and re-runs program on updates. For calcit-js, it works with Vite and Webpack to reload. Learning from Elm, ClojureScript and React.
+
 ### Eco-system
 
-Libraries & Tools:
+Libraries:
 
 [Memof: memoization library with caching](https://github.com/calcit-lang/memof)
 [Lilac: validation library](https://github.com/calcit-lang/lilac)
+[Cumulo: Diff/patch library designed for Cumulo project](https://github.com/calcit-lang/recollect)
+
+Framworks:
+
 [Respo: virtual DOM library](https://github.com/Respo/respo.calcit)
 [Phlox: virtual DOM like wrapper on top of PIXI](https://github.com/Quamolit/phlox.calcit)
+[Quamolit: what if we make animations in React's way?](https://github.com/Quamolit/quamolit.calcit)
 [Quaterfoil: thin virtual DOM wrapper over three.js](https://github.com/Quamolit/quatrefoil.calcit)
+[Cumulo: template for tiny realtime apps](https://github.com/Cumulo/cumulo-workflow.calcit)
+
+Tools:
+
 [Calcit IR viewer](https://github.com/calcit-lang/calcit-ir-viewer)
 [Calcit Error viewer](https://github.com/calcit-lang/calcit-error-viewer)
 [Calcit Paint: play with 2d shapes](https://github.com/calcit-lang/calcit-paint)
-[Cumulo: template for tiny realtime apps](https://github.com/Cumulo/cumulo-workflow.calcit)
-
 
 ### Recent Posts
 
@@ -47,8 +79,10 @@ Articles:
 [ternary-tree.ts: 关于初期的性能优化(on early optimizations)](https://github.com/calcit-lang/ternary-tree.ts/discussions/7)
 [A trick for cheaper persistent list in JavaScript](https://clojureverse.org/t/a-trick-for-cheaper-persistent-list-in-javascript/7172)
 
-### More
+### Cirru
 
-Also see ["Cirru Project]("http://cirru.org/) " for higher goals of auto-layout code editor.
+Also see [Cirru Project]("http://cirru.org/) for higher goals of auto-layout code editor.
 
-Updates can be followed on ["Twitter @cirrulang]("https://twitter.com/cirrulang) ". Visit ["Calcit Runner]("https://github.com/calcit-lang) " for details. Pre-built binaries for Linux can be found on ["bin.calcit-lang.org]("http://bin.calcit-lang.org/linux/) " and you can also compile code by yourself to try it.
+### Others...
+
+Updates can be followed on [Twitter @cirrulang]("https://twitter.com/cirrulang).

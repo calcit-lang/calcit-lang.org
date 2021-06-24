@@ -25,6 +25,7 @@
               div
                 {} $ :style (merge ui/global)
                 comp-header
+                comp-bg
                 div
                   {} $ :style style-middle
                   =< nil 80
@@ -32,16 +33,15 @@
                     {} $ :style style-content
                     div
                       {} $ :style ui/row-middle
-                      img $ {} (:src "\"http://cdn.tiye.me/logo/calcit.png")
-                        :style $ {} (:max-width "\"min(30vw, 200px)")
                       div
                         {} $ :style
-                          merge $ {} (:flex 1) (:font-size 20) (:line-height "\"32px") (:height :max-content) (:font-family ui/font-fancy)
+                          merge ui/column $ {} (:flex 1) (:font-size 20) (:line-height "\"32px") (:height :max-content) (:font-family ui/font-fancy)
                         div ({}) (<> "\"Calcit: Lisp but with indentations")
+                        =< nil 8
                         div
                           {} $ :style
-                            {} $ :font-size 16
-                          <> "\"...an interpreter inspired by Clojure, Cirru and webpack HMR."
+                            {} (:font-size 16) (:line-height "\"24px")
+                          <> "\"an interpreter for calcit snapshot, and hot code swapping friendly."
                     =< nil 40
                     comp-md-block (inline-content! "\"content/intro.md") ({})
                     =< nil 200
@@ -56,14 +56,31 @@
         |comp-header $ quote
           defcomp comp-header () $ div
             {} $ :style
-              {} (:position :fixed) (:top 0) (:width "\"100%")
+              merge ui/row-middle $ {} (:position :fixed) (:top 0) (:width "\"100%")
                 :background-color $ hsl 0 0 100 0.97
                 :border-bottom "\"1px solid #eee"
+                :box-shadow $ str "\"0 0 3px " (hsl 0 0 0 0.3)
                 :padding "\"0 20px"
                 :font-family ui/font-fancy
-            <> "\"Calcit Project"
+                :height 60
+                :font-size 16
+            img $ {} (:src "\"http://cdn.tiye.me/logo/calcit.png")
+              :style $ {} (:width 40) (:height 40)
+            =< 8 nil
+            <> "\"Calcit" $ {} (:font-size 20) (:font-weight 300)
+              :color $ hsl 200 50 60
+            =< 32 nil
+            add-link "\"APIs" "\"http://apis.calcit-lang.org"
+            =< 16 nil
+            add-link "\"Repository" "\"https://github.com/calcit-lang/calcit_runner.rs/"
+            =< 16 nil
+            add-link "\"Discussions" "\"https://github.com/calcit-lang/calcit_runner.rs/discussions"
         |inline-content! $ quote
           defmacro inline-content! (path) (read-file path)
+        |comp-bg $ quote
+          defcomp comp-bg () $ img
+            {} (:src "\"http://cdn.tiye.me/logo/calcit.png")
+              :style $ {} (:width "\"60vw") (:z-index -10) (:min-width "\"480px") (:position :fixed) (:opacity 0.12) (:right 0) (:top "\"10vh")
       :proc $ quote ()
     |app.config $ {}
       :ns $ quote (ns app.config)

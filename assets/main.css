@@ -35,3 +35,24 @@ body * {
   margin: 24px 0px;
   line-height: 25px;
 }
+
+.md-block pre.md-code-block {
+  background-color: hsla(0, 0%, 98%, 0.6);
+  border: 1px solid hsla(0, 0%, 90%, 0.9);
+  overflow: auto;
+  padding: 8px 8px;
+  line-height: 21px;
+  border-radius: 4px;
+  font-size: 13px;
+
+  font-family: Menlo, Roboto Mono, Ubuntu Mono, Consolas, monospace;
+}
+
+.md-block .md-p code {
+  background-color: hsla(0, 0%, 98%, 0.8);
+  border: 1px solid hsla(0, 0%, 90%, 0.9);
+  font-size: 14px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+}
