@@ -57,6 +57,10 @@ body * {
   padding: 2px 8px;
   border-radius: 4px;
   font-size: 13px;
+  white-space: pre;
+}
+.md-block .md-p a {
+ white-space: pre;
 }
 
 .main-title {
