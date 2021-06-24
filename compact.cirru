@@ -13,6 +13,7 @@
           [] reel.comp.reel :refer $ [] comp-reel
           [] respo-md.comp.md :refer $ [] comp-md comp-md-block
           [] app.config :refer $ [] dev?
+          "\"cirru-color" :as cirru-color
       :defs $ {}
         |comp-container $ quote
           defcomp comp-container (reel)
@@ -35,15 +36,17 @@
                       {} $ :style ui/row-middle
                       div
                         {} $ :style
-                          merge ui/column $ {} (:flex 1) (:font-size 20) (:line-height "\"32px") (:height :max-content) (:font-family ui/font-fancy)
-                        div ({}) (<> "\"Calcit: Lisp but with indentations")
+                          merge ui/column $ {} (:flex 1) (:height :max-content) (:font-family ui/font-fancy) (:padding "\"80px 0")
+                        div
+                          {} $ :class-name "\"main-title"
+                          <> "\"Calcit: Lisp but with indentations"
                         =< nil 8
                         div
-                          {} $ :style
-                            {} (:font-size 16) (:line-height "\"24px")
+                          {} $ :class-name "\"secondary-title"
                           <> "\"an interpreter for calcit snapshot, and hot code swapping friendly."
-                    =< nil 40
-                    comp-md-block (inline-content! "\"content/intro.md") ({})
+                    comp-md-block (inline-content! "\"content/intro.md")
+                      {} $ :highlight
+                        fn (code lang) (cirru-color/generate code)
                     =< nil 200
                 when dev? $ comp-reel (>> states :reel) reel ({})
         |add-link $ quote
@@ -56,7 +59,7 @@
         |comp-header $ quote
           defcomp comp-header () $ div
             {} $ :style
-              merge ui/row-middle $ {} (:position :fixed) (:top 0) (:width "\"100%")
+              merge ui/row-parted $ {} (:position :fixed) (:top 0) (:width "\"100%")
                 :background-color $ hsl 0 0 100 0.97
                 :border-bottom "\"1px solid #eee"
                 :box-shadow $ str "\"0 0 3px " (hsl 0 0 0 0.3)
@@ -64,17 +67,18 @@
                 :font-family ui/font-fancy
                 :height 60
                 :font-size 16
-            img $ {} (:src "\"http://cdn.tiye.me/logo/calcit.png")
-              :style $ {} (:width 40) (:height 40)
-            =< 8 nil
-            <> "\"Calcit" $ {} (:font-size 20) (:font-weight 300)
-              :color $ hsl 200 50 60
-            =< 32 nil
-            add-link "\"APIs" "\"http://apis.calcit-lang.org"
-            =< 16 nil
-            add-link "\"Repository" "\"https://github.com/calcit-lang/calcit_runner.rs/"
-            =< 16 nil
-            add-link "\"Discussions" "\"https://github.com/calcit-lang/calcit_runner.rs/discussions"
+            div
+              {} $ :style ui/row-middle
+              img $ {} (:src "\"http://cdn.tiye.me/logo/calcit.png")
+                :style $ {} (:width 40) (:height 40)
+              =< 8 nil
+              <> "\"Calcit" $ {} (:font-size 20) (:font-weight 300)
+                :color $ hsl 200 50 60
+              =< 32 nil
+              add-link "\"APIs" "\"http://apis.calcit-lang.org"
+              =< 16 nil
+              add-link "\"Discussions" "\"https://github.com/calcit-lang/calcit_runner.rs/discussions"
+            div ({}) (add-link "\"GitHub" "\"https://github.com/calcit-lang/calcit_runner.rs/")
         |inline-content! $ quote
           defmacro inline-content! (path) (read-file path)
         |comp-bg $ quote
