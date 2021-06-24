@@ -11,7 +11,7 @@
           [] respo.core :refer $ [] defcomp defeffect <> >> div button textarea span input a body img
           [] respo.comp.space :refer $ [] =<
           [] reel.comp.reel :refer $ [] comp-reel
-          [] respo-md.comp.md :refer $ [] comp-md
+          [] respo-md.comp.md :refer $ [] comp-md comp-md-block
           [] app.config :refer $ [] dev?
       :defs $ {}
         |comp-container $ quote
@@ -33,44 +33,17 @@
                     div
                       {} $ :style ui/row-middle
                       img $ {} (:src "\"http://cdn.tiye.me/logo/calcit.png")
-                        :style $ {} (:max-width "\"40vw")
+                        :style $ {} (:max-width "\"min(30vw, 200px)")
                       div
                         {} $ :style
-                          merge $ {} (:flex 1) (:font-size 18) (:line-height "\"24px") (:height :max-content)
-                        <> "\"Calcit is an interpreter inspired by Clojure, Cirru and webpack HMR."
+                          merge $ {} (:flex 1) (:font-size 20) (:line-height "\"32px") (:height :max-content) (:font-family ui/font-fancy)
+                        div ({}) (<> "\"Calcit: Lisp but with indentations")
+                        div
+                          {} $ :style
+                            {} $ :font-size 16
+                          <> "\"...an interpreter inspired by Clojure, Cirru and webpack HMR."
                     =< nil 40
-                    div ({}) (<> "\"calcit-runner is an interpreter for loading snapshot file and evaluate program. It's inspired mostly by ClojureScript with Lisp macros and immutable data. And calcit-js is its js-emitting mode for plan javascript in ES import format.\n")
-                    div ({}) (<> "\"Current goal for calcit-runner is to offer a scripting solution for simple tasks and drawing some patterns with help of Cairo APIs.")
-                    =< nil 40
-                    div ({}) (<> "\"Calcit was a project compiling Cirru to Clojure(Script), and calcit-runner makes it possible to interpret the snapshot file directly, without compiling to another language. The interpreter is currently experimental, with several useful tools from my old works. You can take it as a toy scripting language like Clojure, but implemented with a special editor, which is calcit-editor.\n")
-                    =< nil 40
-                    div ({}) (<> "\"Updates can be followed on ") (add-link "\"Twitter @cirrulang" "\"https://twitter.com/cirrulang") (<> "\". Visit ") (add-link "\"Calcit Runner" "\"https://github.com/calcit-lang") (<> "\" for details. Pre-built binaries for Linux can be found on ") (add-link "\"bin.calcit-lang.org" "\"http://bin.calcit-lang.org/linux/") (<> "\" and you can also compile code by yourself to try it.")
-                    =< nil 40
-                    div ({}) (<> "\"Also see ") (add-link "\"Cirru Project" "\"http://cirru.org/") (<> "\" for higher goals of auto-layout code editor.")
-                    =< nil 40
-                    div ({}) (<> "\"Recent Posts")
-                      div ({}) (add-link "\"Introducing calcit-js: toy language inspired by cljs" "\"https://clojureverse.org/t/introducing-calcit-js-toy-language-inspired-by-cljs/7097")
-                      div ({}) (add-link "\"An indentation way to Lisp" "\"https://github.com/calcit-lang/calcit-runner/discussions/123")
-                      div ({}) (add-link "\"Problems encountered in generating js" "\"https://github.com/calcit-lang/calcit-runner/discussions/148")
-                      div ({}) (add-link "\"calcit-js 的 JavaScript 代码生成与疑难" "\"https://github.com/calcit-lang/calcit-runner/discussions/184")
-                      div ({}) (add-link "\"ternary-tree.ts: 关于初期的性能优化(on early optimizations)" "\"https://github.com/calcit-lang/ternary-tree.ts/discussions/7")
-                      div ({}) (add-link "\"A trick for cheaper persistent list in JavaScript" "\"https://clojureverse.org/t/a-trick-for-cheaper-persistent-list-in-javascript/7172")
-                    =< nil 40
-                    div ({}) (<> "\"Recent Videos")
-                      div ({}) (add-link "\"calcit-js 开发记录(21-01-22) 关于 ternary-tree.ts 重构" "\"https://www.bilibili.com/video/BV1Ht4y167Fg")
-                      div ({}) (add-link "\"calcit-js 阶段介绍(2021-01)" "\"https://www.bilibili.com/video/BV1H5411n7su")
-                      div ({}) (add-link "\"calcit-runner 阶段记录介绍(2021-01)" "\"https://www.bilibili.com/video/BV1cK4y1W7dZ")
-                    =< nil 40
-                    div ({}) (<> "\"Libraries & Tools")
-                      div ({}) (add-link "\"Memof: memoization library with caching" "\"https://github.com/calcit-lang/memof")
-                      div ({}) (add-link "\"Lilac: validation library" "\"https://github.com/calcit-lang/lilac")
-                      div ({}) (add-link "\"Respo: virtual DOM library" "\"https://github.com/Respo/respo.calcit")
-                      div ({}) (add-link "\"Phlox: virtual DOM like wrapper on top of PIXI" "\"https://github.com/Quamolit/phlox.calcit")
-                      div ({}) (add-link "\"Quaterfoil: thin virtual DOM wrapper over three.js" "\"https://github.com/Quamolit/quatrefoil.calcit")
-                      div ({}) (add-link "\"Calcit IR viewer" "\"https://github.com/calcit-lang/calcit-ir-viewer")
-                      div ({}) (add-link "\"Calcit Error viewer" "\"https://github.com/calcit-lang/calcit-error-viewer")
-                      div ({}) (add-link "\"Calcit Paint: play with 2d shapes" "\"https://github.com/calcit-lang/calcit-paint")
-                      div ({}) (add-link "\"Cumulo: template for tiny realtime apps" "\"https://github.com/Cumulo/cumulo-workflow.calcit")
+                    comp-md-block (inline-content! "\"content/intro.md") ({})
                     =< nil 200
                 when dev? $ comp-reel (>> states :reel) reel ({})
         |add-link $ quote
@@ -89,6 +62,8 @@
                 :padding "\"0 20px"
                 :font-family ui/font-fancy
             <> "\"Calcit Project"
+        |inline-content! $ quote
+          defmacro inline-content! (path) (read-file path)
       :proc $ quote ()
     |app.config $ {}
       :ns $ quote (ns app.config)
