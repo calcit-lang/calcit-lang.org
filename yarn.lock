@@ -26,6 +26,11 @@
   resolved "https://registry.npmjs.org/@cirru/writer.ts/-/writer.ts-0.1.3.tgz#5f54bdecaa20ba3dab16cbe6da711854138a9c0a"
   integrity sha512-vJnhmhm7we5UfQIwmZfQpF3bAFbVybzT6LbmkbQHxgijaQg3gPfNVsnSIa3g3KpmWVtvkzEx+nUy5aMwsJiV1A==
 
+cirru-color@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.npmjs.org/cirru-color/-/cirru-color-0.2.0.tgz#ef2633130254bb6f848294fada631b18d72d067a"
+  integrity sha1-7yYzEwJUu2+EgpT62mMbGNctBno=
+
 colorette@^1.2.2:
   version "1.2.2"
   resolved "https://registry.npmjs.org/colorette/-/colorette-1.2.2.tgz#cbcc79d5e99caea2dbf10eb3a26fd8b3e6acfa94"
