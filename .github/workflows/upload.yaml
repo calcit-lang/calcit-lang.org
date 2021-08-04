@@ -10,7 +10,20 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+
+    - name: Get yarn cache
+      id: yarn-cache
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+
+    - uses: actions/cache@v1
+      name: Cache node modules of yarn
+      with:
+        path: ${{ steps.yarn-cache.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
     - name: wget
       run: mkdir ci-bin/ && wget -O ci-bin/cr http://repo.calcit-lang.org/binaries/linux/cr
     - name: "permission"
@@ -23,7 +36,7 @@ jobs:
         && git clone https://github.com/calcit-lang/memof.git
         && git clone https://github.com/Respo/respo.calcit.git
         && git clone https://github.com/Respo/reel.calcit.git
-        && git clone https://github.com/Respo/respo-markdown.calcit.git  --branch 0.3.7
+        && git clone https://github.com/Respo/respo-markdown.calcit.git
         && git clone https://github.com/Respo/respo-ui.calcit.git
 
     - name: "compiles to js"
