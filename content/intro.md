@@ -1,26 +1,7 @@
 
-Calcit is an interpreter and code emitter for snapshot file from [calcit-editor](https://github.com/Cirru/calcit-editor). It's inspired mostly by ClojureScript. Calcit-js is emitted in ES Modules syntax. And it's hot-swapping friendly.
+Calcit is an interpreter and a code emitter for [calcit-editor](https://github.com/calcit-lang/editor). It's inspired mostly by ClojureScript. Calcit-js emits JavaScript in ES Modules syntax. And it's hot-swapping friendly.
 
 Ubuntu 20.04 binaries can be found on [bin.calcit-lang.org](http://bin.calcit-lang.org/linux/). For other platforms, you have to built from source via `cargo install --path=./`.
-
-Example of a `compact.cirru` file from calcit-editor:
-
-```cirru
-{} (:package |app)
-  :configs $ {} (:init-fn |app.main/main!) (:reload-fn |app.main/reload!)
-    :modules $ []
-  :files $ {}
-    |app.main $ {}
-      :ns $ quote
-        ns app.main $ :require
-      :defs $ {}
-        |main! $ quote
-          defn main! () (+ 1 2)
-        |reload! $ quote
-          defn reload! ()
-```
-
-If you want to write in a text editor, check out `bundle_calcit` command in project.
 
 ## Features
 
@@ -72,6 +53,7 @@ Videos:
 
 Articles:
 
+[Calcit 脚本语言一些基础介绍](https://zhuanlan.zhihu.com/p/394791973)
 [Introducing calcit-js: toy language inspired by cljs](https://clojureverse.org/t/introducing-calcit-js-toy-language-inspired-by-cljs/7097)
 [An indentation way to Lisp](https://github.com/calcit-lang/calcit-runner/discussions/123)
 [Problems encountered in generating js](\"https://github.com/calcit-lang/calcit-runner/discussions/148)
@@ -81,8 +63,23 @@ Articles:
 
 ### Cirru
 
-Also see [Cirru Project]("http://cirru.org/) for higher goals of auto-layout code editor.
+Example of a `compact.cirru` file from calcit-editor:
 
-### Others...
+```cirru
+{} (:package |app)
+  :configs $ {} (:init-fn |app.main/main!) (:reload-fn |app.main/reload!)
+    :modules $ []
+  :files $ {}
+    |app.main $ {}
+      :ns $ quote
+        ns app.main $ :require
+      :defs $ {}
+        |main! $ quote
+          defn main! () (+ 1 2)
+        |reload! $ quote
+          defn reload! ()
+```
 
-Updates can be followed on [Twitter @cirrulang]("https://twitter.com/cirrulang).
+If you want to write in a text editor, check out `bundle_calcit` command in project. 也可以查看相关中文[介绍视频](https://www.bilibili.com/video/BV1ry4y1W7VW?from=search&seid=17614445788882056969).
+
+Also see [Cirru Project](http://cirru.org/) for higher goals of auto-layout code editor.

@@ -52,10 +52,8 @@
         |add-link $ quote
           defn add-link (title url)
             a $ {} (:inner-text title) (:href url) (:target "\"_blank")
-        |style-content $ quote
-          def style-content $ {}
-        |style-middle $ quote
-          def style-middle $ {} (:margin "\"0 auto") (:max-width 1000) (:padding "\"0 40px")
+        |inline-content! $ quote
+          defmacro inline-content! (path) (read-file path)
         |comp-header $ quote
           defcomp comp-header () $ div
             {} $ :style
@@ -74,31 +72,38 @@
               =< 8 nil
               <> "\"Calcit" $ {} (:font-size 20) (:font-weight 300)
                 :color $ hsl 200 50 60
+                :font-family "\"Federo, cursive"
               =< 32 nil
               add-link "\"APIs" "\"http://apis.calcit-lang.org"
               =< 16 nil
               add-link "\"Discussions" "\"https://github.com/calcit-lang/calcit_runner.rs/discussions"
             div ({}) (add-link "\"GitHub" "\"https://github.com/calcit-lang/calcit_runner.rs/")
-        |inline-content! $ quote
-          defmacro inline-content! (path) (read-file path)
+        |style-content $ quote
+          def style-content $ {}
+        |style-middle $ quote
+          def style-middle $ {} (:margin "\"0 auto") (:max-width 1000) (:padding "\"0 40px")
         |comp-bg $ quote
           defcomp comp-bg () $ img
             {} (:src "\"http://cdn.tiye.me/logo/calcit.png")
               :style $ {} (:width "\"60vw") (:z-index -10) (:min-width "\"480px") (:position :fixed) (:opacity 0.12) (:right 0) (:top "\"10vh")
-      :proc $ quote ()
-    |app.config $ {}
-      :ns $ quote (ns app.config)
+    |app.schema $ {}
+      :ns $ quote (ns app.schema)
       :defs $ {}
-        |cdn? $ quote
-          def cdn? $ cond
-              exists? js/window
-              , false
-            (exists? js/process) (= "\"true" js/process.env.cdn)
-            :else false
-        |dev? $ quote (def dev? true)
-        |site $ quote
-          def site $ {} (:dev-ui "\"http://localhost:8100/main-fonts.css") (:release-ui "\"http://cdn.tiye.me/favored-fonts/main-fonts.css") (:cdn-url "\"http://cdn.tiye.me/calcit-workflow/") (:title "\"Calcit") (:icon "\"http://cdn.tiye.me/logo/mvc-works.png") (:storage-key "\"workflow")
-      :proc $ quote ()
+        |store $ quote
+          def store $ {}
+            :states $ {}
+              :cursor $ []
+    |app.updater $ {}
+      :ns $ quote
+        ns app.updater $ :require
+          [] respo.cursor :refer $ [] update-states
+      :defs $ {}
+        |updater $ quote
+          defn updater (store op data op-id op-time)
+            case op
+              :states $ update-states store data
+              :hydrate-storage data
+              op store
     |app.main $ {}
       :ns $ quote
         ns app.main $ :require
@@ -111,20 +116,18 @@
           [] reel.schema :as reel-schema
           [] app.config :as config
       :defs $ {}
+        |render-app! $ quote
+          defn render-app! (renderer)
+            renderer mount-target (comp-container @*reel) (\ dispatch! % %2)
         |ssr? $ quote
           def ssr? $ some? (js/document.querySelector |meta.respo-ssr)
-        |repeat! $ quote
-          defn repeat! (duration cb)
-            js/setTimeout
-              fn () (cb)
-                repeat! (* 1000 duration) cb
-              * 1000 duration
-        |dispatch! $ quote
-          defn dispatch! (op op-data)
-            when
-              and config/dev? $ not= op :states
-              println "\"Dispatch:" op
-            reset! *reel $ reel-updater updater @*reel op op-data
+        |persist-storage! $ quote
+          defn persist-storage! () $ .setItem js/localStorage (:storage-key config/site)
+            js/JSON.stringify $ to-cirru-edn (:store @*reel)
+        |mount-target $ quote
+          def mount-target $ .querySelector js/document |.app
+        |*reel $ quote
+          defatom *reel $ -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
         |main! $ quote
           defn main! ()
             println "\"Running mode:" $ if config/dev? "\"dev" "\"release"
@@ -139,40 +142,33 @@
               when (some? raw)
                 dispatch! :hydrate-storage $ extract-cirru-edn (js/JSON.parse raw)
             println "|App started."
-        |persist-storage! $ quote
-          defn persist-storage! () $ .setItem js/localStorage (:storage-key config/site)
-            js/JSON.stringify $ to-cirru-edn (:store @*reel)
-        |*reel $ quote
-          defatom *reel $ -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
         |snippets $ quote
           defn snippets () $ println config/cdn?
-        |render-app! $ quote
-          defn render-app! (renderer)
-            renderer mount-target (comp-container @*reel) (\ dispatch! % %2)
+        |dispatch! $ quote
+          defn dispatch! (op op-data)
+            when
+              and config/dev? $ not= op :states
+              println "\"Dispatch:" op
+            reset! *reel $ reel-updater updater @*reel op op-data
         |reload! $ quote
           defn reload! () (remove-watch *reel :changes) (clear-cache!)
             add-watch *reel :changes $ fn (reel prev) (render-app! render!)
             reset! *reel $ refresh-reel @*reel schema/store updater
-        |mount-target $ quote
-          def mount-target $ .querySelector js/document |.app
-      :proc $ quote ()
-    |app.schema $ {}
-      :ns $ quote (ns app.schema)
+        |repeat! $ quote
+          defn repeat! (duration cb)
+            js/setTimeout
+              fn () (cb)
+                repeat! (* 1000 duration) cb
+              * 1000 duration
+    |app.config $ {}
+      :ns $ quote (ns app.config)
       :defs $ {}
-        |store $ quote
-          def store $ {}
-            :states $ {}
-              :cursor $ []
-      :proc $ quote ()
-    |app.updater $ {}
-      :ns $ quote
-        ns app.updater $ :require
-          [] respo.cursor :refer $ [] update-states
-      :defs $ {}
-        |updater $ quote
-          defn updater (store op data op-id op-time)
-            case op
-              :states $ update-states store data
-              :hydrate-storage data
-              op store
-      :proc $ quote ()
+        |cdn? $ quote
+          def cdn? $ cond
+              exists? js/window
+              , false
+            (exists? js/process) (= "\"true" js/process.env.cdn)
+            :else false
+        |dev? $ quote (def dev? true)
+        |site $ quote
+          def site $ {} (:dev-ui "\"http://localhost:8100/main-fonts.css") (:release-ui "\"http://cdn.tiye.me/favored-fonts/main-fonts.css") (:cdn-url "\"http://cdn.tiye.me/calcit-workflow/") (:title "\"Calcit") (:icon "\"http://cdn.tiye.me/logo/mvc-works.png") (:storage-key "\"workflow")
