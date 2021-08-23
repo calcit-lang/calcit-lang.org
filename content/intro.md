@@ -1,5 +1,31 @@
 
-Calcit is an interpreter and a code emitter for [calcit-editor](https://github.com/calcit-lang/editor). It's inspired mostly by ClojureScript. Calcit-js emits JavaScript in ES Modules syntax. And it's hot-swapping friendly.
+Calcit is an interpreter built with Rust, and also a JavaScript code emitter. It's inspired mostly by ClojureScript. Calcit-js emits JavaScript in ES Modules syntax.
+
+It's hot-swapping friendly when you use [calcit-editor](https://github.com/calcit-lang/editor). Meanwhile, you call also choose text syntax and bundle with `bundle_calcit`:
+
+```cirru
+defn filter-not (xs f)
+  reduce xs (empty xs)
+    fn (acc x)
+      if-not (f x) (&coll-append acc x) acc
+
+defmacro or (item & xs)
+  if (&list:empty? xs) item
+    &let (v1# (gensym |v1))
+      quasiquote
+        &let (~v1# ~item)
+          if (nil? ~v1#)
+            or
+              ~ $ &list:first xs
+              ~@ $ &list:rest xs
+            if (= false ~v1#)
+              or
+                ~ $ &list:first xs
+                ~@ $ &list:rest xs
+              ~ v1#
+```
+
+## Installation
 
 Ubuntu 20.04 binaries can be found on [bin.calcit-lang.org](http://bin.calcit-lang.org/linux/). For other platforms, you have to built from source via `cargo install --path=./`.
 
@@ -19,7 +45,7 @@ With the bundler command, Calcit code can be written like a indentation-based la
 
 * Hot code swapping
 
-Calcit was built with how swapping in mind. Combined with calcit-editor, it watches changes by default, and re-runs program on updates. For calcit-js, it works with Vite and Webpack to reload. Learning from Elm, ClojureScript and React.
+Calcit was built with how swapping in mind. Combined with [calcit-editor](https://github.com/calcit-lang/editor), it watches changes by default, and re-runs program on updates. For calcit-js, it works with Vite and Webpack to reload. Learning from Elm, ClojureScript and React.
 
 ### Eco-system
 
@@ -27,7 +53,7 @@ Libraries:
 
 [Memof: memoization library with caching](https://github.com/calcit-lang/memof)
 [Lilac: validation library](https://github.com/calcit-lang/lilac)
-[Cumulo: Diff/patch library designed for Cumulo project](https://github.com/calcit-lang/recollect)
+[Recollect: Diff/patch library designed for Cumulo project](https://github.com/calcit-lang/recollect)
 
 Framworks:
 
@@ -47,6 +73,7 @@ Tools:
 
 Videos:
 
+[Calcit 开发记录：试验增加代数化的方法调用](https://www.bilibili.com/video/BV1Kh411q76Q)
 [calcit-js 开发记录(21-01-22) 关于 ternary-tree.ts 重构](https://www.bilibili.com/video/BV1Ht4y167Fg)
 [calcit-js 阶段介绍(2021-01)](https://www.bilibili.com/video/BV1H5411n7su)
 [calcit-runner 阶段记录介绍(2021-01)](https://www.bilibili.com/video/BV1cK4y1W7dZ)
@@ -63,7 +90,9 @@ Articles:
 
 ### Cirru
 
-Example of a `compact.cirru` file from calcit-editor:
+Also see [Cirru Project](http://cirru.org/) for higher goals of auto-layout code editor, which is Calcit's default code editor.
+
+Example of a `compact.cirru` file generated from calcit-editor:
 
 ```cirru
 {} (:package |app)
@@ -82,4 +111,4 @@ Example of a `compact.cirru` file from calcit-editor:
 
 If you want to write in a text editor, check out `bundle_calcit` command in project. 也可以查看相关中文[介绍视频](https://www.bilibili.com/video/BV1ry4y1W7VW?from=search&seid=17614445788882056969).
 
-Also see [Cirru Project](http://cirru.org/) for higher goals of auto-layout code editor.
+There's also a "Cirru EDN" format for data.
