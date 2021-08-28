@@ -47,6 +47,10 @@ With `bundle_calcit` command, Calcit code can be written as an indentation-based
 
 Calcit was built with hot swapping in mind. Combined with [calcit-editor](https://github.com/calcit-lang/editor), it watches code changes by default, and re-runs program on updates. For calcit-js, it works with Vite and Webpack to reload, learning from Elm, ClojureScript and React.
 
+* ES Modules Syntax
+
+To leverage the power of modern browsers with help of Vite, we need another ClojureScript that emits `import`/`export` for Vite. Calcit-js does this! And this page is built with Calcit-js as well, open Console to find out more.
+
 ### Eco-system
 
 Libraries:

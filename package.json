@@ -4,6 +4,7 @@
     "cirru-color": "^0.2.1-a1"
   },
   "devDependencies": {
+    "bottom-tip": "^0.1.2",
     "vite": "^2.5.1"
   },
   "version": "0.0.1"

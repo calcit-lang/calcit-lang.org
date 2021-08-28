@@ -83,8 +83,8 @@
         |style-middle $ quote
           def style-middle $ {} (:margin "\"0 auto") (:max-width 1000) (:padding "\"0 40px")
         |comp-bg $ quote
-          defcomp comp-bg () $ img
-            {} (:src "\"http://cdn.tiye.me/logo/calcit.png")
+          defcomp comp-bg () (println "\"@@@@@@@@@@@@@@@@\n@\n@  Well, code is not minified on purpose~\n@\n@   although it's still bundled with Vite.\n@\n@@@@@@@@@@@@@@@@")
+            img $ {} (:src "\"http://cdn.tiye.me/logo/calcit.png")
               :style $ {} (:width "\"60vw") (:z-index -10) (:min-width "\"480px") (:position :fixed) (:opacity 0.12) (:right 0) (:top "\"10vh")
     |app.schema $ {}
       :ns $ quote (ns app.schema)
@@ -115,12 +115,11 @@
           [] reel.core :refer $ [] reel-updater refresh-reel
           [] reel.schema :as reel-schema
           [] app.config :as config
+          "\"./calcit.build-errors" :default build-errors
+          "\"bottom-tip" :default hud!
       :defs $ {}
         |render-app! $ quote
-          defn render-app! (renderer)
-            renderer mount-target (comp-container @*reel) (\ dispatch! % %2)
-        |ssr? $ quote
-          def ssr? $ some? (js/document.querySelector |meta.respo-ssr)
+          defn render-app! () $ render! mount-target (comp-container @*reel) dispatch!
         |persist-storage! $ quote
           defn persist-storage! () $ .setItem js/localStorage (:storage-key config/site)
             js/JSON.stringify $ to-cirru-edn (:store @*reel)
@@ -131,13 +130,12 @@
         |main! $ quote
           defn main! ()
             println "\"Running mode:" $ if config/dev? "\"dev" "\"release"
-            if ssr? $ render-app! realize-ssr!
-            render-app! render!
-            add-watch *reel :changes $ fn (reel prev) (render-app! render!)
+            render-app!
+            add-watch *reel :changes $ fn (reel prev) (render-app!)
             listen-devtools! |a dispatch!
-            .addEventListener js/window |beforeunload $ fn (event) (persist-storage!)
-            repeat! 60 persist-storage!
-            let
+            ; .addEventListener js/window |beforeunload $ fn (event) (persist-storage!)
+            ; repeat! 60 persist-storage!
+            ; let
                 raw $ .getItem js/localStorage (:storage-key config/site)
               when (some? raw)
                 dispatch! :hydrate-storage $ extract-cirru-edn (js/JSON.parse raw)
@@ -151,9 +149,12 @@
               println "\"Dispatch:" op
             reset! *reel $ reel-updater updater @*reel op op-data
         |reload! $ quote
-          defn reload! () (remove-watch *reel :changes) (clear-cache!)
-            add-watch *reel :changes $ fn (reel prev) (render-app! render!)
-            reset! *reel $ refresh-reel @*reel schema/store updater
+          defn reload! () $ if (nil? build-errors)
+            do (remove-watch *reel :changes) (clear-cache!)
+              add-watch *reel :changes $ fn (reel prev) (render-app!)
+              reset! *reel $ refresh-reel @*reel schema/store updater
+              hud! "\"ok~" "\"Ok"
+            hud! "\"error" build-errors
         |repeat! $ quote
           defn repeat! (duration cb)
             js/setTimeout
