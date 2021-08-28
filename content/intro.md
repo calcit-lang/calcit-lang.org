@@ -1,7 +1,7 @@
 
 Calcit is an interpreter built with Rust, and also a JavaScript code emitter. It's inspired mostly by ClojureScript. Calcit-js emits JavaScript in ES Modules syntax.
 
-It's hot-swapping friendly when you use [calcit-editor](https://github.com/calcit-lang/editor). Meanwhile, you call also choose text syntax and bundle with `bundle_calcit`:
+It's hot-swapping friendly when you use [calcit-editor](https://github.com/calcit-lang/editor). Meanwhile, you can also choose to write in a text syntax and then bundle with `bundle_calcit`, read [minimal-calcit](https://github.com/calcit-lang/minimal-calcit). Demo of text syntax:
 
 ```cirru
 defn filter-not (xs f)
@@ -33,19 +33,19 @@ Ubuntu 20.04 binaries can be found on [bin.calcit-lang.org](http://bin.calcit-la
 
 * Immutable Data
 
-Values and states are represented in different data structures, which is the semantics from functional programming. Internally it's [`im` in Rust](https://crates.io/crates/im) and custom [finger trees](https://github.com/calcit-lang/ternary-tree.ts) in JavaScript.
+Values and states are represented in different data structures, which is the semantics from functional programming. Internally it's [im](https://crates.io/crates/im) in Rust and a custom [finger tree](https://github.com/calcit-lang/ternary-tree.ts) in JavaScript.
 
 * Lisp(Code is Data)
 
-Calcit-js was designed based on experiences from ClojureScript, with a bunch of built macros. It offer similar experience with ClojureScript. So Calcit offers much power via macros, while keeps its core simple.
+Calcit-js was designed based on experiences from ClojureScript, with a bunch of builtin macros. It offers similar experiences to ClojureScript. So Calcit offers much power via macros, while keeping its core simple.
 
 * Indentations
 
-With the bundler command, Calcit code can be written like a indentation-based language. So you don't have to match parentheses like in Clojure. It also means now you need to handle indentations very carefully.
+With `bundle_calcit` command, Calcit code can be written as an indentation-based language. So you don't have to match parentheses like in Clojure. It also means now you need to handle indentations very carefully.
 
 * Hot code swapping
 
-Calcit was built with how swapping in mind. Combined with [calcit-editor](https://github.com/calcit-lang/editor), it watches changes by default, and re-runs program on updates. For calcit-js, it works with Vite and Webpack to reload. Learning from Elm, ClojureScript and React.
+Calcit was built with hot swapping in mind. Combined with [calcit-editor](https://github.com/calcit-lang/editor), it watches code changes by default, and re-runs program on updates. For calcit-js, it works with Vite and Webpack to reload, learning from Elm, ClojureScript and React.
 
 ### Eco-system
 
@@ -55,7 +55,7 @@ Libraries:
 [Lilac: validation library](https://github.com/calcit-lang/lilac)
 [Recollect: Diff/patch library designed for Cumulo project](https://github.com/calcit-lang/recollect)
 
-Framworks:
+Frameworks:
 
 [Respo: virtual DOM library](https://github.com/Respo/respo.calcit)
 [Phlox: virtual DOM like wrapper on top of PIXI](https://github.com/Quamolit/phlox.calcit)
@@ -67,7 +67,7 @@ Tools:
 
 [Calcit IR viewer](https://github.com/calcit-lang/calcit-ir-viewer)
 [Calcit Error viewer](https://github.com/calcit-lang/calcit-error-viewer)
-[Calcit Paint: play with 2d shapes](https://github.com/calcit-lang/calcit-paint)
+[Calcit Paint: play with 2d shapes(experimental)](https://github.com/calcit-lang/calcit-paint)
 
 ### Recent Posts
 
@@ -90,7 +90,7 @@ Articles:
 
 ### Cirru
 
-Also see [Cirru Project](http://cirru.org/) for higher goals of auto-layout code editor, which is Calcit's default code editor.
+Also see [Cirru Project](http://cirru.org/) for higher goals of auto-layout code editor, which is Calcit's default editor.
 
 Example of a `compact.cirru` file generated from calcit-editor:
 
