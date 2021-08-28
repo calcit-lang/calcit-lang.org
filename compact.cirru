@@ -46,7 +46,7 @@
                           <> "\"an interpreter for calcit snapshot, and hot code swapping friendly."
                     comp-md-block (inline-content! "\"content/intro.md")
                       {} $ :highlight
-                        fn (code lang) (cirru-color/generate code)
+                        fn (code lang) (cirru-color/generateHtml code)
                     =< nil 200
                 when dev? $ comp-reel (>> states :reel) reel ({})
         |add-link $ quote
