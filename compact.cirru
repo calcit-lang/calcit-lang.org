@@ -39,7 +39,7 @@
                           merge ui/column $ {} (:flex 1) (:height :max-content) (:font-family ui/font-fancy) (:padding "\"80px 0")
                         div
                           {} $ :class-name "\"main-title"
-                          <> "\"Calcit: Lisp but with indentations"
+                          <> "\"Calcit: Lisp compiling to JavaScript ES Modules"
                         =< nil 8
                         div
                           {} $ :class-name "\"secondary-title"
