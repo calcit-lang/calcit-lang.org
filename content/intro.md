@@ -3,7 +3,7 @@ Calcit is an interpreter built with Rust, and also a JavaScript code emitter. It
 
 ## Install & Try
 
-You can [try Calcit WASM build online](https://github.com/calcit-lang/calcit-wasm-play) for simple snippets.
+You can [try Calcit WASM build online](http://repo.calcit-lang.org/calcit-wasm-play/) for simple snippets.
 
 To install at local, build from source via `cargo install --path=./`. Ubuntu 20.04 binaries can be found on [bin.calcit-lang.org](http://bin.calcit-lang.org/linux/). Try command line:
 
