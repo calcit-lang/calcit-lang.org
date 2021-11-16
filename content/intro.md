@@ -1,33 +1,36 @@
 
 Calcit is an interpreter built with Rust, and also a JavaScript code emitter. It's inspired mostly by ClojureScript. Calcit-js emits JavaScript in ES Modules syntax.
 
-It's hot-swapping friendly when you use [calcit-editor](https://github.com/calcit-lang/editor). Meanwhile, you can also choose to write in a text syntax and then bundle with `bundle_calcit`, read [minimal-calcit](https://github.com/calcit-lang/minimal-calcit). Demo of text syntax:
+## Install & Try
 
-```cirru
-defn filter-not (xs f)
-  reduce xs (empty xs)
-    fn (acc x)
-      if-not (f x) (&coll-append acc x) acc
+You can [try Calcit WASM build online](https://github.com/calcit-lang/calcit-wasm-play) for simple snippets.
 
-defmacro or (item & xs)
-  if (&list:empty? xs) item
-    &let (v1# (gensym |v1))
-      quasiquote
-        &let (~v1# ~item)
-          if (nil? ~v1#)
-            or
-              ~ $ &list:first xs
-              ~@ $ &list:rest xs
-            if (= false ~v1#)
-              or
-                ~ $ &list:first xs
-                ~@ $ &list:rest xs
-              ~ v1#
+To install at local, build from source via `cargo install --path=./`. Ubuntu 20.04 binaries can be found on [bin.calcit-lang.org](http://bin.calcit-lang.org/linux/). Try command line:
+
+```
+cr -e '
+
+println "|a demo"
+
+->
+  range 100
+  map $ fn (x)
+    * x x
+  foldl 0 &+
+  println
+
+println $ {}
+  :a 100
+  :b $ {}
+    :c 200
+    :d $ [] 1 2 3 4
+
+'
 ```
 
-## Installation
+It's hot-swapping friendly when you use [calcit-editor](https://github.com/calcit-lang/editor). Install it and run `ct` to launch editor server, which writes `compact.cirru` and `.compact-inc.cirru` on saving. Try launching example by cloning [Calcit Workflow](https://github.com/calcit-lang/calcit-workflow).
 
-Ubuntu 20.04 binaries can be found on [bin.calcit-lang.org](http://bin.calcit-lang.org/linux/). For other platforms, you have to built from source via `cargo install --path=./`.
+Read more in [Minimal Calcit](https://github.com/calcit-lang/minimal-calcit/blob/main/README.md) to learn how to code Calcit with a **plain text editor**.
 
 ## Features
 
@@ -55,9 +58,11 @@ To leverage the power of modern browsers with help of Vite, we need another Cloj
 
 Libraries:
 
+[Calcit Std Libraries](https://github.com/calcit-lang/calcit.std)
 [Memof: memoization library with caching](https://github.com/calcit-lang/memof)
 [Lilac: validation library](https://github.com/calcit-lang/lilac)
 [Recollect: Diff/patch library designed for Cumulo project](https://github.com/calcit-lang/recollect)
+[Calcit WebSocket server binding](https://github.com/calcit-lang/calcit-wss)
 
 Frameworks:
 
@@ -77,7 +82,7 @@ Tools:
 
 Videos:
 
-[Calcit 开发记录：试验增加代数化的方法调用](https://www.bilibili.com/video/BV1Kh411q76Q)
+[Calcit-js 开发的阶段介绍 2021-11](https://www.bilibili.com/video/BV1Yg411K73P)
 [calcit-js 开发记录(21-01-22) 关于 ternary-tree.ts 重构](https://www.bilibili.com/video/BV1Ht4y167Fg)
 [calcit-js 阶段介绍(2021-01)](https://www.bilibili.com/video/BV1H5411n7su)
 [calcit-runner 阶段记录介绍(2021-01)](https://www.bilibili.com/video/BV1cK4y1W7dZ)
