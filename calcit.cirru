@@ -1,9 +1,8 @@
 
 {}
-  :configs $ {} (:reload-fn |app.main/reload!) (:port 6001) (:output |src) (:compact-output? true) (:storage-key |calcit.cirru) (:version |0.0.1)
-    :modules $ [] |respo.calcit/compact.cirru |lilac/compact.cirru |memof/compact.cirru |respo-ui.calcit/compact.cirru |respo-markdown.calcit/compact.cirru |reel.calcit/compact.cirru
-    :init-fn |app.main/main!
-    :extension |.cljs
+  :users $ {}
+    |root $ {} (:avatar nil) (:name |root) (:nickname |root) (:id |root) (:theme :star-trail) (:password |d41d8cd98f00b204e9800998ecf8427e)
+    |rJG4IHzWf $ {} (:avatar nil) (:name |chen) (:nickname |chen) (:id |rJG4IHzWf) (:theme :star-trail) (:password |d41d8cd98f00b204e9800998ecf8427e)
   :ir $ {} (:package |app)
     :files $ {}
       |app.comp.container $ {}
@@ -617,6 +616,19 @@
                           |T $ {} (:text |add-link) (:type :leaf) (:at 1624561129770) (:by |rJG4IHzWf)
                           |j $ {} (:text "|\"Discussions") (:type :leaf) (:at 1624561133446) (:by |rJG4IHzWf)
                           |r $ {} (:text "|\"https://github.com/calcit-lang/calcit_runner.rs/discussions") (:type :leaf) (:at 1624561142957) (:by |rJG4IHzWf)
+                        :type :expr
+                        :at 1624561129770
+                        :by |rJG4IHzWf
+                      |yb $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1637127914609)
+                        :data $ {}
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1637127914609) (:text |=<)
+                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1637127914609) (:text |16)
+                          |r $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1637127914609) (:text |nil)
+                      |yj $ {}
+                        :data $ {}
+                          |T $ {} (:text |add-link) (:type :leaf) (:at 1624561129770) (:by |rJG4IHzWf)
+                          |j $ {} (:text "|\"Playground") (:type :leaf) (:at 1637127918453) (:by |rJG4IHzWf)
+                          |r $ {} (:text "|\"http://repo.calcit-lang.org/calcit-wasm-play/") (:type :leaf) (:at 1637127945412) (:by |rJG4IHzWf)
                         :type :expr
                         :at 1624561129770
                         :by |rJG4IHzWf
@@ -1970,6 +1982,8 @@
           :type :expr
           :at 1527788237503
           :by |root
-  :users $ {}
-    |root $ {} (:avatar nil) (:name |root) (:nickname |root) (:id |root) (:theme :star-trail) (:password |d41d8cd98f00b204e9800998ecf8427e)
-    |rJG4IHzWf $ {} (:avatar nil) (:name |chen) (:nickname |chen) (:id |rJG4IHzWf) (:theme :star-trail) (:password |d41d8cd98f00b204e9800998ecf8427e)
+  :configs $ {} (:reload-fn |app.main/reload!) (:port 6001) (:output |src) (:compact-output? true) (:storage-key |calcit.cirru) (:version |0.0.1)
+    :modules $ [] |respo.calcit/compact.cirru |lilac/compact.cirru |memof/compact.cirru |respo-ui.calcit/compact.cirru |respo-markdown.calcit/compact.cirru |reel.calcit/compact.cirru
+    :init-fn |app.main/main!
+    :extension |.cljs
+  :entries $ {}

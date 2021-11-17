@@ -3,6 +3,7 @@
   :configs $ {} (:init-fn |app.main/main!) (:reload-fn |app.main/reload!)
     :modules $ [] |respo.calcit/compact.cirru |lilac/compact.cirru |memof/compact.cirru |respo-ui.calcit/compact.cirru |respo-markdown.calcit/compact.cirru |reel.calcit/compact.cirru
     :version |0.0.1
+  :entries $ {}
   :files $ {}
     |app.comp.container $ {}
       :ns $ quote
@@ -77,6 +78,8 @@
               add-link "\"APIs" "\"http://apis.calcit-lang.org"
               =< 16 nil
               add-link "\"Discussions" "\"https://github.com/calcit-lang/calcit_runner.rs/discussions"
+              =< 16 nil
+              add-link "\"Playground" "\"http://repo.calcit-lang.org/calcit-wasm-play/"
             div ({}) (add-link "\"GitHub" "\"https://github.com/calcit-lang/calcit_runner.rs/")
         |style-content $ quote
           def style-content $ {}
