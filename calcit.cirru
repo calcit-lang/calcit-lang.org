@@ -632,6 +632,19 @@
                         :type :expr
                         :at 1624561129770
                         :by |rJG4IHzWf
+                      |yn $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1639758859633)
+                        :data $ {}
+                          |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1639758859633) (:text |=<)
+                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1639758859633) (:text |16)
+                          |r $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1639758859633) (:text |nil)
+                      |yr $ {}
+                        :data $ {}
+                          |T $ {} (:text |add-link) (:type :leaf) (:at 1624561129770) (:by |rJG4IHzWf)
+                          |j $ {} (:text "|\"Guidebook") (:type :leaf) (:at 1639758897301) (:by |rJG4IHzWf)
+                          |r $ {} (:text "|\"http://repo.calcit-lang.org/guidebook/") (:type :leaf) (:at 1639758868793) (:by |rJG4IHzWf)
+                        :type :expr
+                        :at 1624561129770
+                        :by |rJG4IHzWf
                       |T $ {} (:text |div) (:type :leaf) (:at 1621318928954) (:by |rJG4IHzWf)
                       |j $ {}
                         :data $ {}
