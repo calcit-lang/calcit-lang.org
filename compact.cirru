@@ -80,6 +80,8 @@
               add-link "\"Discussions" "\"https://github.com/calcit-lang/calcit_runner.rs/discussions"
               =< 16 nil
               add-link "\"Playground" "\"http://repo.calcit-lang.org/calcit-wasm-play/"
+              =< 16 nil
+              add-link "\"Guidebook" "\"http://repo.calcit-lang.org/guidebook/"
             div ({}) (add-link "\"GitHub" "\"https://github.com/calcit-lang/calcit_runner.rs/")
         |style-content $ quote
           def style-content $ {}
