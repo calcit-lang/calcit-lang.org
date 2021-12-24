@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@calcit/procs@^0.5.14":
-  version "0.5.14"
-  resolved "https://registry.yarnpkg.com/@calcit/procs/-/procs-0.5.14.tgz#cf8ee0e9009ab1126da384d81b6e85d48c4d55c0"
-  integrity sha512-LDhp3pAV4LEpTcwTf8G1r1cw39H4Xqlw4PVqyBtR2tgUKyx4djGFsj3gaQtl3GwkNIedNea3D3uMiamkorxvSQ==
+"@calcit/procs@^0.5.15":
+  version "0.5.15"
+  resolved "https://registry.yarnpkg.com/@calcit/procs/-/procs-0.5.15.tgz#b8375050fe7e288630e88b153b839bbb9cbb0f9e"
+  integrity sha512-cU/g/meb/2UG2PeGmnKKCzLZ5IiXZYVW9UFuaJ0kNW7/+fnUIV7RuqNysIFD49YwtLZwAdgg5yZ4J63KEoA6pQ==
   dependencies:
     "@calcit/ternary-tree" "0.0.18"
     "@cirru/parser.ts" "^0.0.5"
@@ -246,7 +246,7 @@ picocolors@^1.0.0:
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
   integrity sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==
 
-postcss@^8.3.11:
+postcss@^8.4.5:
   version "8.4.5"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.5.tgz#bae665764dfd4c6fcc24dc0fdf7e7aa00cc77f95"
   integrity sha512-jBDboWM8qpaqwkMwItqTQTiFikhs/67OYVvblFFTM7MrZjt6yMKd6r2kgXizEbTTljacm4NldIlZnhbjr84QYg==
@@ -269,9 +269,9 @@ resolve@^1.20.0:
     path-parse "^1.0.6"
 
 rollup@^2.59.0:
-  version "2.61.1"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.61.1.tgz#1a5491f84543cf9e4caf6c61222d9a3f8f2ba454"
-  integrity sha512-BbTXlEvB8d+XFbK/7E5doIcRtxWPRiqr0eb5vQ0+2paMM04Ye4PZY5nHOQef2ix24l/L0SpLd5hwcH15QHPdvA==
+  version "2.62.0"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.62.0.tgz#9e640b419fc5b9e0241844f6d55258bd79986ecc"
+  integrity sha512-cJEQq2gwB0GWMD3rYImefQTSjrPYaC6s4J9pYqnstVLJ1CHa/aZNVkD4Epuvg4iLeMA4KRiq7UM7awKK6j7jcw==
   optionalDependencies:
     fsevents "~2.3.2"
 
@@ -299,13 +299,13 @@ virtual-dom@^2.1.1:
     x-is-array "0.1.0"
     x-is-string "0.1.0"
 
-vite@^2.7.3:
-  version "2.7.3"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-2.7.3.tgz#e983cf4f71f42c192436bfcad1b75932642da293"
-  integrity sha512-GAY1P+9fLJOju1SRm8+hykVnEXog+E+KXuqqyMBQDriKCUIKzWnPn142yNNhSdf/ixYGYdUa5ce3A8WaEajzGw==
+vite@^2.7.6:
+  version "2.7.6"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-2.7.6.tgz#766c7524d27ba21ff27ab37aaffba7abf2e72917"
+  integrity sha512-PBNoc87rDYLtkpFU9dbVeGdbcyKzz6c34oScqivE3FEa3BhVa4ASupCzcz0eDIiSECovfLcQnLUJt9vhiEU08g==
   dependencies:
     esbuild "^0.13.12"
-    postcss "^8.3.11"
+    postcss "^8.4.5"
     resolve "^1.20.0"
     rollup "^2.59.0"
   optionalDependencies:
