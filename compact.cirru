@@ -77,12 +77,12 @@
               =< 32 nil
               add-link "\"APIs" "\"http://apis.calcit-lang.org"
               =< 16 nil
-              add-link "\"Discussions" "\"https://github.com/calcit-lang/calcit_runner.rs/discussions"
+              add-link "\"Discussions" "\"https://github.com/calcit-lang/calcit/discussions"
               =< 16 nil
               add-link "\"Playground" "\"http://repo.calcit-lang.org/calcit-wasm-play/"
               =< 16 nil
               add-link "\"Guidebook" "\"http://repo.calcit-lang.org/guidebook/"
-            div ({}) (add-link "\"GitHub" "\"https://github.com/calcit-lang/calcit_runner.rs/")
+            div ({}) (add-link "\"GitHub" "\"https://github.com/calcit-lang/calcit/")
         |style-content $ quote
           def style-content $ {}
         |style-middle $ quote

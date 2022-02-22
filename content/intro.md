@@ -92,8 +92,8 @@ Articles:
 [Calcit 脚本语言一些基础介绍](https://zhuanlan.zhihu.com/p/394791973)
 [Introducing calcit-js: toy language inspired by cljs](https://clojureverse.org/t/introducing-calcit-js-toy-language-inspired-by-cljs/7097)
 [An indentation way to Lisp](https://github.com/calcit-lang/calcit-runner/discussions/123)
-[Problems encountered in generating js](\"https://github.com/calcit-lang/calcit-runner/discussions/148)
-[calcit-js 的 JavaScript 代码生成与疑难](https://github.com/calcit-lang/calcit-runner/discussions/184)
+[Problems encountered in generating js](https://github.com/calcit-lang/calcit-runner.nim/discussions/148)
+[calcit-js 的 JavaScript 代码生成与疑难](https://github.com/calcit-lang/calcit-runner.nim/discussions/184)
 [ternary-tree.ts: 关于初期的性能优化(on early optimizations)](https://github.com/calcit-lang/ternary-tree.ts/discussions/7)
 [A trick for cheaper persistent list in JavaScript](https://clojureverse.org/t/a-trick-for-cheaper-persistent-list-in-javascript/7172)
 
