@@ -615,7 +615,7 @@
                         :data $ {}
                           |T $ {} (:text |add-link) (:type :leaf) (:at 1624561129770) (:by |rJG4IHzWf)
                           |j $ {} (:text "|\"Discussions") (:type :leaf) (:at 1624561133446) (:by |rJG4IHzWf)
-                          |r $ {} (:text "|\"https://github.com/calcit-lang/calcit_runner.rs/discussions") (:type :leaf) (:at 1624561142957) (:by |rJG4IHzWf)
+                          |r $ {} (:text "|\"https://github.com/calcit-lang/calcit/discussions") (:type :leaf) (:at 1645550405733) (:by |rJG4IHzWf)
                         :type :expr
                         :at 1624561129770
                         :by |rJG4IHzWf
@@ -801,7 +801,7 @@
                         :data $ {}
                           |T $ {} (:text |add-link) (:type :leaf) (:at 1624563660160) (:by |rJG4IHzWf)
                           |j $ {} (:text "|\"GitHub") (:type :leaf) (:at 1624563752876) (:by |rJG4IHzWf)
-                          |r $ {} (:text "|\"https://github.com/calcit-lang/calcit_runner.rs/") (:type :leaf) (:at 1624563660160) (:by |rJG4IHzWf)
+                          |r $ {} (:text "|\"https://github.com/calcit-lang/calcit/") (:type :leaf) (:at 1645550411985) (:by |rJG4IHzWf)
                         :type :expr
                         :at 1624563660160
                         :by |rJG4IHzWf
