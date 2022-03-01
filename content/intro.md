@@ -3,46 +3,56 @@ Calcit is an interpreter built with Rust, and also a JavaScript code emitter. It
 
 ## Install & Try
 
-You can [try Calcit WASM build online](http://repo.calcit-lang.org/calcit-wasm-play/) for simple snippets.
+You can [try Calcit WASM build online](http://repo.calcit-lang.org/calcit-wasm-play/) for simple snippets. An also install Calcit locally with Cargo:
 
-To install at local, build from source via `cargo install --path=./`. Ubuntu 20.04 binaries can be found on [bin.calcit-lang.org](http://bin.calcit-lang.org/linux/). Try command line:
+```bash
+cargo install calcit
+```
+
+Command line called `cr` is avaliable, which stands for "Calcit Runner". Eval snippets via:
+
+```
+cr -e 'println "|a demo"'
+```
 
 ```
 cr -e '
-
-println "|a demo"
-
 ->
   range 100
   map $ fn (x)
     * x x
   foldl 0 &+
   println
+'
+```
 
+```
+cr -e '
 println $ {}
   :a 100
   :b $ {}
     :c 200
     :d $ [] 1 2 3 4
-
 '
 ```
 
-It's hot-swapping friendly when you use [calcit-editor](https://github.com/calcit-lang/editor). Install it and run `ct` to launch editor server, which writes `compact.cirru` and `.compact-inc.cirru` on saving. Try launching example by cloning [Calcit Workflow](https://github.com/calcit-lang/calcit-workflow).
+Ubuntu 20.04 binaries can be found on [bin.calcit-lang.org](http://bin.calcit-lang.org/linux/) for running in CI environments.
 
-Read more in [Minimal Calcit](https://github.com/calcit-lang/minimal-calcit/blob/main/README.md) to learn how to code Calcit with a **plain text editor**.
+Read more in [Minimal Calcit](https://github.com/calcit-lang/minimal-calcit/blob/main/README.md) to learn how to code Calcit with a **plain text editor**. You will need another command `bundle_calcit` for bundling individual files.
+
+It's hot-swapping friendly when you use [calcit-editor](https://github.com/calcit-lang/editor). Install it and run `ct` to launch editor server, which writes `compact.cirru` and `.compact-inc.cirru` on saving. Try launching example by cloning [Calcit Workflow](https://github.com/calcit-lang/calcit-workflow).
 
 ## Features
 
 * Immutable Data
 
-Values and states are represented in different data structures, which is the semantics from functional programming. Internally it's [im](https://crates.io/crates/im) in Rust and a custom [finger tree](https://github.com/calcit-lang/ternary-tree.ts) in JavaScript.
+Values and states are represented in different data structures, which is the semantics from functional programming. Internally it's [rpds](https://docs.rs/rpds/) in Rust and a custom [2-3 tree](https://github.com/calcit-lang/ternary-tree.ts) in JavaScript.
 
 * Lisp(Code is Data)
 
 Calcit-js was designed based on experiences from ClojureScript, with a bunch of builtin macros. It offers similar experiences to ClojureScript. So Calcit offers much power via macros, while keeping its core simple.
 
-* Indentations
+* Indentations-based Syntax
 
 With `bundle_calcit` command, Calcit code can be written as an indentation-based language. So you don't have to match parentheses like in Clojure. It also means now you need to handle indentations very carefully.
 
