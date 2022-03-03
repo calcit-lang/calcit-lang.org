@@ -6,6 +6,12 @@
   src: url('./Federo-Regular.ttf');
 }
 
+
+.tile {
+  background-image: url('./calcit-tile.png');
+  background-size: 163px 395px;
+}
+
 body {
   margin: 0;
   overscroll-behavior-y: none;
