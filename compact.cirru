@@ -89,8 +89,10 @@
           def style-middle $ {} (:margin "\"0 auto") (:max-width 1000) (:padding "\"0 40px")
         |comp-bg $ quote
           defcomp comp-bg () (println "\"@@@@@@@@@@@@@@@@\n@\n@  Well, code is not minified on purpose~\n@\n@   although it's still bundled with Vite.\n@\n@@@@@@@@@@@@@@@@")
-            img $ {} (:src "\"http://cdn.tiye.me/logo/calcit.png")
+            ; img $ {} (:src "\"http://cdn.tiye.me/logo/calcit.png")
               :style $ {} (:width "\"60vw") (:z-index -10) (:min-width "\"480px") (:position :fixed) (:opacity 0.12) (:right 0) (:top "\"10vh")
+            div $ {} (:class-name "\"tile")
+              :style $ {} (:width "\"100vw") (:height "\"100vh") (:z-index -10) (:position :fixed) (:opacity 0.5)
     |app.schema $ {}
       :ns $ quote (ns app.schema)
       :defs $ {}
