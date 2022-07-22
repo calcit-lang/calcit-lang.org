@@ -36,7 +36,7 @@ println $ {}
 '
 ```
 
-Ubuntu 20.04 binaries can be found on [bin.calcit-lang.org](http://bin.calcit-lang.org/linux/) for running in CI environments.
+Ubuntu binaries can be found on [GitHub Releases](https://github.com/calcit-lang/calcit/releases) for running in CI environments.
 
 Read more in [Minimal Calcit](https://github.com/calcit-lang/minimal-calcit/blob/main/README.md) to learn how to code Calcit with a **plain text editor**. You will need another command `bundle_calcit` for bundling individual files.
 
