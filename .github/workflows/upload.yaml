@@ -25,7 +25,7 @@ jobs:
           ${{ runner.os }}-yarn-
 
     - name: wget
-      run: mkdir ci-bin/ && wget -O ci-bin/cr https://github.com/calcit-lang/calcit/releases/download/0.6.2/cr
+      run: mkdir ci-bin/ && wget -O ci-bin/cr https://github.com/calcit-lang/calcit/releases/download/0.6.8/cr
     - name: "permission"
       run: chmod +x ci-bin/cr
 
