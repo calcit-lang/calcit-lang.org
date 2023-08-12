@@ -1,21 +1,20 @@
 
 {} (:package |app)
-  :configs $ {} (:init-fn |app.main/main!) (:reload-fn |app.main/reload!)
+  :configs $ {} (:init-fn |app.main/main!) (:reload-fn |app.main/reload!) (:version |0.0.1)
     :modules $ [] |respo.calcit/compact.cirru |lilac/compact.cirru |memof/compact.cirru |respo-ui.calcit/compact.cirru |respo-markdown.calcit/compact.cirru |reel.calcit/compact.cirru
-    :version |0.0.1
   :entries $ {}
   :files $ {}
     |app.comp.container $ {}
-      :ns $ quote
-        ns app.comp.container $ :require ([] respo-ui.core :as ui)
-          respo.util.format :refer $ hsl
-          [] respo.core :refer $ [] defcomp defeffect <> >> div button textarea span input a body img
-          [] respo.comp.space :refer $ [] =<
-          [] reel.comp.reel :refer $ [] comp-reel
-          [] respo-md.comp.md :refer $ [] comp-md comp-md-block
-          [] app.config :refer $ [] dev?
-          "\"cirru-color" :as cirru-color
       :defs $ {}
+        |add-link $ quote
+          defn add-link (title url)
+            a $ {} (:inner-text title) (:href url) (:target "\"_blank")
+        |comp-bg $ quote
+          defcomp comp-bg () (println "\"@@@@@@@@@@@@@@@@\n@\n@  Well, code is not minified on purpose~\n@\n@   although it's still bundled with Vite.\n@\n@@@@@@@@@@@@@@@@")
+            ; img $ {} (:src "\"http://cdn.tiye.me/logo/calcit.png")
+              :style $ {} (:width "\"60vw") (:z-index -10) (:min-width "\"480px") (:position :fixed) (:opacity 0.12) (:right 0) (:top "\"10vh")
+            div $ {} (:class-name "\"tile")
+              :style $ {} (:width "\"100vw") (:height "\"100vh") (:z-index -10) (:position :fixed) (:opacity 0.5)
         |comp-container $ quote
           defcomp comp-container (reel)
             let
@@ -50,11 +49,6 @@
                         fn (code lang) (cirru-color/generateHtml code)
                     =< nil 200
                 when dev? $ comp-reel (>> states :reel) reel ({})
-        |add-link $ quote
-          defn add-link (title url)
-            a $ {} (:inner-text title) (:href url) (:target "\"_blank")
-        |inline-content! $ quote
-          defmacro inline-content! (path) (read-file path)
         |comp-header $ quote
           defcomp comp-header () $ div
             {} $ :style
@@ -83,57 +77,43 @@
               =< 16 nil
               add-link "\"Guidebook" "\"http://repo.calcit-lang.org/guidebook/"
             div ({}) (add-link "\"GitHub" "\"https://github.com/calcit-lang/calcit/")
+        |inline-content! $ quote
+          defmacro inline-content! (path) (read-file path)
         |style-content $ quote
           def style-content $ {}
         |style-middle $ quote
           def style-middle $ {} (:margin "\"0 auto") (:max-width 1000) (:padding "\"0 40px")
-        |comp-bg $ quote
-          defcomp comp-bg () (println "\"@@@@@@@@@@@@@@@@\n@\n@  Well, code is not minified on purpose~\n@\n@   although it's still bundled with Vite.\n@\n@@@@@@@@@@@@@@@@")
-            ; img $ {} (:src "\"http://cdn.tiye.me/logo/calcit.png")
-              :style $ {} (:width "\"60vw") (:z-index -10) (:min-width "\"480px") (:position :fixed) (:opacity 0.12) (:right 0) (:top "\"10vh")
-            div $ {} (:class-name "\"tile")
-              :style $ {} (:width "\"100vw") (:height "\"100vh") (:z-index -10) (:position :fixed) (:opacity 0.5)
-    |app.schema $ {}
-      :ns $ quote (ns app.schema)
-      :defs $ {}
-        |store $ quote
-          def store $ {}
-            :states $ {}
-              :cursor $ []
-    |app.updater $ {}
       :ns $ quote
-        ns app.updater $ :require
-          [] respo.cursor :refer $ [] update-states
+        ns app.comp.container $ :require ([] respo-ui.core :as ui)
+          respo.util.format :refer $ hsl
+          [] respo.core :refer $ [] defcomp defeffect <> >> div button textarea span input a body img
+          [] respo.comp.space :refer $ [] =<
+          [] reel.comp.reel :refer $ [] comp-reel
+          [] respo-md.comp.md :refer $ [] comp-md comp-md-block
+          [] app.config :refer $ [] dev?
+          "\"cirru-color" :as cirru-color
+    |app.config $ {}
       :defs $ {}
-        |updater $ quote
-          defn updater (store op data op-id op-time)
-            case op
-              :states $ update-states store data
-              :hydrate-storage data
-              op store
+        |cdn? $ quote
+          def cdn? $ cond
+              exists? js/window
+              , false
+            (exists? js/process) (= "\"true" js/process.env.cdn)
+            :else false
+        |dev? $ quote (def dev? true)
+        |site $ quote
+          def site $ {} (:dev-ui "\"http://localhost:8100/main-fonts.css") (:release-ui "\"http://cdn.tiye.me/favored-fonts/main-fonts.css") (:cdn-url "\"http://cdn.tiye.me/calcit-workflow/") (:title "\"Calcit") (:icon "\"http://cdn.tiye.me/logo/mvc-works.png") (:storage-key "\"workflow")
+      :ns $ quote (ns app.config)
     |app.main $ {}
-      :ns $ quote
-        ns app.main $ :require
-          [] respo.core :refer $ [] render! clear-cache! realize-ssr!
-          [] app.comp.container :refer $ [] comp-container
-          [] app.updater :refer $ [] updater
-          [] app.schema :as schema
-          [] reel.util :refer $ [] listen-devtools!
-          [] reel.core :refer $ [] reel-updater refresh-reel
-          [] reel.schema :as reel-schema
-          [] app.config :as config
-          "\"./calcit.build-errors" :default build-errors
-          "\"bottom-tip" :default hud!
       :defs $ {}
-        |render-app! $ quote
-          defn render-app! () $ render! mount-target (comp-container @*reel) dispatch!
-        |persist-storage! $ quote
-          defn persist-storage! () $ .setItem js/localStorage (:storage-key config/site)
-            js/JSON.stringify $ to-cirru-edn (:store @*reel)
-        |mount-target $ quote
-          def mount-target $ .querySelector js/document |.app
         |*reel $ quote
           defatom *reel $ -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
+        |dispatch! $ quote
+          defn dispatch! (op)
+            when
+              and config/dev? $ not= (nth op 0) :states
+              println "\"Dispatch:" op
+            reset! *reel $ reel-updater updater @*reel op
         |main! $ quote
           defn main! ()
             println "\"Running mode:" $ if config/dev? "\"dev" "\"release"
@@ -147,14 +127,11 @@
               when (some? raw)
                 dispatch! :hydrate-storage $ extract-cirru-edn (js/JSON.parse raw)
             println "|App started."
-        |snippets $ quote
-          defn snippets () $ println config/cdn?
-        |dispatch! $ quote
-          defn dispatch! (op op-data)
-            when
-              and config/dev? $ not= op :states
-              println "\"Dispatch:" op
-            reset! *reel $ reel-updater updater @*reel op op-data
+        |mount-target $ quote
+          def mount-target $ .querySelector js/document |.app
+        |persist-storage! $ quote
+          defn persist-storage! () $ .setItem js/localStorage (:storage-key config/site)
+            js/JSON.stringify $ to-cirru-edn (:store @*reel)
         |reload! $ quote
           defn reload! () $ if (nil? build-errors)
             do (remove-watch *reel :changes) (clear-cache!)
@@ -162,21 +139,44 @@
               reset! *reel $ refresh-reel @*reel schema/store updater
               hud! "\"ok~" "\"Ok"
             hud! "\"error" build-errors
+        |render-app! $ quote
+          defn render-app! () $ render! mount-target (comp-container @*reel) dispatch!
         |repeat! $ quote
           defn repeat! (duration cb)
             js/setTimeout
               fn () (cb)
                 repeat! (* 1000 duration) cb
               * 1000 duration
-    |app.config $ {}
-      :ns $ quote (ns app.config)
+        |snippets $ quote
+          defn snippets () $ println config/cdn?
+      :ns $ quote
+        ns app.main $ :require
+          [] respo.core :refer $ [] render! clear-cache! realize-ssr!
+          [] app.comp.container :refer $ [] comp-container
+          [] app.updater :refer $ [] updater
+          [] app.schema :as schema
+          [] reel.util :refer $ [] listen-devtools!
+          [] reel.core :refer $ [] reel-updater refresh-reel
+          [] reel.schema :as reel-schema
+          [] app.config :as config
+          "\"./calcit.build-errors" :default build-errors
+          "\"bottom-tip" :default hud!
+    |app.schema $ {}
       :defs $ {}
-        |cdn? $ quote
-          def cdn? $ cond
-              exists? js/window
-              , false
-            (exists? js/process) (= "\"true" js/process.env.cdn)
-            :else false
-        |dev? $ quote (def dev? true)
-        |site $ quote
-          def site $ {} (:dev-ui "\"http://localhost:8100/main-fonts.css") (:release-ui "\"http://cdn.tiye.me/favored-fonts/main-fonts.css") (:cdn-url "\"http://cdn.tiye.me/calcit-workflow/") (:title "\"Calcit") (:icon "\"http://cdn.tiye.me/logo/mvc-works.png") (:storage-key "\"workflow")
+        |store $ quote
+          def store $ {}
+            :states $ {}
+              :cursor $ []
+      :ns $ quote (ns app.schema)
+    |app.updater $ {}
+      :defs $ {}
+        |updater $ quote
+          defn updater (store op op-id op-time)
+            tag-match op
+                :states cursor s
+                update-states store cursor s
+              (:hydrate-storage d) d
+              _ $ do (eprintln "\"Unknown op:" op) store
+      :ns $ quote
+        ns app.updater $ :require
+          [] respo.cursor :refer $ [] update-states
