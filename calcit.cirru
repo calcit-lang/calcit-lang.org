@@ -1,10 +1,10 @@
 
 {} (:package |app)
-  :configs $ {} (:compact-output? true) (:extension |.cljs) (:init-fn |app.main/main!) (:output |src) (:port 6001) (:reload-fn |app.main/reload!) (:storage-key |calcit.cirru) (:version |0.0.1)
+  :configs $ {} (:init-fn |app.main/main!) (:output |src) (:port 6001) (:reload-fn |app.main/reload!) (:storage-key |calcit.cirru) (:version |0.0.1)
     :modules $ [] |respo.calcit/compact.cirru |lilac/compact.cirru |memof/compact.cirru |respo-ui.calcit/compact.cirru |respo-markdown.calcit/compact.cirru |reel.calcit/compact.cirru
   :entries $ {}
   :files $ {}
-    |app.comp.container $ {}
+    |app.comp.container $ %{} :FileEntry
       :defs $ {}
         |add-link $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1621318613915) (:by |rJG4IHzWf)
@@ -680,7 +680,7 @@
                     |T $ %{} :Leaf (:at 1691881591391) (:by |rJG4IHzWf) (:text |respo-ui.css)
                     |b $ %{} :Leaf (:at 1691881593668) (:by |rJG4IHzWf) (:text |:as)
                     |h $ %{} :Leaf (:at 1691881594282) (:by |rJG4IHzWf) (:text |css)
-    |app.config $ {}
+    |app.config $ %{} :FileEntry
       :defs $ {}
         |cdn? $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1544873887168) (:by |rJG4IHzWf)
@@ -755,7 +755,7 @@
           :data $ {}
             |T $ %{} :Leaf (:at 1527788237503) (:by |root) (:text |ns)
             |j $ %{} :Leaf (:at 1527788237503) (:by |root) (:text |app.config)
-    |app.main $ {}
+    |app.main $ %{} :FileEntry
       :defs $ {}
         |*reel $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1499755354983) (:by nil)
@@ -1142,7 +1142,7 @@
                     |T $ %{} :Leaf (:at 1630153491355) (:by |rJG4IHzWf) (:text "|\"bottom-tip")
                     |j $ %{} :Leaf (:at 1630153491355) (:by |rJG4IHzWf) (:text |:default)
                     |r $ %{} :Leaf (:at 1630153491355) (:by |rJG4IHzWf) (:text |hud!)
-    |app.schema $ {}
+    |app.schema $ %{} :FileEntry
       :defs $ {}
         |store $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1499755354983) (:by nil)
@@ -1169,7 +1169,7 @@
           :data $ {}
             |T $ %{} :Leaf (:at 1499755354983) (:by |root) (:text |ns)
             |j $ %{} :Leaf (:at 1499755354983) (:by |root) (:text |app.schema)
-    |app.updater $ {}
+    |app.updater $ %{} :FileEntry
       :defs $ {}
         |updater $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1499755354983) (:by nil)

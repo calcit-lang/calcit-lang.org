@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@calcit/procs": "^0.8.0-a2",
+    "@calcit/procs": "^0.8.0-a5",
     "cirru-color": "^0.2.3"
   },
   "devDependencies": {

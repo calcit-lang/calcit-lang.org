@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@calcit/procs@^0.8.0-a2":
-  version "0.8.0-a2"
-  resolved "https://registry.yarnpkg.com/@calcit/procs/-/procs-0.8.0-a2.tgz#2df06f18030dcac8bc3ea3e308baad5fa942acfa"
-  integrity sha512-v18GEiq54+WrvNouBDtk30Ta212W8DSPY1uo7JghVNNDMWh5Hab7Y6pVCw5HpF0REyBs/7+sibKjneJtrcr5kg==
+"@calcit/procs@^0.8.0-a5":
+  version "0.8.0-a5"
+  resolved "https://registry.yarnpkg.com/@calcit/procs/-/procs-0.8.0-a5.tgz#1bf7e8d535cdc29ca02d2b3ce221d60408735a86"
+  integrity sha512-6t7e5n2z1bvF6nUYPdet1nJaAFAiIz2YDNXCdBWQl17eVEi5RVhkWf0FWN7jojzevj7milVT7qjfVNjy6uc7Wg==
   dependencies:
     "@calcit/ternary-tree" "0.0.23"
     "@cirru/parser.ts" "^0.0.6"
@@ -259,9 +259,9 @@ picocolors@^1.0.0:
   integrity sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==
 
 postcss@^8.4.27:
-  version "8.4.28"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.28.tgz#c6cc681ed00109072816e1557f889ef51cf950a5"
-  integrity sha512-Z7V5j0cq8oEKyejIKfpD8b4eBy9cwW2JWPk0+fB1HOAMsfHbnAXLLS+PfVWlzMSLQaWttKDt607I0XHmpE67Vw==
+  version "8.4.29"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.29.tgz#33bc121cf3b3688d4ddef50be869b2a54185a1dd"
+  integrity sha512-cbI+jaqIeu/VGqXEarWkRCCffhjgXc0qjBtXpqJhTBohMUjUQnbBr0xqX3vEKudc4iviTewcJo5ajcec5+wdJw==
   dependencies:
     nanoid "^3.3.6"
     picocolors "^1.0.0"
