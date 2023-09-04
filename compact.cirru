@@ -4,7 +4,7 @@
     :modules $ [] |respo.calcit/compact.cirru |lilac/compact.cirru |memof/compact.cirru |respo-ui.calcit/compact.cirru |respo-markdown.calcit/compact.cirru |reel.calcit/compact.cirru
   :entries $ {}
   :files $ {}
-    |app.comp.container $ {}
+    |app.comp.container $ %{} :FileEntry
       :defs $ {}
         |add-link $ %{} :CodeEntry (:doc |)
           :code $ quote
@@ -107,7 +107,7 @@
             "\"cirru-color" :as cirru-color
             respo.css :refer $ defstyle
             respo-ui.css :as css
-    |app.config $ {}
+    |app.config $ %{} :FileEntry
       :defs $ {}
         |cdn? $ %{} :CodeEntry (:doc |)
           :code $ quote
@@ -123,7 +123,7 @@
             def site $ {} (:dev-ui "\"http://localhost:8100/main-fonts.css") (:release-ui "\"http://cdn.tiye.me/favored-fonts/main-fonts.css") (:cdn-url "\"http://cdn.tiye.me/calcit-workflow/") (:title "\"Calcit") (:icon "\"http://cdn.tiye.me/logo/mvc-works.png") (:storage-key "\"workflow")
       :ns $ %{} :CodeEntry (:doc |)
         :code $ quote (ns app.config)
-    |app.main $ {}
+    |app.main $ %{} :FileEntry
       :defs $ {}
         |*reel $ %{} :CodeEntry (:doc |)
           :code $ quote
@@ -190,7 +190,7 @@
             app.config :as config
             "\"./calcit.build-errors" :default build-errors
             "\"bottom-tip" :default hud!
-    |app.schema $ {}
+    |app.schema $ %{} :FileEntry
       :defs $ {}
         |store $ %{} :CodeEntry (:doc |)
           :code $ quote
@@ -199,7 +199,7 @@
                 :cursor $ []
       :ns $ %{} :CodeEntry (:doc |)
         :code $ quote (ns app.schema)
-    |app.updater $ {}
+    |app.updater $ %{} :FileEntry
       :defs $ {}
         |updater $ %{} :CodeEntry (:doc |)
           :code $ quote
