@@ -533,7 +533,7 @@
                                                                               |b $ %{} :Expr (:at 1695547550260) (:by |rJG4IHzWf)
                                                                                 :data $ {}
                                                                                   |T $ %{} :Leaf (:at 1695547552323) (:by |rJG4IHzWf) (:text |:margin-left)
-                                                                                  |b $ %{} :Leaf (:at 1695547555374) (:by |rJG4IHzWf) (:text |12)
+                                                                                  |b $ %{} :Leaf (:at 1695568037857) (:by |rJG4IHzWf) (:text |6)
                                                                   |h $ %{} :Expr (:at 1695547323155) (:by |rJG4IHzWf)
                                                                     :data $ {}
                                                                       |T $ %{} :Leaf (:at 1695547324610) (:by |rJG4IHzWf) (:text |->)
@@ -585,30 +585,46 @@
                                   |T $ %{} :Leaf (:at 1621318607214) (:by |rJG4IHzWf) (:text |=<)
                                   |j $ %{} :Leaf (:at 1621318607214) (:by |rJG4IHzWf) (:text |nil)
                                   |r $ %{} :Leaf (:at 1695550921525) (:by |rJG4IHzWf) (:text |120)
-                              |z $ %{} :Expr (:at 1695550910584) (:by |rJG4IHzWf)
+                              |z $ %{} :Expr (:at 1695567307742) (:by |rJG4IHzWf)
                                 :data $ {}
-                                  |T $ %{} :Leaf (:at 1695550911010) (:by |rJG4IHzWf) (:text |div)
-                                  |b $ %{} :Expr (:at 1695550912103) (:by |rJG4IHzWf)
+                                  |D $ %{} :Leaf (:at 1695567308378) (:by |rJG4IHzWf) (:text |div)
+                                  |L $ %{} :Expr (:at 1695567308658) (:by |rJG4IHzWf)
                                     :data $ {}
-                                      |T $ %{} :Leaf (:at 1695550912351) (:by |rJG4IHzWf) (:text |{})
-                                  |h $ %{} :Expr (:at 1695550912829) (:by |rJG4IHzWf)
-                                    :data $ {}
-                                      |T $ %{} :Leaf (:at 1695550938489) (:by |rJG4IHzWf) (:text |a)
-                                      |b $ %{} :Expr (:at 1695550939204) (:by |rJG4IHzWf)
+                                      |T $ %{} :Leaf (:at 1695567308948) (:by |rJG4IHzWf) (:text |{})
+                                      |b $ %{} :Expr (:at 1695567316739) (:by |rJG4IHzWf)
                                         :data $ {}
-                                          |T $ %{} :Leaf (:at 1695550939498) (:by |rJG4IHzWf) (:text |{})
-                                          |b $ %{} :Expr (:at 1695550940281) (:by |rJG4IHzWf)
-                                            :data $ {}
-                                              |T $ %{} :Leaf (:at 1695550941542) (:by |rJG4IHzWf) (:text |:href)
-                                              |b $ %{} :Leaf (:at 1695550943974) (:by |rJG4IHzWf) (:text "|\"http://github.com/calcit-lang/")
-                                          |h $ %{} :Expr (:at 1695550944695) (:by |rJG4IHzWf)
-                                            :data $ {}
-                                              |T $ %{} :Leaf (:at 1695550948216) (:by |rJG4IHzWf) (:text |:class-name)
-                                              |b $ %{} :Leaf (:at 1695550952972) (:by |rJG4IHzWf) (:text |ui/link)
-                                          |l $ %{} :Expr (:at 1695550956224) (:by |rJG4IHzWf)
-                                            :data $ {}
-                                              |T $ %{} :Leaf (:at 1695550957899) (:by |rJG4IHzWf) (:text |:inner-text)
-                                              |b $ %{} :Leaf (:at 1695550990611) (:by |rJG4IHzWf) (:text "|\"Find out more about calcit-lang on GitHub.")
+                                          |T $ %{} :Leaf (:at 1695567319896) (:by |rJG4IHzWf) (:text |:class-name)
+                                          |b $ %{} :Leaf (:at 1695567322373) (:by |rJG4IHzWf) (:text |css/row-parted)
+                                  |P $ %{} :Expr (:at 1695567310105) (:by |rJG4IHzWf)
+                                    :data $ {}
+                                      |T $ %{} :Leaf (:at 1695567310856) (:by |rJG4IHzWf) (:text |div)
+                                      |b $ %{} :Leaf (:at 1695567314656) (:by |rJG4IHzWf) (:text |nil)
+                                  |T $ %{} :Expr (:at 1695550910584) (:by |rJG4IHzWf)
+                                    :data $ {}
+                                      |T $ %{} :Leaf (:at 1695550911010) (:by |rJG4IHzWf) (:text |div)
+                                      |b $ %{} :Expr (:at 1695550912103) (:by |rJG4IHzWf)
+                                        :data $ {}
+                                          |T $ %{} :Leaf (:at 1695550912351) (:by |rJG4IHzWf) (:text |{})
+                                      |h $ %{} :Expr (:at 1695550912829) (:by |rJG4IHzWf)
+                                        :data $ {}
+                                          |T $ %{} :Leaf (:at 1695567278371) (:by |rJG4IHzWf) (:text |add-link)
+                                          |X $ %{} :Leaf (:at 1695567300396) (:by |rJG4IHzWf) (:text "|\"GitHub calcit-lang")
+                                          |Z $ %{} :Leaf (:at 1695567286478) (:by |rJG4IHzWf) (:text "|\"http://github.com/calcit-lang/")
+                                      |j $ %{} :Expr (:at 1695567243704) (:by |rJG4IHzWf)
+                                        :data $ {}
+                                          |T $ %{} :Leaf (:at 1695567244681) (:by |rJG4IHzWf) (:text |=<)
+                                          |b $ %{} :Leaf (:at 1695567246006) (:by |rJG4IHzWf) (:text |16)
+                                          |h $ %{} :Leaf (:at 1695567246614) (:by |rJG4IHzWf) (:text |nil)
+                                      |l $ %{} :Expr (:at 1695567236108) (:by |rJG4IHzWf)
+                                        :data $ {}
+                                          |T $ %{} :Leaf (:at 1695567236108) (:by |rJG4IHzWf) (:text |add-link)
+                                          |b $ %{} :Leaf (:at 1695567236108) (:by |rJG4IHzWf) (:text "|\"Discussions")
+                                          |h $ %{} :Leaf (:at 1695567236108) (:by |rJG4IHzWf) (:text "|\"https://github.com/calcit-lang/calcit/discussions")
+                              |zD $ %{} :Expr (:at 1695567330318) (:by |rJG4IHzWf)
+                                :data $ {}
+                                  |T $ %{} :Leaf (:at 1695567330318) (:by |rJG4IHzWf) (:text |=<)
+                                  |b $ %{} :Leaf (:at 1695567330318) (:by |rJG4IHzWf) (:text |nil)
+                                  |h $ %{} :Leaf (:at 1695567331968) (:by |rJG4IHzWf) (:text |40)
                       |x $ %{} :Expr (:at 1521954055333) (:by |root)
                         :data $ {}
                           |D $ %{} :Leaf (:at 1521954057510) (:by |root) (:text |when)
@@ -673,20 +689,34 @@
                                     :data $ {}
                                       |T $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |:class-name)
                                       |b $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |style-display-link)
-                          |l $ %{} :Expr (:at 1695548806501) (:by |rJG4IHzWf)
+                          |l $ %{} :Expr (:at 1695568075552) (:by |rJG4IHzWf)
                             :data $ {}
-                              |T $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |=<)
-                              |b $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |8)
-                              |h $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |nil)
-                          |o $ %{} :Expr (:at 1695548806501) (:by |rJG4IHzWf)
-                            :data $ {}
-                              |T $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |<>)
-                              |b $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |sub-title)
-                              |h $ %{} :Expr (:at 1695548806501) (:by |rJG4IHzWf)
+                              |D $ %{} :Leaf (:at 1695568076510) (:by |rJG4IHzWf) (:text |if)
+                              |L $ %{} :Expr (:at 1695568076801) (:by |rJG4IHzWf)
                                 :data $ {}
-                                  |T $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |str-spaced)
-                                  |b $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |css/font-fancy)
-                                  |h $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |style-sub-title)
+                                  |T $ %{} :Leaf (:at 1695568077908) (:by |rJG4IHzWf) (:text |some?)
+                                  |b $ %{} :Leaf (:at 1695568078254) (:by |rJG4IHzWf) (:text |sub-title)
+                              |T $ %{} :Expr (:at 1695548806501) (:by |rJG4IHzWf)
+                                :data $ {}
+                                  |T $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |=<)
+                                  |b $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |8)
+                                  |h $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |nil)
+                          |o $ %{} :Expr (:at 1695568079100) (:by |rJG4IHzWf)
+                            :data $ {}
+                              |D $ %{} :Leaf (:at 1695568079553) (:by |rJG4IHzWf) (:text |if)
+                              |L $ %{} :Expr (:at 1695568080678) (:by |rJG4IHzWf)
+                                :data $ {}
+                                  |T $ %{} :Leaf (:at 1695568080978) (:by |rJG4IHzWf) (:text |some?)
+                                  |b $ %{} :Leaf (:at 1695568081937) (:by |rJG4IHzWf) (:text |sub-title)
+                              |T $ %{} :Expr (:at 1695548806501) (:by |rJG4IHzWf)
+                                :data $ {}
+                                  |T $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |<>)
+                                  |b $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |sub-title)
+                                  |h $ %{} :Expr (:at 1695548806501) (:by |rJG4IHzWf)
+                                    :data $ {}
+                                      |T $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |str-spaced)
+                                      |b $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |css/font-fancy)
+                                      |h $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |style-sub-title)
         |comp-promotions $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695549065983) (:by |rJG4IHzWf)
             :data $ {}
@@ -821,11 +851,6 @@
                           |T $ %{} :Leaf (:at 1695550038409) (:by |rJG4IHzWf) (:text |add-link)
                           |b $ %{} :Leaf (:at 1695550038409) (:by |rJG4IHzWf) (:text "|\"GitHub")
                           |h $ %{} :Leaf (:at 1695550038409) (:by |rJG4IHzWf) (:text "|\"https://github.com/calcit-lang/calcit/")
-                      |l $ %{} :Expr (:at 1695550054023) (:by |rJG4IHzWf)
-                        :data $ {}
-                          |T $ %{} :Leaf (:at 1695550054023) (:by |rJG4IHzWf) (:text |add-link)
-                          |b $ %{} :Leaf (:at 1695550054023) (:by |rJG4IHzWf) (:text "|\"Discussions")
-                          |h $ %{} :Leaf (:at 1695550054023) (:by |rJG4IHzWf) (:text "|\"https://github.com/calcit-lang/calcit/discussions")
         |comp-snippet-demo $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695549676856) (:by |rJG4IHzWf)
             :data $ {}
@@ -879,20 +904,36 @@
                         :data $ {}
                           |T $ %{} :Leaf (:at 1695551350366) (:by |rJG4IHzWf) (:text |<>)
                           |b $ %{} :Leaf (:at 1695551393858) (:by |rJG4IHzWf) (:text "|\"Visual of Calcit Editor:")
-                  |T $ %{} :Expr (:at 1695551238672) (:by |rJG4IHzWf)
+                  |T $ %{} :Expr (:at 1695567850244) (:by |rJG4IHzWf)
                     :data $ {}
-                      |T $ %{} :Leaf (:at 1695551239339) (:by |rJG4IHzWf) (:text |img)
-                      |b $ %{} :Expr (:at 1695551311264) (:by |rJG4IHzWf)
+                      |D $ %{} :Leaf (:at 1695567851391) (:by |rJG4IHzWf) (:text |div)
+                      |L $ %{} :Expr (:at 1695567851627) (:by |rJG4IHzWf)
                         :data $ {}
-                          |D $ %{} :Leaf (:at 1695551311828) (:by |rJG4IHzWf) (:text |{})
-                          |L $ %{} :Expr (:at 1695551318160) (:by |rJG4IHzWf)
+                          |T $ %{} :Leaf (:at 1695567851954) (:by |rJG4IHzWf) (:text |{})
+                          |b $ %{} :Expr (:at 1695567857106) (:by |rJG4IHzWf)
                             :data $ {}
-                              |T $ %{} :Leaf (:at 1695551319525) (:by |rJG4IHzWf) (:text |:class-name)
-                              |b $ %{} :Leaf (:at 1695551322337) (:by |rJG4IHzWf) (:text |style-editor-img)
-                          |T $ %{} :Expr (:at 1695551240225) (:by |rJG4IHzWf)
+                              |D $ %{} :Leaf (:at 1695567858639) (:by |rJG4IHzWf) (:text |:style)
+                              |T $ %{} :Expr (:at 1695567855599) (:by |rJG4IHzWf)
+                                :data $ {}
+                                  |D $ %{} :Leaf (:at 1695567856008) (:by |rJG4IHzWf) (:text |{})
+                                  |T $ %{} :Expr (:at 1695567852903) (:by |rJG4IHzWf)
+                                    :data $ {}
+                                      |T $ %{} :Leaf (:at 1695567853890) (:by |rJG4IHzWf) (:text |:display)
+                                      |b $ %{} :Leaf (:at 1695567854657) (:by |rJG4IHzWf) (:text |:flex)
+                      |T $ %{} :Expr (:at 1695551238672) (:by |rJG4IHzWf)
+                        :data $ {}
+                          |T $ %{} :Leaf (:at 1695551239339) (:by |rJG4IHzWf) (:text |img)
+                          |b $ %{} :Expr (:at 1695551311264) (:by |rJG4IHzWf)
                             :data $ {}
-                              |T $ %{} :Leaf (:at 1695551244621) (:by |rJG4IHzWf) (:text |:src)
-                              |b $ %{} :Leaf (:at 1695551245891) (:by |rJG4IHzWf) (:text "|\"https://cos-sh.tiye.me/cos-up/00c992c3061ed59d8c7d533b7a31433b-calcit-editor.png")
+                              |D $ %{} :Leaf (:at 1695551311828) (:by |rJG4IHzWf) (:text |{})
+                              |L $ %{} :Expr (:at 1695551318160) (:by |rJG4IHzWf)
+                                :data $ {}
+                                  |T $ %{} :Leaf (:at 1695551319525) (:by |rJG4IHzWf) (:text |:class-name)
+                                  |b $ %{} :Leaf (:at 1695551322337) (:by |rJG4IHzWf) (:text |style-editor-img)
+                              |T $ %{} :Expr (:at 1695551240225) (:by |rJG4IHzWf)
+                                :data $ {}
+                                  |T $ %{} :Leaf (:at 1695551244621) (:by |rJG4IHzWf) (:text |:src)
+                                  |b $ %{} :Leaf (:at 1695551245891) (:by |rJG4IHzWf) (:text "|\"https://cos-sh.tiye.me/cos-up/00c992c3061ed59d8c7d533b7a31433b-calcit-editor.png")
         |inline-content! $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1624513560832) (:by |rJG4IHzWf)
             :data $ {}
@@ -1050,7 +1091,11 @@
                           |T $ %{} :Expr (:at 1695551325609) (:by |rJG4IHzWf)
                             :data $ {}
                               |T $ %{} :Leaf (:at 1695551331502) (:by |rJG4IHzWf) (:text |:max-width)
-                              |b $ %{} :Leaf (:at 1695551329024) (:by |rJG4IHzWf) (:text "|\"100%")
+                              |b $ %{} :Leaf (:at 1695567870699) (:by |rJG4IHzWf) (:text "|\"min(100%, 720px)")
+                          |b $ %{} :Expr (:at 1695567826824) (:by |rJG4IHzWf)
+                            :data $ {}
+                              |T $ %{} :Leaf (:at 1695567828264) (:by |rJG4IHzWf) (:text |:margin)
+                              |b $ %{} :Leaf (:at 1695567830312) (:by |rJG4IHzWf) (:text |:auto)
         |style-feature $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695545289801) (:by |rJG4IHzWf)
             :data $ {}
@@ -1995,9 +2040,23 @@
                             :data $ {}
                               |T $ %{} :Leaf (:at 1695546483569) (:by |rJG4IHzWf) (:text |::)
                               |X $ %{} :Leaf (:at 1695546756675) (:by |rJG4IHzWf) (:text |:link)
-                              |b $ %{} :Leaf (:at 1695546757857) (:by |rJG4IHzWf) (:text ||Calcit)
+                              |b $ %{} :Leaf (:at 1695567464928) (:by |rJG4IHzWf) (:text "||Calcit WSS")
                               |h $ %{} :Leaf (:at 1695546483569) (:by |rJG4IHzWf) (:text "||WebSocket server binding")
                               |l $ %{} :Leaf (:at 1695546483569) (:by |rJG4IHzWf) (:text ||https://github.com/calcit-lang/calcit-wss)
+                          |q $ %{} :Expr (:at 1695567386944) (:by |rJG4IHzWf)
+                            :data $ {}
+                              |T $ %{} :Leaf (:at 1695567387435) (:by |rJG4IHzWf) (:text |::)
+                              |b $ %{} :Leaf (:at 1695567390870) (:by |rJG4IHzWf) (:text |:link)
+                              |h $ %{} :Leaf (:at 1695567397321) (:by |rJG4IHzWf) (:text "|\"Quaternion")
+                              |j $ %{} :Leaf (:at 1695567406051) (:by |rJG4IHzWf) (:text "|\"Quaternion math helper")
+                              |l $ %{} :Leaf (:at 1695567394482) (:by |rJG4IHzWf) (:text "|\"https://github.com/calcit-lang/quaternion")
+                          |s $ %{} :Expr (:at 1695567412788) (:by |rJG4IHzWf)
+                            :data $ {}
+                              |T $ %{} :Leaf (:at 1695567413836) (:by |rJG4IHzWf) (:text |::)
+                              |b $ %{} :Leaf (:at 1695567414750) (:by |rJG4IHzWf) (:text |:link)
+                              |h $ %{} :Leaf (:at 1695567416456) (:by |rJG4IHzWf) (:text "|\"Std")
+                              |l $ %{} :Leaf (:at 1695567438872) (:by |rJG4IHzWf) (:text "|\"Some standard functions")
+                              |o $ %{} :Leaf (:at 1695567428808) (:by |rJG4IHzWf) (:text "|\"https://github.com/calcit-lang/calcit.std")
                   |h $ %{} :Expr (:at 1695546699463) (:by |rJG4IHzWf)
                     :data $ {}
                       |T $ %{} :Leaf (:at 1695546699906) (:by |rJG4IHzWf) (:text |::)
@@ -2020,6 +2079,13 @@
                               |h $ %{} :Leaf (:at 1695546852396) (:by |rJG4IHzWf) (:text ||Phlox)
                               |l $ %{} :Leaf (:at 1695546852396) (:by |rJG4IHzWf) (:text "||virtual DOM like wrapper on top of PIXI")
                               |o $ %{} :Leaf (:at 1695546852396) (:by |rJG4IHzWf) (:text ||https://github.com/Quamolit/phlox.calcit)
+                          |j $ %{} :Expr (:at 1695567949305) (:by |rJG4IHzWf)
+                            :data $ {}
+                              |T $ %{} :Leaf (:at 1695567949628) (:by |rJG4IHzWf) (:text |::)
+                              |b $ %{} :Leaf (:at 1695567950725) (:by |rJG4IHzWf) (:text |:link)
+                              |h $ %{} :Leaf (:at 1695567955277) (:by |rJG4IHzWf) (:text "|\"Lagopus")
+                              |l $ %{} :Leaf (:at 1695567973697) (:by |rJG4IHzWf) (:text "|\"thin WebGPU abstraction")
+                              |o $ %{} :Leaf (:at 1695567957790) (:by |rJG4IHzWf) (:text "|\"https://github.com/Triadica/lagopus")
                           |l $ %{} :Expr (:at 1695546852396) (:by |rJG4IHzWf)
                             :data $ {}
                               |T $ %{} :Leaf (:at 1695546916682) (:by |rJG4IHzWf) (:text |::)
@@ -2063,13 +2129,20 @@
                               |h $ %{} :Leaf (:at 1695546910904) (:by |rJG4IHzWf) (:text "||Calcit Error viewer")
                               |l $ %{} :Leaf (:at 1695546910904) (:by |rJG4IHzWf) (:text |nil)
                               |o $ %{} :Leaf (:at 1695546910904) (:by |rJG4IHzWf) (:text ||https://github.com/calcit-lang/calcit-error-viewer)
-                          |l $ %{} :Expr (:at 1695546910904) (:by |rJG4IHzWf)
+                          |l $ %{} :Expr (:at 1695567551083) (:by |rJG4IHzWf)
                             :data $ {}
-                              |T $ %{} :Leaf (:at 1695546910904) (:by |rJG4IHzWf) (:text |::)
-                              |b $ %{} :Leaf (:at 1695547226555) (:by |rJG4IHzWf) (:text |:link)
-                              |h $ %{} :Leaf (:at 1695546910904) (:by |rJG4IHzWf) (:text "||Calcit Paint: play with 2d shapes(experimental)")
-                              |l $ %{} :Leaf (:at 1695546910904) (:by |rJG4IHzWf) (:text |nil)
-                              |o $ %{} :Leaf (:at 1695546910904) (:by |rJG4IHzWf) (:text ||https://github.com/calcit-lang/calcit-paint)
+                              |T $ %{} :Leaf (:at 1695567551504) (:by |rJG4IHzWf) (:text |::)
+                              |b $ %{} :Leaf (:at 1695567553328) (:by |rJG4IHzWf) (:text |:link)
+                              |h $ %{} :Leaf (:at 1695567569022) (:by |rJG4IHzWf) (:text "|\"Calcit binding for clipboard")
+                              |l $ %{} :Leaf (:at 1695567565159) (:by |rJG4IHzWf) (:text |nil)
+                              |o $ %{} :Leaf (:at 1695567566566) (:by |rJG4IHzWf) (:text "|\"https://github.com/calcit-lang/calcit-clipboard")
+                          |o $ %{} :Expr (:at 1695567578168) (:by |rJG4IHzWf)
+                            :data $ {}
+                              |T $ %{} :Leaf (:at 1695567578168) (:by |rJG4IHzWf) (:text |::)
+                              |b $ %{} :Leaf (:at 1695567578168) (:by |rJG4IHzWf) (:text |:link)
+                              |h $ %{} :Leaf (:at 1695567578168) (:by |rJG4IHzWf) (:text "|\"Calcit JSON")
+                              |l $ %{} :Leaf (:at 1695567578168) (:by |rJG4IHzWf) (:text "|\"JSON binding")
+                              |o $ %{} :Leaf (:at 1695567578168) (:by |rJG4IHzWf) (:text "|\"https://github.com/calcit-lang/calcit-json")
                   |o $ %{} :Expr (:at 1695546699463) (:by |rJG4IHzWf)
                     :data $ {}
                       |T $ %{} :Leaf (:at 1695546699906) (:by |rJG4IHzWf) (:text |::)
@@ -2078,6 +2151,34 @@
                       |l $ %{} :Expr (:at 1695546980650) (:by |rJG4IHzWf)
                         :data $ {}
                           |T $ %{} :Leaf (:at 1695546980650) (:by |rJG4IHzWf) (:text |[])
+                          |X $ %{} :Expr (:at 1695567608637) (:by |rJG4IHzWf)
+                            :data $ {}
+                              |T $ %{} :Leaf (:at 1695567609160) (:by |rJG4IHzWf) (:text |::)
+                              |b $ %{} :Leaf (:at 1695567610681) (:by |rJG4IHzWf) (:text |:link)
+                              |c $ %{} :Leaf (:at 1695567618356) (:by |rJG4IHzWf) (:text "|\"Calcit 开发记录: list-match 语法")
+                              |e $ %{} :Leaf (:at 1695567614859) (:by |rJG4IHzWf) (:text |nil)
+                              |h $ %{} :Leaf (:at 1695567613348) (:by |rJG4IHzWf) (:text "|\"https://www.bilibili.com/video/BV1Su4y1X7kg/")
+                          |Z $ %{} :Expr (:at 1695567625463) (:by |rJG4IHzWf)
+                            :data $ {}
+                              |T $ %{} :Leaf (:at 1695567625842) (:by |rJG4IHzWf) (:text |::)
+                              |b $ %{} :Leaf (:at 1695567627194) (:by |rJG4IHzWf) (:text |:link)
+                              |h $ %{} :Leaf (:at 1695567634899) (:by |rJG4IHzWf) (:text "|\"Calcit 0.7 变更记录, Tag, Tuple 和多态")
+                              |l $ %{} :Leaf (:at 1695567630097) (:by |rJG4IHzWf) (:text |nil)
+                              |o $ %{} :Leaf (:at 1695567631022) (:by |rJG4IHzWf) (:text "|\"https://www.bilibili.com/video/BV11L411v7Vk/")
+                          |a $ %{} :Expr (:at 1695567645941) (:by |rJG4IHzWf)
+                            :data $ {}
+                              |T $ %{} :Leaf (:at 1695567647419) (:by |rJG4IHzWf) (:text |::)
+                              |b $ %{} :Leaf (:at 1695567648629) (:by |rJG4IHzWf) (:text |:link)
+                              |h $ %{} :Leaf (:at 1695567649222) (:by |rJG4IHzWf) (:text "|\"Calcit 更新: caps 命令下载依赖")
+                              |l $ %{} :Leaf (:at 1695567655528) (:by |rJG4IHzWf) (:text |nil)
+                              |o $ %{} :Leaf (:at 1695567656322) (:by |rJG4IHzWf) (:text "|\"https://www.bilibili.com/video/BV11A41127UW/")
+                          |aT $ %{} :Expr (:at 1695567665724) (:by |rJG4IHzWf)
+                            :data $ {}
+                              |T $ %{} :Leaf (:at 1695567667271) (:by |rJG4IHzWf) (:text |::)
+                              |b $ %{} :Leaf (:at 1695567669067) (:by |rJG4IHzWf) (:text |:link)
+                              |c $ %{} :Leaf (:at 1695568122469) (:by |rJG4IHzWf) (:text "|\"Calcit 开发记录: bundle_calcit 增加热替换支持")
+                              |e $ %{} :Leaf (:at 1695567671986) (:by |rJG4IHzWf) (:text |nil)
+                              |h $ %{} :Leaf (:at 1695567669628) (:by |rJG4IHzWf) (:text "|\"https://www.bilibili.com/video/BV1WU4y1S7KK/")
                           |b $ %{} :Expr (:at 1695546980650) (:by |rJG4IHzWf)
                             :data $ {}
                               |T $ %{} :Leaf (:at 1695546980650) (:by |rJG4IHzWf) (:text |::)
@@ -2114,6 +2215,13 @@
                       |l $ %{} :Expr (:at 1695547096127) (:by |rJG4IHzWf)
                         :data $ {}
                           |T $ %{} :Leaf (:at 1695547096127) (:by |rJG4IHzWf) (:text |[])
+                          |X $ %{} :Expr (:at 1695567764091) (:by |rJG4IHzWf)
+                            :data $ {}
+                              |T $ %{} :Leaf (:at 1695567764680) (:by |rJG4IHzWf) (:text |::)
+                              |b $ %{} :Leaf (:at 1695567766284) (:by |rJG4IHzWf) (:text |:link)
+                              |h $ %{} :Leaf (:at 1695567768381) (:by |rJG4IHzWf) (:text "|\"design decision: rename \"keyword\" to \"tag\" #209")
+                              |l $ %{} :Leaf (:at 1695567773711) (:by |rJG4IHzWf) (:text |nil)
+                              |o $ %{} :Leaf (:at 1695567774547) (:by |rJG4IHzWf) (:text "|\"https://github.com/calcit-lang/calcit/discussions/209")
                           |b $ %{} :Expr (:at 1695547096127) (:by |rJG4IHzWf)
                             :data $ {}
                               |T $ %{} :Leaf (:at 1695547096127) (:by |rJG4IHzWf) (:text |::)

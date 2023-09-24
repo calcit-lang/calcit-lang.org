@@ -89,7 +89,7 @@
                                   <> col-title style-feature-title
                                   list->
                                     {} $ :style
-                                      {} $ :margin-left 12
+                                      {} $ :margin-left 6
                                     -> links $ map-indexed
                                       fn (idx link)
                                         [] idx $ comp-link link
@@ -97,8 +97,11 @@
                         {} $ :highlight
                           fn (code lang) (cirru-color/generateHtml code)
                       =< nil 120
-                      div ({})
-                        a $ {} (:href "\"http://github.com/calcit-lang/") (:class-name ui/link) (:inner-text "\"Find out more about calcit-lang on GitHub.")
+                      div
+                        {} $ :class-name css/row-parted
+                        div nil
+                        div ({}) (add-link "\"GitHub calcit-lang" "\"http://github.com/calcit-lang/") (=< 16 nil) (add-link "\"Discussions" "\"https://github.com/calcit-lang/calcit/discussions")
+                      =< nil 40
                   when dev? $ comp-reel (>> states :reel) reel ({})
         |comp-link $ %{} :CodeEntry (:doc |)
           :code $ quote
@@ -107,8 +110,9 @@
                 :link title sub-title url
                 div ({})
                   a $ {} (:href url) (:inner-text title) (:target "\"_blank") (:class-name style-display-link)
-                  =< 8 nil
-                  <> sub-title $ str-spaced css/font-fancy style-sub-title
+                  if (some? sub-title) (=< 8 nil)
+                  if (some? sub-title)
+                    <> sub-title $ str-spaced css/font-fancy style-sub-title
         |comp-promotions $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-promotions () $ div
@@ -128,7 +132,6 @@
               div
                 {} $ :class-name css/row-middle
                 add-link "\"GitHub" "\"https://github.com/calcit-lang/calcit/"
-                add-link "\"Discussions" "\"https://github.com/calcit-lang/calcit/discussions"
         |comp-snippet-demo $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-snippet-demo () $ div ({})
@@ -138,7 +141,10 @@
           :code $ quote
             defcomp comp-visual () $ div ({})
               div ({}) (<> "\"Visual of Calcit Editor:")
-              img $ {} (:class-name style-editor-img) (:src "\"https://cos-sh.tiye.me/cos-up/00c992c3061ed59d8c7d533b7a31433b-calcit-editor.png")
+              div
+                {} $ :style
+                  {} $ :display :flex
+                img $ {} (:class-name style-editor-img) (:src "\"https://cos-sh.tiye.me/cos-up/00c992c3061ed59d8c7d533b7a31433b-calcit-editor.png")
         |inline-content! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defmacro inline-content! (path) (read-file path)
@@ -165,7 +171,7 @@
         |style-editor-img $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-editor-img $ {}
-              "\"&" $ {} (:max-width "\"100%")
+              "\"&" $ {} (:max-width "\"min(100%, 720px)") (:margin :auto)
         |style-feature $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-feature $ {}
@@ -322,11 +328,11 @@
         |doc-columns $ %{} :CodeEntry (:doc |)
           :code $ quote
             def doc-columns $ []
-              :: :column "\"Libraries" $ [] (:: :link |Memof "|memoization library with caching" |https://github.com/calcit-lang/memof) (:: :link |Lilac "|validation library" |https://github.com/calcit-lang/lilac) (:: :link |Recollect "|Diff/patch library designed for Cumulo project" |https://github.com/calcit-lang/recollect) (:: :link |Calcit "|WebSocket server binding" |https://github.com/calcit-lang/calcit-wss)
-              :: :column "\"Frameworks" $ [] (:: :link |Respo "|virtual DOM library" |https://github.com/Respo/respo.calcit) (:: :link |Phlox "|virtual DOM like wrapper on top of PIXI" |https://github.com/Quamolit/phlox.calcit) (:: :link |Quamolit "|what if we make animations in React's way?" |https://github.com/Quamolit/quamolit.calcit) (:: :link |Quaterfoil "|thin virtual DOM wrapper over three.js" |https://github.com/Quamolit/quatrefoil.calcit) (:: :link |Cumulo "|template for tiny realtime apps" |https://github.com/Cumulo/cumulo-workflow.calcit)
-              :: :column "\"Tools" $ [] (:: :link "|Calcit IR viewer" nil |https://github.com/calcit-lang/calcit-ir-viewer) (:: :link "|Calcit Error viewer" nil |https://github.com/calcit-lang/calcit-error-viewer) (:: :link "|Calcit Paint: play with 2d shapes(experimental)" nil |https://github.com/calcit-lang/calcit-paint)
-              :: :column "\"Videos" $ [] (:: :link "|Calcit-js 开发的阶段介绍 2021-11" nil |https://www.bilibili.com/video/BV1Yg411K73P) (:: :link "|calcit-js 开发记录(21-01-22) 关于 ternary-tree.ts 重构" nil |https://www.bilibili.com/video/BV1Ht4y167Fg) (:: :link "|calcit-js 阶段介绍(2021-01)" nil |https://www.bilibili.com/video/BV1H5411n7su) (:: :link "|calcit-runner 阶段记录介绍(2021-01)" nil |https://www.bilibili.com/video/BV1cK4y1W7dZ)
-              :: :column "\"Articles" $ [] (:: :link "|Calcit 脚本语言一些基础介绍" nil |https://zhuanlan.zhihu.com/p/394791973) (:: :link "|Introducing calcit-js: toy language inspired by cljs" nil |https://clojureverse.org/t/introducing-calcit-js-toy-language-inspired-by-cljs/7097) (:: :link "|An indentation way to Lisp" nil |https://github.com/calcit-lang/calcit-runner/discussions/123) (:: :link "|Problems encountered in generating js" nil |https://github.com/calcit-lang/calcit-runner.nim/discussions/148) (:: :link "|calcit-js 的 JavaScript 代码生成与疑难" nil |https://github.com/calcit-lang/calcit-runner.nim/discussions/184) (:: :link "|ternary-tree.ts: 关于初期的性能优化(on early optimizations)" nil |https://github.com/calcit-lang/ternary-tree.ts/discussions/7) (:: :link "|A trick for cheaper persistent list in JavaScript" nil |https://clojureverse.org/t/a-trick-for-cheaper-persistent-list-in-javascript/7172)
+              :: :column "\"Libraries" $ [] (:: :link |Memof "|memoization library with caching" |https://github.com/calcit-lang/memof) (:: :link |Lilac "|validation library" |https://github.com/calcit-lang/lilac) (:: :link |Recollect "|Diff/patch library designed for Cumulo project" |https://github.com/calcit-lang/recollect) (:: :link "|Calcit WSS" "|WebSocket server binding" |https://github.com/calcit-lang/calcit-wss) (:: :link "\"Quaternion" "\"Quaternion math helper" "\"https://github.com/calcit-lang/quaternion") (:: :link "\"Std" "\"Some standard functions" "\"https://github.com/calcit-lang/calcit.std")
+              :: :column "\"Frameworks" $ [] (:: :link |Respo "|virtual DOM library" |https://github.com/Respo/respo.calcit) (:: :link |Phlox "|virtual DOM like wrapper on top of PIXI" |https://github.com/Quamolit/phlox.calcit) (:: :link "\"Lagopus" "\"thin WebGPU abstraction" "\"https://github.com/Triadica/lagopus") (:: :link |Quamolit "|what if we make animations in React's way?" |https://github.com/Quamolit/quamolit.calcit) (:: :link |Quaterfoil "|thin virtual DOM wrapper over three.js" |https://github.com/Quamolit/quatrefoil.calcit) (:: :link |Cumulo "|template for tiny realtime apps" |https://github.com/Cumulo/cumulo-workflow.calcit)
+              :: :column "\"Tools" $ [] (:: :link "|Calcit IR viewer" nil |https://github.com/calcit-lang/calcit-ir-viewer) (:: :link "|Calcit Error viewer" nil |https://github.com/calcit-lang/calcit-error-viewer) (:: :link "\"Calcit binding for clipboard" nil "\"https://github.com/calcit-lang/calcit-clipboard") (:: :link "\"Calcit JSON" "\"JSON binding" "\"https://github.com/calcit-lang/calcit-json")
+              :: :column "\"Videos" $ [] (:: :link "\"Calcit 开发记录: list-match 语法" nil "\"https://www.bilibili.com/video/BV1Su4y1X7kg/") (:: :link "\"Calcit 0.7 变更记录, Tag, Tuple 和多态" nil "\"https://www.bilibili.com/video/BV11L411v7Vk/") (:: :link "\"Calcit 更新: caps 命令下载依赖" nil "\"https://www.bilibili.com/video/BV11A41127UW/") (:: :link "\"Calcit 开发记录: bundle_calcit 增加热替换支持" nil "\"https://www.bilibili.com/video/BV1WU4y1S7KK/") (:: :link "|Calcit-js 开发的阶段介绍 2021-11" nil |https://www.bilibili.com/video/BV1Yg411K73P) (:: :link "|calcit-js 开发记录(21-01-22) 关于 ternary-tree.ts 重构" nil |https://www.bilibili.com/video/BV1Ht4y167Fg) (:: :link "|calcit-js 阶段介绍(2021-01)" nil |https://www.bilibili.com/video/BV1H5411n7su) (:: :link "|calcit-runner 阶段记录介绍(2021-01)" nil |https://www.bilibili.com/video/BV1cK4y1W7dZ)
+              :: :column "\"Articles" $ [] (:: :link "\"design decision: rename \"keyword\" to \"tag\" #209" nil "\"https://github.com/calcit-lang/calcit/discussions/209") (:: :link "|Calcit 脚本语言一些基础介绍" nil |https://zhuanlan.zhihu.com/p/394791973) (:: :link "|Introducing calcit-js: toy language inspired by cljs" nil |https://clojureverse.org/t/introducing-calcit-js-toy-language-inspired-by-cljs/7097) (:: :link "|An indentation way to Lisp" nil |https://github.com/calcit-lang/calcit-runner/discussions/123) (:: :link "|Problems encountered in generating js" nil |https://github.com/calcit-lang/calcit-runner.nim/discussions/148) (:: :link "|calcit-js 的 JavaScript 代码生成与疑难" nil |https://github.com/calcit-lang/calcit-runner.nim/discussions/184) (:: :link "|ternary-tree.ts: 关于初期的性能优化(on early optimizations)" nil |https://github.com/calcit-lang/ternary-tree.ts/discussions/7) (:: :link "|A trick for cheaper persistent list in JavaScript" nil |https://clojureverse.org/t/a-trick-for-cheaper-persistent-list-in-javascript/7172)
         |doc-features $ %{} :CodeEntry (:doc |)
           :code $ quote
             def doc-features $ [] (:: :feature "\"Immutable" "\"Values and states are represented in different data structures, which is the semantics from functional programming. Internally it's [rpds](https://docs.rs/rpds/) in Rust and a custom [2-3 tree](https://github.com/calcit-lang/ternary-tree.ts) in JavaScript.") (:: :feature "\"Lisp(Code is Data)" "\"Calcit-js was designed based on experiences from ClojureScript, with a bunch of builtin macros. It offers similar experiences to ClojureScript. So Calcit offers much power via macros, while keeping its core simple.") (:: :feature "\"Indentations-based Syntax" "\"With `bundle_calcit` command, Calcit code can be written as an indentation-based language. So you don't have to match parentheses like in Clojure. It also means now you need to handle indentations very carefully.") (:: :feature "\"Hot code swapping" "\"Calcit was built with hot swapping in mind. Combined with [calcit-editor](https://github.com/calcit-lang/editor), it watches code changes by default, and re-runs program on updates. For calcit-js, it works with Vite and Webpack to reload, learning from Elm, ClojureScript and React.") (:: :feature "\"ES Modules Syntax" "\"To leverage the power of modern browsers with help of Vite, we need another ClojureScript that emits `import`/`export` for Vite. Calcit-js does this! And this page is built with Calcit-js as well, open Console to find out more.")
