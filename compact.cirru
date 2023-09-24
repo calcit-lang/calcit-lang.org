@@ -9,7 +9,7 @@
         |add-link $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn add-link (title url)
-              a $ {} (:inner-text title) (:href url) (:target "\"_blank")
+              a $ {} (:inner-text title) (:class-name css/link) (:href url) (:target "\"_blank")
         |comp-bg $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-bg () (println "\"@@@@@@@@@@@@@@@@\n@\n@  Well, code is not minified on purpose~\n@\n@   although it's still bundled with Vite.\n@\n@@@@@@@@@@@@@@@@")
@@ -28,25 +28,35 @@
                     {} $ :content "\""
                 div
                   {} $ :class-name css/global
-                  comp-header
                   comp-bg
                   div
                     {} $ :class-name style-content
-                    =< nil 80
                     div ({})
                       div
-                        {} $ :class-name css/row-middle
+                        {}
+                          :class-name $ str-spaced css/column
+                          :style $ {} (:flex 1) (:height :max-content) (:padding "\"48px 0 48px")
                         div
                           {}
-                            :class-name $ str-spaced css/column css/font-fancy!
-                            :style $ {} (:flex 1) (:height :max-content) (:padding "\"80px 0")
+                            :style $ {} (:flex-wrap :wrap)
+                            :class-name $ str-spaced css/row-center
+                          img $ {} (:src "\"http://cdn.tiye.me/logo/calcit.png")
+                            :style $ {} (:width 96) (:height 96)
+                          =< 16 nil
                           div
-                            {} $ :class-name "\"main-title"
-                            <> "\"Calcit: Lisp compiling to JavaScript ES Modules"
-                          =< nil 8
-                          div
-                            {} $ :class-name "\"secondary-title"
-                            <> "\"an interpreter for calcit snapshot, and hot code swapping friendly."
+                            {} (:class-name css/column)
+                              :style $ {} (:max-width "\"100%")
+                            div
+                              {} $ :class-name style-main-title
+                              <> "\"Calcit: Lisp compiling to JavaScript ES Modules"
+                            =< nil 4
+                            div
+                              {} $ :class-name style-secondary-title
+                              <> "\"an interpreter for calcit snapshot, and hot code swapping friendly."
+                        =< nil 8
+                        =< nil 24
+                        comp-snippet-demo
+                        comp-promotions
                       list->
                         {} $ :class-name style-cards-containers
                         -> doc-features $ map
@@ -64,6 +74,7 @@
                       comp-md-block (inline-content! "\"content/intro.md")
                         {} $ :highlight
                           fn (code lang) (cirru-color/generateHtml code)
+                      comp-visual
                       h2
                         {} $ :style ({})
                         <> "\"Ecosystem"
@@ -85,29 +96,10 @@
                       comp-md-block (inline-content! "\"content/cirru.md")
                         {} $ :highlight
                           fn (code lang) (cirru-color/generateHtml code)
-                      =< nil 200
+                      =< nil 120
+                      div ({})
+                        a $ {} (:href "\"http://github.com/calcit-lang/") (:class-name ui/link) (:inner-text "\"Find out more about calcit-lang on GitHub.")
                   when dev? $ comp-reel (>> states :reel) reel ({})
-        |comp-header $ %{} :CodeEntry (:doc |)
-          :code $ quote
-            defcomp comp-header () $ div
-              {} $ :class-name (str-spaced css/row-parted style-header)
-              div
-                {} $ :class-name css/row-middle
-                img $ {} (:src "\"http://cdn.tiye.me/logo/calcit.png")
-                  :style $ {} (:width 40) (:height 40)
-                =< 8 nil
-                <> "\"Calcit" $ {} (:font-size 20) (:font-weight 300)
-                  :color $ hsl 200 50 60
-                  :font-family "\"Federo, cursive"
-                =< 32 nil
-                add-link "\"APIs" "\"http://apis.calcit-lang.org"
-                =< 16 nil
-                add-link "\"Discussions" "\"https://github.com/calcit-lang/calcit/discussions"
-                =< 16 nil
-                add-link "\"Playground" "\"http://repo.calcit-lang.org/calcit-wasm-play/"
-                =< 16 nil
-                add-link "\"Guidebook" "\"http://repo.calcit-lang.org/guidebook/"
-              div ({}) (add-link "\"GitHub" "\"https://github.com/calcit-lang/calcit/")
         |comp-link $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-link (link)
@@ -117,6 +109,36 @@
                   a $ {} (:href url) (:inner-text title) (:target "\"_blank") (:class-name style-display-link)
                   =< 8 nil
                   <> sub-title $ str-spaced css/font-fancy style-sub-title
+        |comp-promotions $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            defcomp comp-promotions () $ div
+              {} (:class-name css/row-parted)
+                :style $ {} (:flex-wrap :wrap)
+              div
+                {} $ :class-name css/row-middle
+                button $ {} (:inner-text "\"Play snippets")
+                  :class-name $ str-spaced css/button style-promo-button style-main-button
+                  :on-click $ fn (e d!) (js/window.open "\"http://repo.calcit-lang.org/calcit-wasm-play/" "\"_blank")
+                =< 8 nil
+                button $ {} (:inner-text "\"Guidebook")
+                  :class-name $ str-spaced css/button style-promo-button
+                  :on-click $ fn (e d!) (js/window.open "\"http://repo.calcit-lang.org/guidebook/" "\"_blank")
+                =< 8 nil
+                add-link "\"Browse APIs" "\"http://apis.calcit-lang.org"
+              div
+                {} $ :class-name css/row-middle
+                add-link "\"GitHub" "\"https://github.com/calcit-lang/calcit/"
+                add-link "\"Discussions" "\"https://github.com/calcit-lang/calcit/discussions"
+        |comp-snippet-demo $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            defcomp comp-snippet-demo () $ div ({})
+              pre $ {} (:class-name style-snippet)
+                :innerHTML $ cirru-color/generateHtml "\"defcomp comp-link (link)\n  tag-match link $ \n    :link title sub-title url\n    div ({})\n      a $ {} (:href url)\n        :inner-text title\n        :target \"\\\"_blank\"\n        :class-name style-display-link\n      =< 8 nil\n      <> sub-title $ str-spaced css/font-fancy style-sub-title\n"
+        |comp-visual $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            defcomp comp-visual () $ div ({})
+              div ({}) (<> "\"Visual of Calcit Editor:")
+              img $ {} (:class-name style-editor-img) (:src "\"https://cos-sh.tiye.me/cos-up/00c992c3061ed59d8c7d533b7a31433b-calcit-editor.png")
         |inline-content! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defmacro inline-content! (path) (read-file path)
@@ -140,6 +162,10 @@
           :code $ quote
             defstyle style-display-link $ {}
               "\"&" $ {} (:text-decoration :none)
+        |style-editor-img $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            defstyle style-editor-img $ {}
+              "\"&" $ {} (:max-width "\"100%")
         |style-feature $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-feature $ {}
@@ -160,17 +186,36 @@
           :code $ quote
             defstyle style-feature-title $ {}
               "\"&" $ {} (:font-size 16) (:font-weight 900)
-        |style-header $ %{} :CodeEntry (:doc |)
+        |style-main-button $ %{} :CodeEntry (:doc |)
           :code $ quote
-            defstyle style-header $ {}
-              "\"&" $ {} (:position :fixed) (:top 0) (:width "\"100%")
-                :background-color $ hsl 0 0 100 0.97
-                :border-bottom "\"1px solid #eee"
-                :box-shadow $ str "\"0 0 3px " (hsl 0 0 0 0.3)
-                :padding "\"0 20px"
-                :font-family ui/font-fancy
-                :height 60
-                :font-size 16
+            defstyle style-main-button $ {}
+              "\"button&" $ {} (:color :white)
+                :background-color $ hsl 240 90 80
+              "\"button&:hover" $ {} (:color :white)
+                :background-color $ hsl 220 80 74
+              "\"button&:active" $ {} (:color :white)
+                :background-color $ hsl 220 80 70
+        |style-main-title $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            defstyle style-main-title $ {}
+              "\"&" $ {} (:font-size "\"26px") (:line-height "\"32px") (:font-weight :bold) (:font-family "\"Federo, cursive")
+        |style-promo-button $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            defstyle style-promo-button $ {}
+              "\"&" $ {} (:line-height "\"36px") (:border-radius "\"40px") (:padding "\"0 20px") (; :font-family "\"Federo, cursive")
+        |style-secondary-title $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            defstyle style-secondary-title $ {}
+              "\"&" $ {} (:font-size 16) (:line-height "\"24px")
+        |style-snippet $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            defstyle style-snippet $ {}
+              "\"&" $ {} (:padding "\"8px 12px") (:border-radius "\"8px")
+                :background-color $ hsl 0 0 100
+                :border $ str "\"1px solid " (hsl 0 0 90)
+                :line-height "\"24px"
+                :max-width "\"calc(100vw - 64px)"
+                :overflow :auto
         |style-sub-title $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-sub-title $ {}
@@ -180,7 +225,7 @@
         :code $ quote
           ns app.comp.container $ :require (respo-ui.core :as ui)
             respo.util.format :refer $ hsl
-            respo.core :refer $ defcomp defeffect <> >> div button textarea span input a body img list-> h2
+            respo.core :refer $ defcomp defeffect <> >> div button textarea span input a body img list-> h2 pre
             respo.comp.space :refer $ =<
             reel.comp.reel :refer $ comp-reel
             respo-md.comp.md :refer $ comp-md comp-md-block
