@@ -1,4 +1,3 @@
-
 Calcit is an interpreter built with Rust, and also a JavaScript code emitter. It's inspired mostly by ClojureScript. Calcit-js emits JavaScript in ES Modules syntax.
 
 ## Install & Try
@@ -44,23 +43,23 @@ It's hot-swapping friendly when you use [calcit-editor](https://github.com/calci
 
 ## Features
 
-* Immutable Data
+- Immutable Data
 
 Values and states are represented in different data structures, which is the semantics from functional programming. Internally it's [rpds](https://docs.rs/rpds/) in Rust and a custom [2-3 tree](https://github.com/calcit-lang/ternary-tree.ts) in JavaScript.
 
-* Lisp(Code is Data)
+- Lisp(Code is Data)
 
 Calcit-js was designed based on experiences from ClojureScript, with a bunch of builtin macros. It offers similar experiences to ClojureScript. So Calcit offers much power via macros, while keeping its core simple.
 
-* Indentations-based Syntax
+- Indentations-based Syntax
 
 With `bundle_calcit` command, Calcit code can be written as an indentation-based language. So you don't have to match parentheses like in Clojure. It also means now you need to handle indentations very carefully.
 
-* Hot code swapping
+- Hot code swapping
 
 Calcit was built with hot swapping in mind. Combined with [calcit-editor](https://github.com/calcit-lang/editor), it watches code changes by default, and re-runs program on updates. For calcit-js, it works with Vite and Webpack to reload, learning from Elm, ClojureScript and React.
 
-* ES Modules Syntax
+- ES Modules Syntax
 
 To leverage the power of modern browsers with help of Vite, we need another ClojureScript that emits `import`/`export` for Vite. Calcit-js does this! And this page is built with Calcit-js as well, open Console to find out more.
 
@@ -118,14 +117,14 @@ Example of a `compact.cirru` file generated from calcit-editor:
   :configs $ {} (:init-fn |app.main/main!) (:reload-fn |app.main/reload!)
     :modules $ []
   :files $ {}
-    |app.main $ {}
-      :ns $ quote
-        ns app.main $ :require
+    |app.main $ %{} :FileEntry
       :defs $ {}
         |main! $ quote
           defn main! () (+ 1 2)
         |reload! $ quote
           defn reload! ()
+      :ns $ quote
+        ns app.main $ :require
 ```
 
 If you want to write in a text editor, check out `bundle_calcit` command in project. 也可以查看相关中文[介绍视频](https://www.bilibili.com/video/BV1ry4y1W7VW?from=search&seid=17614445788882056969).
