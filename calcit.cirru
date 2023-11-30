@@ -2433,6 +2433,13 @@
                             :data $ {}
                               |T $ %{} :Leaf (:at 1695567764680) (:by |rJG4IHzWf) (:text |::)
                               |b $ %{} :Leaf (:at 1695567766284) (:by |rJG4IHzWf) (:text |:link)
+                              |h $ %{} :Leaf (:at 1701366852210) (:by |rJG4IHzWf) (:text "|\"Calcit 相比 Clojure 一些有意思的元编程能力 #226")
+                              |l $ %{} :Leaf (:at 1695567773711) (:by |rJG4IHzWf) (:text |nil)
+                              |o $ %{} :Leaf (:at 1701366858906) (:by |rJG4IHzWf) (:text "|\"https://github.com/calcit-lang/calcit/discussions/226")
+                          |Z $ %{} :Expr (:at 1695567764091) (:by |rJG4IHzWf)
+                            :data $ {}
+                              |T $ %{} :Leaf (:at 1695567764680) (:by |rJG4IHzWf) (:text |::)
+                              |b $ %{} :Leaf (:at 1695567766284) (:by |rJG4IHzWf) (:text |:link)
                               |h $ %{} :Leaf (:at 1695567768381) (:by |rJG4IHzWf) (:text "|\"design decision: rename \"keyword\" to \"tag\" #209")
                               |l $ %{} :Leaf (:at 1695567773711) (:by |rJG4IHzWf) (:text |nil)
                               |o $ %{} :Leaf (:at 1695567774547) (:by |rJG4IHzWf) (:text "|\"https://github.com/calcit-lang/calcit/discussions/209")
