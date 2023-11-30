@@ -12,7 +12,7 @@
               a $ {} (:inner-text title) (:class-name css/link) (:href url) (:target "\"_blank")
         |comp-bg $ %{} :CodeEntry (:doc |)
           :code $ quote
-            defcomp comp-bg () (println "\"@@@@@@@@@@@@@@@@\n@\n@  Well, code is not minified on purpose~\n@\n@   although it's still bundled with Vite.\n@\n@@@@@@@@@@@@@@@@")
+            defcomp comp-bg ()
               ; img $ {} (:src "\"http://cdn.tiye.me/logo/calcit.png")
                 :style $ {} (:width "\"60vw") (:z-index -10) (:min-width "\"480px") (:position :fixed) (:opacity 0.12) (:right 0) (:top "\"10vh")
               div $ {}
@@ -55,7 +55,8 @@
                               <> "\"an interpreter for calcit snapshot, and hot code swapping friendly."
                         =< nil 8
                         =< nil 24
-                        comp-snippet-demo
+                        comp-snippet-demo $ >> states :snippets
+                        =< nil 8
                         comp-promotions
                       list->
                         {} $ :class-name style-cards-containers
@@ -120,23 +121,38 @@
                 :style $ {} (:flex-wrap :wrap)
               div
                 {} $ :class-name css/row-middle
-                button $ {} (:inner-text "\"Play snippets")
-                  :class-name $ str-spaced css/button style-promo-button style-main-button
-                  :on-click $ fn (e d!) (js/window.open "\"http://repo.calcit-lang.org/calcit-wasm-play/" "\"_blank")
-                =< 8 nil
+                add-link "\"GitHub" "\"https://github.com/calcit-lang/calcit/"
+              div
+                {} (:class-name css/row-middle)
+                  :style $ {} (:gap "\"8px")
+                add-link "\"Browse APIs" "\"http://apis.calcit-lang.org"
                 button $ {} (:inner-text "\"Guidebook")
                   :class-name $ str-spaced css/button style-promo-button
                   :on-click $ fn (e d!) (js/window.open "\"http://repo.calcit-lang.org/guidebook/" "\"_blank")
-                =< 8 nil
-                add-link "\"Browse APIs" "\"http://apis.calcit-lang.org"
-              div
-                {} $ :class-name css/row-middle
-                add-link "\"GitHub" "\"https://github.com/calcit-lang/calcit/"
+                button $ {} (:inner-text "\"Play snippets")
+                  :class-name $ str-spaced css/button style-promo-button style-main-button
+                  :on-click $ fn (e d!) (js/window.open "\"http://repo.calcit-lang.org/calcit-wasm-play/" "\"_blank")
         |comp-snippet-demo $ %{} :CodeEntry (:doc |)
           :code $ quote
-            defcomp comp-snippet-demo () $ div ({})
-              pre $ {} (:class-name style-snippet)
-                :innerHTML $ cirru-color/generateHtml "\"defcomp comp-link (link)\n  tag-match link $ \n    :link title sub-title url\n    div ({})\n      a $ {} (:href url)\n        :inner-text title\n        :target \"\\\"_blank\"\n        :class-name style-display-link\n      =< 8 nil\n      <> sub-title $ str-spaced css/font-fancy style-sub-title\n"
+            defcomp comp-snippet-demo (states)
+              let
+                  cursor $ :cursor states
+                  state $ either (:data states) :tag-match
+                div
+                  {} (:class-name css/row)
+                    :style $ {} (:flex-wrap :wrap)
+                  comp-tabs
+                    {} (:selected state) (:vertical? true)
+                      :style $ {} (:margin-top 20) (:padding "\"0 8px") (:min-width 160)
+                    [] (&{} :name :tag-match :title "|Pattern matching") (&{} :name :component :title |Component) (&{} :name :persistent-data :title "|Persistent data") (&{} :name :pipeline :title "|Pipeline macro")
+                    fn (info d!)
+                      d! cursor $ :name info
+                  pre $ {}
+                    :class-name $ str-spaced css/expand style-snippet
+                    :style $ {} (:min-width 300)
+                    :innerHTML $ cirru-color/generateHtml
+                      trim $ pick-demo state
+                      , "\"defcomp comp-link (link)\n  tag-match link $ \n    :link title sub-title url\n    div ({})\n      a $ {} (:href url)\n        :inner-text title\n        :target \"\\\"_blank\"\n        :class-name style-display-link\n      =< 8 nil\n      <> sub-title $ str-spaced css/font-fancy style-sub-title\n"
         |comp-visual $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-visual () $ div ({})
@@ -145,9 +161,25 @@
                 {} $ :style
                   {} $ :display :flex
                 img $ {} (:class-name style-editor-img) (:src "\"https://cos-sh.tiye.me/cos-up/00c992c3061ed59d8c7d533b7a31433b-calcit-editor.png")
+        |demo-component $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            def demo-component $ inline-content! "\"content/demo/comp.cirru"
+        |demo-persistent-data $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            def demo-persistent-data $ inline-content! "\"content/demo/persistent-data.cirru"
+        |demo-pipeline $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            def demo-pipeline $ inline-content! "\"content/demo/pipeline.cirru"
+        |demo-tag-match $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            def demo-tag-match $ inline-content! "\"content/demo/tag-match.cirru"
         |inline-content! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defmacro inline-content! (path) (read-file path)
+        |pick-demo $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            defn pick-demo (k)
+              case-default k demo-tag-match (:tag-match demo-tag-match) (:pipeline demo-pipeline) (:component demo-component) (:persistent-data demo-persistent-data)
         |style-bg $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-bg $ {}
@@ -220,7 +252,6 @@
                 :background-color $ hsl 0 0 100
                 :border $ str "\"1px solid " (hsl 0 0 90)
                 :line-height "\"24px"
-                :max-width "\"calc(100vw - 64px)"
                 :overflow :auto
         |style-sub-title $ %{} :CodeEntry (:doc |)
           :code $ quote
@@ -240,6 +271,7 @@
             respo.css :refer $ defstyle
             respo-ui.css :as css
             app.schema :refer $ doc-features doc-columns
+            respo-ui.comp :refer $ comp-tabs
     |app.config $ %{} :FileEntry
       :defs $ {}
         |cdn? $ %{} :CodeEntry (:doc |)
@@ -282,9 +314,10 @@
                 when (some? raw)
                   dispatch! :hydrate-storage $ extract-cirru-edn (js/JSON.parse raw)
               println "|App started."
+              println "\"@@@@@@@@@@@@@@@@\n@\n@  Well, code is not minified on purpose~\n@\n@   although it's still bundled with Vite.\n@\n@@@@@@@@@@@@@@@@"
         |mount-target $ %{} :CodeEntry (:doc |)
           :code $ quote
-            def mount-target $ .querySelector js/document |.app
+            def mount-target $ js/document.querySelector |.app
         |persist-storage! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn persist-storage! () $ .setItem js/localStorage (:storage-key config/site)
