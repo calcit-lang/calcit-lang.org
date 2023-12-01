@@ -12,7 +12,7 @@
               a $ {} (:inner-text title) (:class-name css/link) (:href url) (:target "\"_blank")
         |comp-bg $ %{} :CodeEntry (:doc |)
           :code $ quote
-            defcomp comp-bg () (println "\"@@@@@@@@@@@@@@@@\n@\n@  Well, code is not minified on purpose~\n@\n@   although it's still bundled with Vite.\n@\n@@@@@@@@@@@@@@@@")
+            defcomp comp-bg ()
               ; img $ {} (:src "\"http://cdn.tiye.me/logo/calcit.png")
                 :style $ {} (:width "\"60vw") (:z-index -10) (:min-width "\"480px") (:position :fixed) (:opacity 0.12) (:right 0) (:top "\"10vh")
               div $ {}
@@ -55,7 +55,8 @@
                               <> "\"an interpreter for calcit snapshot, and hot code swapping friendly."
                         =< nil 8
                         =< nil 24
-                        comp-snippet-demo
+                        comp-snippet-demo $ >> states :snippets
+                        =< nil 8
                         comp-promotions
                       list->
                         {} $ :class-name style-cards-containers
@@ -120,23 +121,38 @@
                 :style $ {} (:flex-wrap :wrap)
               div
                 {} $ :class-name css/row-middle
-                button $ {} (:inner-text "\"Play snippets")
-                  :class-name $ str-spaced css/button style-promo-button style-main-button
-                  :on-click $ fn (e d!) (js/window.open "\"http://repo.calcit-lang.org/calcit-wasm-play/" "\"_blank")
-                =< 8 nil
+                add-link "\"GitHub" "\"https://github.com/calcit-lang/calcit/"
+              div
+                {} (:class-name css/row-middle)
+                  :style $ {} (:gap "\"8px")
+                add-link "\"Browse APIs" "\"http://apis.calcit-lang.org"
                 button $ {} (:inner-text "\"Guidebook")
                   :class-name $ str-spaced css/button style-promo-button
                   :on-click $ fn (e d!) (js/window.open "\"http://repo.calcit-lang.org/guidebook/" "\"_blank")
-                =< 8 nil
-                add-link "\"Browse APIs" "\"http://apis.calcit-lang.org"
-              div
-                {} $ :class-name css/row-middle
-                add-link "\"GitHub" "\"https://github.com/calcit-lang/calcit/"
+                button $ {} (:inner-text "\"Play snippets")
+                  :class-name $ str-spaced css/button style-promo-button style-main-button
+                  :on-click $ fn (e d!) (js/window.open "\"http://repo.calcit-lang.org/calcit-wasm-play/" "\"_blank")
         |comp-snippet-demo $ %{} :CodeEntry (:doc |)
           :code $ quote
-            defcomp comp-snippet-demo () $ div ({})
-              pre $ {} (:class-name style-snippet)
-                :innerHTML $ cirru-color/generateHtml "\"defcomp comp-link (link)\n  tag-match link $ \n    :link title sub-title url\n    div ({})\n      a $ {} (:href url)\n        :inner-text title\n        :target \"\\\"_blank\"\n        :class-name style-display-link\n      =< 8 nil\n      <> sub-title $ str-spaced css/font-fancy style-sub-title\n"
+            defcomp comp-snippet-demo (states)
+              let
+                  cursor $ :cursor states
+                  state $ either (:data states) :tag-match
+                div
+                  {} (:class-name css/row)
+                    :style $ {} (:flex-wrap :wrap)
+                  comp-tabs
+                    {} (:selected state) (:vertical? true)
+                      :style $ {} (:margin-top 20) (:padding "\"0 8px") (:min-width 160)
+                    [] (&{} :name :tag-match :title "|Pattern matching") (&{} :name :component :title |Component) (&{} :name :persistent-data :title "|Persistent data") (&{} :name :pipeline :title "|Pipeline macro")
+                    fn (info d!)
+                      d! cursor $ :name info
+                  pre $ {}
+                    :class-name $ str-spaced css/expand style-snippet
+                    :style $ {} (:min-width 300)
+                    :innerHTML $ cirru-color/generateHtml
+                      trim $ pick-demo state
+                      , "\"defcomp comp-link (link)\n  tag-match link $ \n    :link title sub-title url\n    div ({})\n      a $ {} (:href url)\n        :inner-text title\n        :target \"\\\"_blank\"\n        :class-name style-display-link\n      =< 8 nil\n      <> sub-title $ str-spaced css/font-fancy style-sub-title\n"
         |comp-visual $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-visual () $ div ({})
@@ -145,9 +161,25 @@
                 {} $ :style
                   {} $ :display :flex
                 img $ {} (:class-name style-editor-img) (:src "\"https://cos-sh.tiye.me/cos-up/00c992c3061ed59d8c7d533b7a31433b-calcit-editor.png")
+        |demo-component $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            def demo-component $ inline-content! "\"content/demo/comp.cirru"
+        |demo-persistent-data $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            def demo-persistent-data $ inline-content! "\"content/demo/persistent-data.cirru"
+        |demo-pipeline $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            def demo-pipeline $ inline-content! "\"content/demo/pipeline.cirru"
+        |demo-tag-match $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            def demo-tag-match $ inline-content! "\"content/demo/tag-match.cirru"
         |inline-content! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defmacro inline-content! (path) (read-file path)
+        |pick-demo $ %{} :CodeEntry (:doc |)
+          :code $ quote
+            defn pick-demo (k)
+              case-default k demo-tag-match (:tag-match demo-tag-match) (:pipeline demo-pipeline) (:component demo-component) (:persistent-data demo-persistent-data)
         |style-bg $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-bg $ {}
@@ -220,7 +252,6 @@
                 :background-color $ hsl 0 0 100
                 :border $ str "\"1px solid " (hsl 0 0 90)
                 :line-height "\"24px"
-                :max-width "\"calc(100vw - 64px)"
                 :overflow :auto
         |style-sub-title $ %{} :CodeEntry (:doc |)
           :code $ quote
@@ -240,6 +271,7 @@
             respo.css :refer $ defstyle
             respo-ui.css :as css
             app.schema :refer $ doc-features doc-columns
+            respo-ui.comp :refer $ comp-tabs
     |app.config $ %{} :FileEntry
       :defs $ {}
         |cdn? $ %{} :CodeEntry (:doc |)
@@ -282,9 +314,10 @@
                 when (some? raw)
                   dispatch! :hydrate-storage $ extract-cirru-edn (js/JSON.parse raw)
               println "|App started."
+              println "\"@@@@@@@@@@@@@@@@\n@\n@  Well, code is not minified on purpose~\n@\n@   although it's still bundled with Vite.\n@\n@@@@@@@@@@@@@@@@"
         |mount-target $ %{} :CodeEntry (:doc |)
           :code $ quote
-            def mount-target $ .querySelector js/document |.app
+            def mount-target $ js/document.querySelector |.app
         |persist-storage! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn persist-storage! () $ .setItem js/localStorage (:storage-key config/site)
@@ -332,7 +365,7 @@
               :: :column "\"Frameworks" $ [] (:: :link |Respo "|virtual DOM library" |https://github.com/Respo/respo.calcit) (:: :link |Phlox "|virtual DOM like wrapper on top of PIXI" |https://github.com/Quamolit/phlox.calcit) (:: :link "\"Lagopus" "\"thin WebGPU abstraction" "\"https://github.com/Triadica/lagopus") (:: :link |Quamolit "|what if we make animations in React's way?" |https://github.com/Quamolit/quamolit.calcit) (:: :link |Quaterfoil "|thin virtual DOM wrapper over three.js" |https://github.com/Quamolit/quatrefoil.calcit) (:: :link |Cumulo "|template for tiny realtime apps" |https://github.com/Cumulo/cumulo-workflow.calcit)
               :: :column "\"Tools" $ [] (:: :link "|Calcit IR viewer" nil |https://github.com/calcit-lang/calcit-ir-viewer) (:: :link "|Calcit Error viewer" nil |https://github.com/calcit-lang/calcit-error-viewer) (:: :link "\"Calcit binding for clipboard" nil "\"https://github.com/calcit-lang/calcit-clipboard") (:: :link "\"Calcit JSON" "\"JSON binding" "\"https://github.com/calcit-lang/calcit-json")
               :: :column "\"Videos" $ [] (:: :link "\"Calcit 开发记录: list-match 语法" nil "\"https://www.bilibili.com/video/BV1Su4y1X7kg/") (:: :link "\"Calcit 0.7 变更记录, Tag, Tuple 和多态" nil "\"https://www.bilibili.com/video/BV11L411v7Vk/") (:: :link "\"Calcit 更新: caps 命令下载依赖" nil "\"https://www.bilibili.com/video/BV11A41127UW/") (:: :link "\"Calcit 开发记录: bundle_calcit 增加热替换支持" nil "\"https://www.bilibili.com/video/BV1WU4y1S7KK/") (:: :link "|Calcit-js 开发的阶段介绍 2021-11" nil |https://www.bilibili.com/video/BV1Yg411K73P) (:: :link "|calcit-js 开发记录(21-01-22) 关于 ternary-tree.ts 重构" nil |https://www.bilibili.com/video/BV1Ht4y167Fg) (:: :link "|calcit-js 阶段介绍(2021-01)" nil |https://www.bilibili.com/video/BV1H5411n7su) (:: :link "|calcit-runner 阶段记录介绍(2021-01)" nil |https://www.bilibili.com/video/BV1cK4y1W7dZ)
-              :: :column "\"Articles" $ [] (:: :link "\"design decision: rename \"keyword\" to \"tag\" #209" nil "\"https://github.com/calcit-lang/calcit/discussions/209") (:: :link "|Calcit 脚本语言一些基础介绍" nil |https://zhuanlan.zhihu.com/p/394791973) (:: :link "|Introducing calcit-js: toy language inspired by cljs" nil |https://clojureverse.org/t/introducing-calcit-js-toy-language-inspired-by-cljs/7097) (:: :link "|An indentation way to Lisp" nil |https://github.com/calcit-lang/calcit-runner/discussions/123) (:: :link "|Problems encountered in generating js" nil |https://github.com/calcit-lang/calcit-runner.nim/discussions/148) (:: :link "|calcit-js 的 JavaScript 代码生成与疑难" nil |https://github.com/calcit-lang/calcit-runner.nim/discussions/184) (:: :link "|ternary-tree.ts: 关于初期的性能优化(on early optimizations)" nil |https://github.com/calcit-lang/ternary-tree.ts/discussions/7) (:: :link "|A trick for cheaper persistent list in JavaScript" nil |https://clojureverse.org/t/a-trick-for-cheaper-persistent-list-in-javascript/7172)
+              :: :column "\"Articles" $ [] (:: :link "\"Calcit 相比 Clojure 一些有意思的元编程能力 #226" nil "\"https://github.com/calcit-lang/calcit/discussions/226") (:: :link "\"design decision: rename \"keyword\" to \"tag\" #209" nil "\"https://github.com/calcit-lang/calcit/discussions/209") (:: :link "|Calcit 脚本语言一些基础介绍" nil |https://zhuanlan.zhihu.com/p/394791973) (:: :link "|Introducing calcit-js: toy language inspired by cljs" nil |https://clojureverse.org/t/introducing-calcit-js-toy-language-inspired-by-cljs/7097) (:: :link "|An indentation way to Lisp" nil |https://github.com/calcit-lang/calcit-runner/discussions/123) (:: :link "|Problems encountered in generating js" nil |https://github.com/calcit-lang/calcit-runner.nim/discussions/148) (:: :link "|calcit-js 的 JavaScript 代码生成与疑难" nil |https://github.com/calcit-lang/calcit-runner.nim/discussions/184) (:: :link "|ternary-tree.ts: 关于初期的性能优化(on early optimizations)" nil |https://github.com/calcit-lang/ternary-tree.ts/discussions/7) (:: :link "|A trick for cheaper persistent list in JavaScript" nil |https://clojureverse.org/t/a-trick-for-cheaper-persistent-list-in-javascript/7172)
         |doc-features $ %{} :CodeEntry (:doc |)
           :code $ quote
             def doc-features $ [] (:: :feature "\"Immutable" "\"Values and states are represented in different data structures, which is the semantics from functional programming. Internally it's [rpds](https://docs.rs/rpds/) in Rust and a custom [2-3 tree](https://github.com/calcit-lang/ternary-tree.ts) in JavaScript.") (:: :feature "\"Lisp(Code is Data)" "\"Calcit-js was designed based on experiences from ClojureScript, with a bunch of builtin macros. It offers similar experiences to ClojureScript. So Calcit offers much power via macros, while keeping its core simple.") (:: :feature "\"Indentations-based Syntax" "\"With `bundle_calcit` command, Calcit code can be written as an indentation-based language. So you don't have to match parentheses like in Clojure. It also means now you need to handle indentations very carefully.") (:: :feature "\"Hot code swapping" "\"Calcit was built with hot swapping in mind. Combined with [calcit-editor](https://github.com/calcit-lang/editor), it watches code changes by default, and re-runs program on updates. For calcit-js, it works with Vite and Webpack to reload, learning from Elm, ClojureScript and React.") (:: :feature "\"ES Modules Syntax" "\"To leverage the power of modern browsers with help of Vite, we need another ClojureScript that emits `import`/`export` for Vite. Calcit-js does this! And this page is built with Calcit-js as well, open Console to find out more.")
