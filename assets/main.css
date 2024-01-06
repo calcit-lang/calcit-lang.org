@@ -6,70 +6,13 @@
   src: url('./Federo-Regular.ttf');
 }
 
-
 .tile {
   background-image: url('./calcit-tile.png');
   background-size: 163px 395px;
-}
-
-body {
-  margin: 0;
-  overscroll-behavior-y: none;
-}
-
-body * {
-  flex-shrink: 0;
-  box-sizing: border-box;
-}
-
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: hsla(0,0%,100%);
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: hsla(200,100%,76%,0.8);
-}
-
-::-webkit-scrollbar-corner {
-  background-color: transparent;
-}
-
-::-webkit-resizer {
-  background-color: transparent;
 }
 
 .md-block .md-p {
   font-size: 16px;
   margin: 24px 0px;
   line-height: 25px;
-}
-
-.md-block pre.md-code-block {
-  background-color: hsla(0, 0%, 98%, 0.6);
-  border: 1px solid hsla(0, 0%, 90%, 0.9);
-  overflow: auto;
-  padding: 8px 8px;
-  line-height: 21px;
-  border-radius: 4px;
-  font-size: 13px;
-
-  font-family: Menlo, Roboto Mono, Ubuntu Mono, Consolas, monospace;
-}
-
-.md-block .md-p code {
-  background-color: hsla(0, 0%, 98%, 0.8);
-  border: 1px solid hsla(0, 0%, 90%, 0.9);
-  font-size: 14px;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 13px;
-  white-space: pre;
-}
-.md-block .md-p a {
- white-space: pre;
 }

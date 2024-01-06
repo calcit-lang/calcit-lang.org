@@ -27,7 +27,7 @@
                   state $ either (:data states)
                     {} $ :content "\""
                 div
-                  {} $ :class-name css/global
+                  {} $ :class-name (str-spaced css/preset css/global)
                   comp-bg
                   div
                     {} $ :class-name style-content
