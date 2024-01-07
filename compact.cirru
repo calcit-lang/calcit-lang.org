@@ -27,7 +27,7 @@
                   state $ either (:data states)
                     {} $ :content "\""
                 div
-                  {} $ :class-name css/global
+                  {} $ :class-name (str-spaced css/preset css/global)
                   comp-bg
                   div
                     {} $ :class-name style-content
@@ -147,12 +147,10 @@
                     [] (&{} :name :tag-match :title "|Pattern matching") (&{} :name :component :title |Component) (&{} :name :persistent-data :title "|Persistent data") (&{} :name :pipeline :title "|Pipeline macro")
                     fn (info d!)
                       d! cursor $ :name info
-                  pre $ {}
-                    :class-name $ str-spaced css/expand style-snippet
-                    :style $ {} (:min-width 300)
-                    :innerHTML $ cirru-color/generateHtml
-                      trim $ pick-demo state
-                      , "\"defcomp comp-link (link)\n  tag-match link $ \n    :link title sub-title url\n    div ({})\n      a $ {} (:href url)\n        :inner-text title\n        :target \"\\\"_blank\"\n        :class-name style-display-link\n      =< 8 nil\n      <> sub-title $ str-spaced css/font-fancy style-sub-title\n"
+                  comp-cirru-snippet
+                    trim $ pick-demo state
+                    {} $ :style
+                      {} (:flex 1) (:margin "\"12px 0px")
         |comp-visual $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-visual () $ div ({})
@@ -245,14 +243,6 @@
           :code $ quote
             defstyle style-secondary-title $ {}
               "\"&" $ {} (:font-size 16) (:line-height "\"24px")
-        |style-snippet $ %{} :CodeEntry (:doc |)
-          :code $ quote
-            defstyle style-snippet $ {}
-              "\"&" $ {} (:padding "\"8px 12px") (:border-radius "\"8px")
-                :background-color $ hsl 0 0 100
-                :border $ str "\"1px solid " (hsl 0 0 90)
-                :line-height "\"24px"
-                :overflow :auto
         |style-sub-title $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-sub-title $ {}
@@ -271,7 +261,7 @@
             respo.css :refer $ defstyle
             respo-ui.css :as css
             app.schema :refer $ doc-features doc-columns
-            respo-ui.comp :refer $ comp-tabs
+            respo-ui.comp :refer $ comp-tabs comp-cirru-snippet
     |app.config $ %{} :FileEntry
       :defs $ {}
         |cdn? $ %{} :CodeEntry (:doc |)
