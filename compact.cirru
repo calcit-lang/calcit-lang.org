@@ -122,6 +122,8 @@
               div
                 {} $ :class-name css/row-middle
                 add-link "\"GitHub" "\"https://github.com/calcit-lang/calcit/"
+                =< 8 nil
+                img $ {} (:alt "\"Versions") (:src "\"https://img.shields.io/github/v/release/calcit-lang/calcit")
               div
                 {} (:class-name css/row-middle)
                   :style $ {} (:gap "\"8px")
