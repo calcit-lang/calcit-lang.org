@@ -2706,7 +2706,7 @@
     (:: :reference |respo-ui.css |row-parted)
       #{} (:: :def |app.comp.container |comp-container) (:: :def |app.comp.container |comp-promotions)
     (:: :reference |respo.comp.space |=<)
-      #{} (:: :def |app.comp.container |comp-container) (:: :def |app.comp.container |comp-link)
+      #{} (:: :def |app.comp.container |comp-container) (:: :def |app.comp.container |comp-link) (:: :def |app.comp.container |comp-promotions)
     (:: :reference |respo.core |<>)
       #{} (:: :def |app.comp.container |comp-container) (:: :def |app.comp.container |comp-link) (:: :def |app.comp.container |comp-visual)
     (:: :reference |respo.core |>>)
