@@ -17,6 +17,7 @@ Libraries:
 | calcit-lang/bisection-key | ![](https://img.shields.io/github/v/release/calcit-lang/bisection-key) |
 | calcit-lang/memof         | ![](https://img.shields.io/github/v/release/calcit-lang/memof)         |
 | calcit-lang/recollect     | ![](https://img.shields.io/github/v/release/calcit-lang/recollect)     |
+| calcit-lang/calcit-test   | ![](https://img.shields.io/github/v/release/calcit-lang/calcit-test)   |
 | calcit-lang/quaternion    | ![](https://img.shields.io/github/v/release/calcit-lang/quaternion)    |
 | calcit-lang/stir-template | ![](https://img.shields.io/github/v/release/calcit-lang/stir-template) |
 | Cirru/respo-cirru-editor  | ![](https://img.shields.io/github/v/release/Cirru/respo-cirru-editor)  |
@@ -29,7 +30,6 @@ Bindings(some are toys):
 | calcit-lang/calcit-regex     | ![](https://img.shields.io/github/v/release/calcit-lang/calcit-regex)     |
 | calcit-lang/calcit-json      | ![](https://img.shields.io/github/v/release/calcit-lang/calcit-json)      |
 | calcit-lang/calcit-fetch     | ![](https://img.shields.io/github/v/release/calcit-lang/calcit-fetch)     |
-| calcit-lang/calcit-test      | ![](https://img.shields.io/github/v/release/calcit-lang/calcit-test)      |
 | calcit-lang/calcit-wss       | ![](https://img.shields.io/github/v/release/calcit-lang/calcit-wss)       |
 | calcit-lang/calcit-http      | ![](https://img.shields.io/github/v/release/calcit-lang/calcit-http)      |
 | calcit-lang/calcit-clipboard | ![](https://img.shields.io/github/v/release/calcit-lang/calcit-clipboard) |
