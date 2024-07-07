@@ -10,12 +10,12 @@ cargo install calcit
 
 Command line called `cr` is avaliable, which stands for "Calcit Runner". Eval snippets via:
 
-```
-cr -e 'println "|a demo"'
+```bash
+cr eval 'println "|a demo"'
 ```
 
-```
-cr -e '
+```bash
+cr eval '
 ->
   range 100
   map $ fn (x)
@@ -25,8 +25,8 @@ cr -e '
 '
 ```
 
-```
-cr -e '
+```bash
+cr eval '
 println $ {}
   :a 100
   :b $ {}
