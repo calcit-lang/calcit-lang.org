@@ -1007,8 +1007,9 @@
                                   |b $ %{} :Leaf (:at 1701365476222) (:by |rJG4IHzWf) (:text |cursor)
                                   |h $ %{} :Expr (:at 1701365476222) (:by |rJG4IHzWf)
                                     :data $ {}
-                                      |T $ %{} :Leaf (:at 1701365476222) (:by |rJG4IHzWf) (:text |:name)
+                                      |T $ %{} :Leaf (:at 1741106822313) (:by |rJG4IHzWf) (:text |nth)
                                       |b $ %{} :Leaf (:at 1701365476222) (:by |rJG4IHzWf) (:text |info)
+                                      |h $ %{} :Leaf (:at 1741106823286) (:by |rJG4IHzWf) (:text |1)
                       |t $ %{} :Expr (:at 1704533794047) (:by |rJG4IHzWf)
                         :data $ {}
                           |T $ %{} :Leaf (:at 1704533794353) (:by |rJG4IHzWf) (:text |comp-cirru-snippet)

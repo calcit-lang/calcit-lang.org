@@ -148,7 +148,7 @@
                       :style $ {} (:margin-top 20) (:padding "\"0 8px") (:min-width 160)
                     [] (&{} :name :tag-match :title "|Pattern matching") (&{} :name :component :title |Component) (&{} :name :persistent-data :title "|Persistent data") (&{} :name :pipeline :title "|Pipeline macro")
                     fn (info d!)
-                      d! cursor $ :name info
+                      d! cursor $ nth info 1
                   comp-cirru-snippet
                     trim $ pick-demo state
                     {} $ :style
