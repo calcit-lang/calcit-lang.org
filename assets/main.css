@@ -16,3 +16,8 @@
   margin: 24px 0px;
   line-height: 25px;
 }
+
+/* override style */
+div.md-block div[data-comp="comp-snippet"] {
+  margin-top: 16px;
+}

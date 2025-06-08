@@ -2248,6 +2248,13 @@
                               |h $ %{} :Leaf (:at 1695546852396) (:by |rJG4IHzWf) (:text ||Respo)
                               |l $ %{} :Leaf (:at 1695546852396) (:by |rJG4IHzWf) (:text "||virtual DOM library")
                               |o $ %{} :Leaf (:at 1695546852396) (:by |rJG4IHzWf) (:text ||https://github.com/Respo/respo.calcit)
+                          |e $ %{} :Expr (:at 1749399706093) (:by |rJG4IHzWf)
+                            :data $ {}
+                              |T $ %{} :Leaf (:at 1749399706093) (:by |rJG4IHzWf) (:text |::)
+                              |b $ %{} :Leaf (:at 1749399706093) (:by |rJG4IHzWf) (:text |:link)
+                              |h $ %{} :Leaf (:at 1749399706093) (:by |rJG4IHzWf) (:text ||Cumulo)
+                              |l $ %{} :Leaf (:at 1749399706093) (:by |rJG4IHzWf) (:text "||template for tiny realtime apps")
+                              |o $ %{} :Leaf (:at 1749399706093) (:by |rJG4IHzWf) (:text ||https://github.com/Cumulo/calcium-workflow)
                           |h $ %{} :Expr (:at 1695546852396) (:by |rJG4IHzWf)
                             :data $ {}
                               |T $ %{} :Leaf (:at 1695546913911) (:by |rJG4IHzWf) (:text |::)
@@ -2276,13 +2283,6 @@
                               |h $ %{} :Leaf (:at 1695546852396) (:by |rJG4IHzWf) (:text ||Quaterfoil)
                               |l $ %{} :Leaf (:at 1695546852396) (:by |rJG4IHzWf) (:text "||thin virtual DOM wrapper over three.js")
                               |o $ %{} :Leaf (:at 1695546852396) (:by |rJG4IHzWf) (:text ||https://github.com/Quamolit/quatrefoil.calcit)
-                          |q $ %{} :Expr (:at 1695546852396) (:by |rJG4IHzWf)
-                            :data $ {}
-                              |T $ %{} :Leaf (:at 1695546919171) (:by |rJG4IHzWf) (:text |::)
-                              |b $ %{} :Leaf (:at 1695546852396) (:by |rJG4IHzWf) (:text |:link)
-                              |h $ %{} :Leaf (:at 1695546852396) (:by |rJG4IHzWf) (:text ||Cumulo)
-                              |l $ %{} :Leaf (:at 1695546852396) (:by |rJG4IHzWf) (:text "||template for tiny realtime apps")
-                              |q $ %{} :Leaf (:at 1695546852396) (:by |rJG4IHzWf) (:text ||https://github.com/Cumulo/cumulo-workflow.calcit)
                   |l $ %{} :Expr (:at 1695546699463) (:by |rJG4IHzWf)
                     :data $ {}
                       |T $ %{} :Leaf (:at 1695546699906) (:by |rJG4IHzWf) (:text |::)
