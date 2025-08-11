@@ -1,12 +1,12 @@
 {
   "dependencies": {
-    "@calcit/procs": "^0.9.11",
+    "@calcit/procs": "^0.9.18",
     "cirru-color": "^0.2.4",
     "copy-text-to-clipboard": "^3.2.0"
   },
   "devDependencies": {
     "bottom-tip": "^0.1.5",
-    "vite": "^6.3.5"
+    "vite": "^7.1.1"
   },
   "version": "0.0.1"
 }
