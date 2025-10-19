@@ -10,6 +10,7 @@
           :code $ quote
             defn add-link (title url)
               a $ {} (:inner-text title) (:class-name css/link) (:href url) (:target "\"_blank")
+          :examples $ []
         |comp-bg $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-bg ()
@@ -17,6 +18,7 @@
                 :style $ {} (:width "\"60vw") (:z-index -10) (:min-width "\"480px") (:position :fixed) (:opacity 0.12) (:right 0) (:top "\"10vh")
               div $ {}
                 :class-name $ str-spaced "\"tile" style-bg
+          :examples $ []
         |comp-container $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-container (reel)
@@ -104,6 +106,7 @@
                         div ({}) (add-link "\"GitHub calcit-lang" "\"http://github.com/calcit-lang/") (=< 16 nil) (add-link "\"Discussions" "\"https://github.com/calcit-lang/calcit/discussions")
                       =< nil 40
                   when dev? $ comp-reel (>> states :reel) reel ({})
+          :examples $ []
         |comp-link $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-link (link)
@@ -114,6 +117,7 @@
                   if (some? sub-title) (=< 8 nil)
                   if (some? sub-title)
                     <> sub-title $ str-spaced css/font-fancy style-sub-title
+          :examples $ []
         |comp-promotions $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-promotions () $ div
@@ -134,6 +138,7 @@
                 button $ {} (:inner-text "\"Play snippets")
                   :class-name $ str-spaced css/button style-promo-button style-main-button
                   :on-click $ fn (e d!) (js/window.open "\"http://repo.calcit-lang.org/calcit-wasm-play/" "\"_blank")
+          :examples $ []
         |comp-snippet-demo $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-snippet-demo (states)
@@ -153,6 +158,7 @@
                     trim $ pick-demo state
                     {} $ :style
                       {} (:flex 1) (:margin "\"12px 0px")
+          :examples $ []
         |comp-visual $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-visual () $ div ({})
@@ -161,49 +167,62 @@
                 {} $ :style
                   {} $ :display :flex
                 img $ {} (:class-name style-editor-img) (:src "\"https://cos-sh.tiye.me/cos-up/00c992c3061ed59d8c7d533b7a31433b-calcit-editor.png")
+          :examples $ []
         |demo-component $ %{} :CodeEntry (:doc |)
           :code $ quote
             def demo-component $ inline-content! "\"content/demo/comp.cirru"
+          :examples $ []
         |demo-persistent-data $ %{} :CodeEntry (:doc |)
           :code $ quote
             def demo-persistent-data $ inline-content! "\"content/demo/persistent-data.cirru"
+          :examples $ []
         |demo-pipeline $ %{} :CodeEntry (:doc |)
           :code $ quote
             def demo-pipeline $ inline-content! "\"content/demo/pipeline.cirru"
+          :examples $ []
         |demo-tag-match $ %{} :CodeEntry (:doc |)
           :code $ quote
             def demo-tag-match $ inline-content! "\"content/demo/tag-match.cirru"
+          :examples $ []
         |inline-content! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defmacro inline-content! (path) (read-file path)
+          :examples $ []
         |pick-demo $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn pick-demo (k)
               case-default k demo-tag-match (:tag-match demo-tag-match) (:pipeline demo-pipeline) (:component demo-component) (:persistent-data demo-persistent-data)
+          :examples $ []
         |style-bg $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-bg $ {}
               "\"&" $ {} (:width "\"100vw") (:height "\"100vh") (:z-index -10) (:position :fixed) (:opacity 0.5)
+          :examples $ []
         |style-cards-containers $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-cards-containers $ {}
               "\"&" $ {} (:display :grid) (:grid-template-columns "\"repeat(auto-fit, minmax(300px, 1fr))") (:gap "\"12px")
+          :examples $ []
         |style-columns $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-columns $ {}
               "\"&" $ {} (:display :grid) (:grid-template-columns "\"repeat(auto-fit, minmax(300px, 1fr))") (:gap "\"12px")
+          :examples $ []
         |style-content $ %{} :CodeEntry (:doc |)
           :code $ quote
-            defstyle style-content $ &{} "\"&"
-              {} (:margin "\"0 auto") (:max-width 1200) (:padding "\"0 40px")
+            defstyle style-content $ {}
+              "\"&" $ {} (:margin "\"0 auto") (:max-width 1200) (:padding "\"0 40px")
+          :examples $ []
         |style-display-link $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-display-link $ {}
               "\"&" $ {} (:text-decoration :none)
+          :examples $ []
         |style-editor-img $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-editor-img $ {}
               "\"&" $ {} (:max-width "\"min(100%, 720px)") (:margin :auto)
+          :examples $ []
         |style-feature $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-feature $ {}
@@ -213,6 +232,7 @@
                 :transition-duration "\"200ms"
               "\"&:hover" $ {}
                 :box-shadow $ str "\"1px 2px 4px " (hsl 0 0 0 0.2)
+          :examples $ []
         |style-feature-content $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-feature-content $ {}
@@ -220,10 +240,12 @@
                 :color $ hsl 0 0 50
                 ; :font-family ui/font-fancy
                 :font-weight 100
+          :examples $ []
         |style-feature-title $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-feature-title $ {}
               "\"&" $ {} (:font-size 16) (:font-weight 900)
+          :examples $ []
         |style-main-button $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-main-button $ {}
@@ -233,23 +255,28 @@
                 :background-color $ hsl 220 80 74
               "\"button&:active" $ {} (:color :white)
                 :background-color $ hsl 220 80 70
+          :examples $ []
         |style-main-title $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-main-title $ {}
               "\"&" $ {} (:font-size "\"26px") (:line-height "\"32px") (:font-weight :bold) (:font-family "\"Federo, cursive")
+          :examples $ []
         |style-promo-button $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-promo-button $ {}
               "\"&" $ {} (:line-height "\"36px") (:border-radius "\"40px") (:padding "\"0 20px") (; :font-family "\"Federo, cursive")
+          :examples $ []
         |style-secondary-title $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-secondary-title $ {}
               "\"&" $ {} (:font-size 16) (:line-height "\"24px")
+          :examples $ []
         |style-sub-title $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-sub-title $ {}
               "\"&" $ {}
                 :color $ hsl 0 0 50
+          :examples $ []
       :ns $ %{} :CodeEntry (:doc |)
         :code $ quote
           ns app.comp.container $ :require (respo-ui.core :as ui)
@@ -273,11 +300,14 @@
                 , false
               (exists? js/process) (= "\"true" js/process.env.cdn)
               :else false
+          :examples $ []
         |dev? $ %{} :CodeEntry (:doc |)
           :code $ quote (def dev? true)
+          :examples $ []
         |site $ %{} :CodeEntry (:doc |)
           :code $ quote
             def site $ {} (:dev-ui "\"http://localhost:8100/main-fonts.css") (:release-ui "\"http://cdn.tiye.me/favored-fonts/main-fonts.css") (:cdn-url "\"http://cdn.tiye.me/calcit-workflow/") (:title "\"Calcit") (:icon "\"http://cdn.tiye.me/logo/mvc-works.png") (:storage-key "\"workflow")
+          :examples $ []
       :ns $ %{} :CodeEntry (:doc |)
         :code $ quote (ns app.config)
     |app.main $ %{} :FileEntry
@@ -285,6 +315,7 @@
         |*reel $ %{} :CodeEntry (:doc |)
           :code $ quote
             defatom *reel $ -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
+          :examples $ []
         |dispatch! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn dispatch! (op)
@@ -292,6 +323,7 @@
                 and config/dev? $ not= (nth op 0) :states
                 println "\"Dispatch:" op
               reset! *reel $ reel-updater updater @*reel op
+          :examples $ []
         |main! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn main! ()
@@ -307,13 +339,16 @@
                   dispatch! :hydrate-storage $ extract-cirru-edn (js/JSON.parse raw)
               println "|App started."
               println "\"@@@@@@@@@@@@@@@@\n@\n@  Well, code is not minified on purpose~\n@\n@   although it's still bundled with Vite.\n@\n@@@@@@@@@@@@@@@@"
+          :examples $ []
         |mount-target $ %{} :CodeEntry (:doc |)
           :code $ quote
             def mount-target $ js/document.querySelector |.app
+          :examples $ []
         |persist-storage! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn persist-storage! () $ .setItem js/localStorage (:storage-key config/site)
               js/JSON.stringify $ to-cirru-edn (:store @*reel)
+          :examples $ []
         |reload! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn reload! () $ if (nil? build-errors)
@@ -322,9 +357,11 @@
                 reset! *reel $ refresh-reel @*reel schema/store updater
                 hud! "\"ok~" "\"Ok"
               hud! "\"error" build-errors
+          :examples $ []
         |render-app! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn render-app! () $ render! mount-target (comp-container @*reel) dispatch!
+          :examples $ []
         |repeat! $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn repeat! (duration cb)
@@ -332,9 +369,11 @@
                 fn () (cb)
                   repeat! (* 1000 duration) cb
                 * 1000 duration
+          :examples $ []
         |snippets $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn snippets () $ println config/cdn?
+          :examples $ []
       :ns $ %{} :CodeEntry (:doc |)
         :code $ quote
           ns app.main $ :require
@@ -358,14 +397,17 @@
               :: :column "\"Tools" $ [] (:: :link "|Calcit IR viewer" nil |https://github.com/calcit-lang/calcit-ir-viewer) (:: :link "|Calcit Error viewer" nil |https://github.com/calcit-lang/calcit-error-viewer) (:: :link "\"Calcit binding for clipboard" nil "\"https://github.com/calcit-lang/calcit-clipboard") (:: :link "\"Calcit JSON" "\"JSON binding" "\"https://github.com/calcit-lang/calcit-json")
               :: :column "\"Videos" $ [] (:: :link "\"Calcit 开发记录: list-match 语法" nil "\"https://www.bilibili.com/video/BV1Su4y1X7kg/") (:: :link "\"Calcit 0.7 变更记录, Tag, Tuple 和多态" nil "\"https://www.bilibili.com/video/BV11L411v7Vk/") (:: :link "\"Calcit 更新: caps 命令下载依赖" nil "\"https://www.bilibili.com/video/BV11A41127UW/") (:: :link "\"Calcit 开发记录: bundle_calcit 增加热替换支持" nil "\"https://www.bilibili.com/video/BV1WU4y1S7KK/") (:: :link "|Calcit-js 开发的阶段介绍 2021-11" nil |https://www.bilibili.com/video/BV1Yg411K73P) (:: :link "|calcit-js 开发记录(21-01-22) 关于 ternary-tree.ts 重构" nil |https://www.bilibili.com/video/BV1Ht4y167Fg) (:: :link "|calcit-js 阶段介绍(2021-01)" nil |https://www.bilibili.com/video/BV1H5411n7su) (:: :link "|calcit-runner 阶段记录介绍(2021-01)" nil |https://www.bilibili.com/video/BV1cK4y1W7dZ)
               :: :column "\"Articles" $ [] (:: :link "\"Calcit 相比 Clojure 一些有意思的元编程能力 #226" nil "\"https://github.com/calcit-lang/calcit/discussions/226") (:: :link "\"design decision: rename \"keyword\" to \"tag\" #209" nil "\"https://github.com/calcit-lang/calcit/discussions/209") (:: :link "|Calcit 脚本语言一些基础介绍" nil |https://zhuanlan.zhihu.com/p/394791973) (:: :link "|Introducing calcit-js: toy language inspired by cljs" nil |https://clojureverse.org/t/introducing-calcit-js-toy-language-inspired-by-cljs/7097) (:: :link "|An indentation way to Lisp" nil |https://github.com/calcit-lang/calcit-runner/discussions/123) (:: :link "|Problems encountered in generating js" nil |https://github.com/calcit-lang/calcit-runner.nim/discussions/148) (:: :link "|calcit-js 的 JavaScript 代码生成与疑难" nil |https://github.com/calcit-lang/calcit-runner.nim/discussions/184) (:: :link "|ternary-tree.ts: 关于初期的性能优化(on early optimizations)" nil |https://github.com/calcit-lang/ternary-tree.ts/discussions/7) (:: :link "|A trick for cheaper persistent list in JavaScript" nil |https://clojureverse.org/t/a-trick-for-cheaper-persistent-list-in-javascript/7172)
+          :examples $ []
         |doc-features $ %{} :CodeEntry (:doc |)
           :code $ quote
             def doc-features $ [] (:: :feature "\"Immutable" "\"Values and states are represented in different data structures, which is the semantics from functional programming. Internally it's [rpds](https://docs.rs/rpds/) in Rust and a custom [2-3 tree](https://github.com/calcit-lang/ternary-tree.ts) in JavaScript.") (:: :feature "\"Lisp(Code is Data)" "\"Calcit-js was designed based on experiences from ClojureScript, with a bunch of builtin macros. It offers similar experiences to ClojureScript. So Calcit offers much power via macros, while keeping its core simple.") (:: :feature "\"Indentations-based Syntax" "\"With `bundle_calcit` command, Calcit code can be written as an indentation-based language. So you don't have to match parentheses like in Clojure. It also means now you need to handle indentations very carefully.") (:: :feature "\"Hot code swapping" "\"Calcit was built with hot swapping in mind. Combined with [calcit-editor](https://github.com/calcit-lang/editor), it watches code changes by default, and re-runs program on updates. For calcit-js, it works with Vite and Webpack to reload, learning from Elm, ClojureScript and React.") (:: :feature "\"ES Modules Syntax" "\"To leverage the power of modern browsers with help of Vite, we need another ClojureScript that emits `import`/`export` for Vite. Calcit-js does this! And this page is built with Calcit-js as well, open Console to find out more.")
+          :examples $ []
         |store $ %{} :CodeEntry (:doc |)
           :code $ quote
             def store $ {}
               :states $ {}
                 :cursor $ []
+          :examples $ []
       :ns $ %{} :CodeEntry (:doc |)
         :code $ quote (ns app.schema)
     |app.updater $ %{} :FileEntry
@@ -378,6 +420,7 @@
                   update-states store cursor s
                 (:hydrate-storage d) d
                 _ $ do (eprintln "\"Unknown op:" op) store
+          :examples $ []
       :ns $ %{} :CodeEntry (:doc |)
         :code $ quote
           ns app.updater $ :require
