@@ -202,7 +202,7 @@
         |style-cards-containers $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-cards-containers $ {}
-              "\"&" $ {} (:display :grid) (:grid-template-columns "\"repeat(auto-fit, minmax(300px, 1fr))") (:gap "\"12px")
+              "\"&" $ {} (:display :grid) (:grid-template-columns "\"repeat(auto-fit, minmax(300px, 1fr))") (:gap |20px) (:margin "|32px 0")
           :examples $ []
         |style-columns $ %{} :CodeEntry (:doc |)
           :code $ quote
@@ -227,18 +227,22 @@
         |style-feature $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-feature $ {}
-              "\"&" $ {} (:border-radius "\"8px")
+              "\"&" $ {} (:border-radius |12px)
                 :border $ str "\"1px solid " (hsl 0 0 86)
-                :padding "\"6px 12px"
-                :transition-duration "\"200ms"
+                :padding "|16px 20px"
+                :transition-duration |240ms
+                :background-color $ hsl 0 0 98
+                :hover $ {} (:box-shadow "|0 4px 12px rgba(0,0,0,0.06)") (:transform "|translateY(-2px)")
+                  :border-color $ hsl 0 0 76
+                :transition-property |all
               "\"&:hover" $ {}
                 :box-shadow $ str "\"1px 2px 4px " (hsl 0 0 0 0.2)
           :examples $ []
         |style-feature-content $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-feature-content $ {}
-              "\"&" $ {} (:line-height "\"24px")
-                :color $ hsl 0 0 50
+              "\"&" $ {} (:line-height |1.7) (:font-size |15px)
+                :color $ hsl 0 0 35
                 ; :font-family ui/font-fancy
                 :font-weight 100
           :examples $ []
@@ -252,25 +256,29 @@
             defstyle style-main-button $ {}
               "\"button&" $ {} (:color :white)
                 :background-color $ hsl 240 90 80
+                :box-shadow "|0 2px 8px hsla(240,90%,70%,0.3)"
+                :transition "|all 200ms"
               "\"button&:hover" $ {} (:color :white)
                 :background-color $ hsl 220 80 74
+                :transform "|translateY(-1px)"
               "\"button&:active" $ {} (:color :white)
                 :background-color $ hsl 220 80 70
           :examples $ []
         |style-main-title $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-main-title $ {}
-              "\"&" $ {} (:font-size "\"26px") (:line-height "\"32px") (:font-weight :bold) (:font-family "\"Federo, cursive")
+              "\"&" $ {} (:font-size |32px) (:line-height |1.2) (:letter-spacing |-0.5px) (:font-family "\"Federo, cursive")
           :examples $ []
         |style-promo-button $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-promo-button $ {}
-              "\"&" $ {} (:line-height "\"36px") (:border-radius "\"40px") (:padding "\"0 20px") (; :font-family "\"Federo, cursive")
+              "\"&" $ {} (:line-height |40px) (:border-radius |24px) (:padding "|0 24px") (:font-size |15px) (; :font-family "\"Federo, cursive")
           :examples $ []
         |style-secondary-title $ %{} :CodeEntry (:doc |)
           :code $ quote
             defstyle style-secondary-title $ {}
-              "\"&" $ {} (:font-size |16px) (:line-height "\"24px")
+              "\"&" $ {} (:font-size |16px) (:line-height |1.6)
+                :color $ hsl 0 0 40
           :examples $ []
         |style-sub-title $ %{} :CodeEntry (:doc |)
           :code $ quote
