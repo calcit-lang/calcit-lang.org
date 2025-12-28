@@ -37,6 +37,7 @@
                         :data $ {}
                           |T $ %{} :Leaf (:at 1621319431969) (:by |rJG4IHzWf) (:text |:target)
                           |j $ %{} :Leaf (:at 1621319435358) (:by |rJG4IHzWf) (:text "|\"_blank")
+          :examples $ []
         |comp-bg $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1624560959106) (:by |rJG4IHzWf)
             :data $ {}
@@ -103,6 +104,7 @@
                               |D $ %{} :Leaf (:at 1691881770969) (:by |rJG4IHzWf) (:text |str-spaced)
                               |T $ %{} :Leaf (:at 1646331362636) (:by |rJG4IHzWf) (:text "|\"tile")
                               |b $ %{} :Leaf (:at 1691881774223) (:by |rJG4IHzWf) (:text |style-bg)
+          :examples $ []
         |comp-container $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1499755354983) (:by nil)
             :data $ {}
@@ -651,6 +653,7 @@
                               |r $ %{} :Expr (:at 1507461840980) (:by |root)
                                 :data $ {}
                                   |T $ %{} :Leaf (:at 1507461841342) (:by |root) (:text |{})
+          :examples $ []
         |comp-link $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695548799888) (:by |rJG4IHzWf)
             :data $ {}
@@ -727,6 +730,7 @@
                                       |T $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |str-spaced)
                                       |b $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |css/font-fancy)
                                       |h $ %{} :Leaf (:at 1695548806501) (:by |rJG4IHzWf) (:text |style-sub-title)
+          :examples $ []
         |comp-promotions $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695549065983) (:by |rJG4IHzWf)
             :data $ {}
@@ -880,6 +884,7 @@
                                           |T $ %{} :Leaf (:at 1701365872861) (:by |rJG4IHzWf) (:text |js/window.open)
                                           |b $ %{} :Leaf (:at 1701365872861) (:by |rJG4IHzWf) (:text "|\"http://repo.calcit-lang.org/calcit-wasm-play/")
                                           |h $ %{} :Leaf (:at 1701365872861) (:by |rJG4IHzWf) (:text "|\"_blank")
+          :examples $ []
         |comp-snippet-demo $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695549676856) (:by |rJG4IHzWf)
             :data $ {}
@@ -1037,6 +1042,7 @@
                                         :data $ {}
                                           |T $ %{} :Leaf (:at 1704534014319) (:by |rJG4IHzWf) (:text |:margin)
                                           |b $ %{} :Leaf (:at 1704534017555) (:by |rJG4IHzWf) (:text "|\"12px 0px")
+          :examples $ []
         |comp-visual $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695551235747) (:by |rJG4IHzWf)
             :data $ {}
@@ -1090,6 +1096,7 @@
                                 :data $ {}
                                   |T $ %{} :Leaf (:at 1695551244621) (:by |rJG4IHzWf) (:text |:src)
                                   |b $ %{} :Leaf (:at 1695551245891) (:by |rJG4IHzWf) (:text "|\"https://cos-sh.tiye.me/cos-up/00c992c3061ed59d8c7d533b7a31433b-calcit-editor.png")
+          :examples $ []
         |demo-component $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1701365018689) (:by |rJG4IHzWf)
             :data $ {}
@@ -1099,6 +1106,7 @@
                 :data $ {}
                   |T $ %{} :Leaf (:at 1701365019649) (:by |rJG4IHzWf) (:text |inline-content!)
                   |b $ %{} :Leaf (:at 1701365099990) (:by |rJG4IHzWf) (:text "|\"content/demo/comp.cirru")
+          :examples $ []
         |demo-persistent-data $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1701365125366) (:by |rJG4IHzWf)
             :data $ {}
@@ -1108,6 +1116,7 @@
                 :data $ {}
                   |T $ %{} :Leaf (:at 1701365133161) (:by |rJG4IHzWf) (:text |inline-content!)
                   |b $ %{} :Leaf (:at 1701365152039) (:by |rJG4IHzWf) (:text "|\"content/demo/persistent-data.cirru")
+          :examples $ []
         |demo-pipeline $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1701364992486) (:by |rJG4IHzWf)
             :data $ {}
@@ -1117,6 +1126,7 @@
                 :data $ {}
                   |T $ %{} :Leaf (:at 1701364994363) (:by |rJG4IHzWf) (:text |inline-content!)
                   |b $ %{} :Leaf (:at 1701365002415) (:by |rJG4IHzWf) (:text "|\"content/demo/pipeline.cirru")
+          :examples $ []
         |demo-tag-match $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1701364965699) (:by |rJG4IHzWf)
             :data $ {}
@@ -1126,6 +1136,7 @@
                 :data $ {}
                   |T $ %{} :Leaf (:at 1701364968180) (:by |rJG4IHzWf) (:text |inline-content!)
                   |b $ %{} :Leaf (:at 1701364975282) (:by |rJG4IHzWf) (:text "|\"content/demo/tag-match.cirru")
+          :examples $ []
         |inline-content! $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1624513560832) (:by |rJG4IHzWf)
             :data $ {}
@@ -1138,6 +1149,7 @@
                 :data $ {}
                   |T $ %{} :Leaf (:at 1624513568668) (:by |rJG4IHzWf) (:text |read-file)
                   |j $ %{} :Leaf (:at 1624513569467) (:by |rJG4IHzWf) (:text |path)
+          :examples $ []
         |pick-demo $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1701364941763) (:by |rJG4IHzWf)
             :data $ {}
@@ -1167,6 +1179,7 @@
                     :data $ {}
                       |T $ %{} :Leaf (:at 1701365119704) (:by |rJG4IHzWf) (:text |:persistent-data)
                       |b $ %{} :Leaf (:at 1701365124114) (:by |rJG4IHzWf) (:text |demo-persistent-data)
+          :examples $ []
         |style-bg $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1691881775056) (:by |rJG4IHzWf)
             :data $ {}
@@ -1201,6 +1214,7 @@
                             :data $ {}
                               |T $ %{} :Leaf (:at 1691881777305) (:by |rJG4IHzWf) (:text |:opacity)
                               |b $ %{} :Leaf (:at 1691881777305) (:by |rJG4IHzWf) (:text |0.5)
+          :examples $ []
         |style-cards-containers $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695544795528) (:by |rJG4IHzWf)
             :data $ {}
@@ -1227,6 +1241,7 @@
                             :data $ {}
                               |T $ %{} :Leaf (:at 1695545016737) (:by |rJG4IHzWf) (:text |:gap)
                               |b $ %{} :Leaf (:at 1695545827742) (:by |rJG4IHzWf) (:text "|\"12px")
+          :examples $ []
         |style-columns $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695547517334) (:by |rJG4IHzWf)
             :data $ {}
@@ -1253,6 +1268,7 @@
                             :data $ {}
                               |T $ %{} :Leaf (:at 1695547518947) (:by |rJG4IHzWf) (:text |:gap)
                               |b $ %{} :Leaf (:at 1695547518947) (:by |rJG4IHzWf) (:text "|\"12px")
+          :examples $ []
         |style-content $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1621318835597) (:by |rJG4IHzWf)
             :data $ {}
@@ -1279,6 +1295,7 @@
                             :data $ {}
                               |T $ %{} :Leaf (:at 1760889362426) (:by |rJG4IHzWf) (:text |:padding)
                               |b $ %{} :Leaf (:at 1760889362426) (:by |rJG4IHzWf) (:text "|\"0 40px")
+          :examples $ []
         |style-display-link $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695547595196) (:by |rJG4IHzWf)
             :data $ {}
@@ -1297,6 +1314,7 @@
                             :data $ {}
                               |T $ %{} :Leaf (:at 1695547606367) (:by |rJG4IHzWf) (:text |:text-decoration)
                               |b $ %{} :Leaf (:at 1695547607213) (:by |rJG4IHzWf) (:text |:none)
+          :examples $ []
         |style-editor-img $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695551323225) (:by |rJG4IHzWf)
             :data $ {}
@@ -1319,6 +1337,7 @@
                             :data $ {}
                               |T $ %{} :Leaf (:at 1695567828264) (:by |rJG4IHzWf) (:text |:margin)
                               |b $ %{} :Leaf (:at 1695567830312) (:by |rJG4IHzWf) (:text |:auto)
+          :examples $ []
         |style-feature $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695545289801) (:by |rJG4IHzWf)
             :data $ {}
@@ -1378,6 +1397,7 @@
                                       |h $ %{} :Leaf (:at 1695545514885) (:by |rJG4IHzWf) (:text |0)
                                       |l $ %{} :Leaf (:at 1695545519964) (:by |rJG4IHzWf) (:text |0)
                                       |o $ %{} :Leaf (:at 1695545786219) (:by |rJG4IHzWf) (:text |0.2)
+          :examples $ []
         |style-feature-content $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695545097860) (:by |rJG4IHzWf)
             :data $ {}
@@ -1414,6 +1434,7 @@
                             :data $ {}
                               |T $ %{} :Leaf (:at 1695545891145) (:by |rJG4IHzWf) (:text |:font-weight)
                               |b $ %{} :Leaf (:at 1695545891910) (:by |rJG4IHzWf) (:text |100)
+          :examples $ []
         |style-feature-title $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695545062346) (:by |rJG4IHzWf)
             :data $ {}
@@ -1436,6 +1457,7 @@
                             :data $ {}
                               |T $ %{} :Leaf (:at 1695545066344) (:by |rJG4IHzWf) (:text |:font-weight)
                               |b $ %{} :Leaf (:at 1695545171207) (:by |rJG4IHzWf) (:text |900)
+          :examples $ []
         |style-main-button $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695549247648) (:by |rJG4IHzWf)
             :data $ {}
@@ -1501,6 +1523,7 @@
                                   |b $ %{} :Leaf (:at 1695549266128) (:by |rJG4IHzWf) (:text |220)
                                   |h $ %{} :Leaf (:at 1695549267031) (:by |rJG4IHzWf) (:text |80)
                                   |l $ %{} :Leaf (:at 1695549292217) (:by |rJG4IHzWf) (:text |70)
+          :examples $ []
         |style-main-title $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695550447552) (:by |rJG4IHzWf)
             :data $ {}
@@ -1531,6 +1554,7 @@
                             :data $ {}
                               |T $ %{} :Leaf (:at 1695550469041) (:by |rJG4IHzWf) (:text |:font-family)
                               |b $ %{} :Leaf (:at 1695550472802) (:by |rJG4IHzWf) (:text "|\"Federo, cursive")
+          :examples $ []
         |style-promo-button $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695549109163) (:by |rJG4IHzWf)
             :data $ {}
@@ -1562,6 +1586,7 @@
                               |D $ %{} :Leaf (:at 1695549480072) (:by |rJG4IHzWf) (:text |;)
                               |T $ %{} :Leaf (:at 1695549330920) (:by |rJG4IHzWf) (:text |:font-family)
                               |b $ %{} :Leaf (:at 1695549347716) (:by |rJG4IHzWf) (:text "|\"Federo, cursive")
+          :examples $ []
         |style-secondary-title $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695550375740) (:by |rJG4IHzWf)
             :data $ {}
@@ -1584,6 +1609,7 @@
                             :data $ {}
                               |T $ %{} :Leaf (:at 1695550390463) (:by |rJG4IHzWf) (:text |:line-height)
                               |b $ %{} :Leaf (:at 1695550766258) (:by |rJG4IHzWf) (:text "|\"24px")
+          :examples $ []
         |style-sub-title $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695547639422) (:by |rJG4IHzWf)
             :data $ {}
@@ -1607,6 +1633,7 @@
                                   |b $ %{} :Leaf (:at 1695547648893) (:by |rJG4IHzWf) (:text |0)
                                   |h $ %{} :Leaf (:at 1695547649487) (:by |rJG4IHzWf) (:text |0)
                                   |l $ %{} :Leaf (:at 1695547662926) (:by |rJG4IHzWf) (:text |50)
+          :examples $ []
       :ns $ %{} :CodeEntry (:doc |)
         :code $ %{} :Expr (:at 1499755354983) (:by nil)
           :data $ {}
@@ -1710,6 +1737,7 @@
                       :data $ {}
                         |T $ %{} :Leaf (:at 1701364297333) (:by |rJG4IHzWf) (:text |comp-tabs)
                         |b $ %{} :Leaf (:at 1704533791670) (:by |rJG4IHzWf) (:text |comp-cirru-snippet)
+        :examples $ []
     |app.config $ %{} :FileEntry
       :defs $ {}
         |cdn? $ %{} :CodeEntry (:doc |)
@@ -1742,12 +1770,14 @@
                     :data $ {}
                       |T $ %{} :Leaf (:at 1544873887168) (:by |rJG4IHzWf) (:text |:else)
                       |j $ %{} :Leaf (:at 1544873887168) (:by |rJG4IHzWf) (:text |false)
+          :examples $ []
         |dev? $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1544873875614) (:by |rJG4IHzWf)
             :data $ {}
               |T $ %{} :Leaf (:at 1544873875614) (:by |rJG4IHzWf) (:text |def)
               |j $ %{} :Leaf (:at 1544873875614) (:by |rJG4IHzWf) (:text |dev?)
               |r $ %{} :Leaf (:at 1610793323611) (:by |rJG4IHzWf) (:text |true)
+          :examples $ []
         |site $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1545933382603) (:by |root)
             :data $ {}
@@ -1780,11 +1810,13 @@
                     :data $ {}
                       |T $ %{} :Leaf (:at 1544956719115) (:by |rJG4IHzWf) (:text |:storage-key)
                       |j $ %{} :Leaf (:at 1544956719115) (:by |rJG4IHzWf) (:text "|\"workflow")
+          :examples $ []
       :ns $ %{} :CodeEntry (:doc |)
         :code $ %{} :Expr (:at 1527788237503) (:by |root)
           :data $ {}
             |T $ %{} :Leaf (:at 1527788237503) (:by |root) (:text |ns)
             |j $ %{} :Leaf (:at 1527788237503) (:by |root) (:text |app.config)
+        :examples $ []
     |app.main $ %{} :FileEntry
       :defs $ {}
         |*reel $ %{} :CodeEntry (:doc |)
@@ -1806,6 +1838,7 @@
                       |T $ %{} :Leaf (:at 1507399781682) (:by |root) (:text |assoc)
                       |j $ %{} :Leaf (:at 1507399793097) (:by |root) (:text |:store)
                       |r $ %{} :Leaf (:at 1507399787471) (:by |root) (:text |schema/store)
+          :examples $ []
         |dispatch! $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1499755354983) (:by nil)
             :data $ {}
@@ -1845,6 +1878,7 @@
                       |j $ %{} :Leaf (:at 1507399888500) (:by |root) (:text |updater)
                       |r $ %{} :Leaf (:at 1507399891576) (:by |root) (:text |@*reel)
                       |v $ %{} :Leaf (:at 1507399892687) (:by |root) (:text |op)
+          :examples $ []
         |main! $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1499755354983) (:by nil)
             :data $ {}
@@ -1949,6 +1983,7 @@
                 :data $ {}
                   |T $ %{} :Leaf (:at 1701364528047) (:by |rJG4IHzWf) (:text |println)
                   |b $ %{} :Leaf (:at 1701364528047) (:by |rJG4IHzWf) (:text "|\"@@@@@@@@@@@@@@@@\n@\n@  Well, code is not minified on purpose~\n@\n@   although it's still bundled with Vite.\n@\n@@@@@@@@@@@@@@@@")
+          :examples $ []
         |mount-target $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1499755354983) (:by nil)
             :data $ {}
@@ -1958,6 +1993,7 @@
                 :data $ {}
                   |j $ %{} :Leaf (:at 1701364257467) (:by |rJG4IHzWf) (:text |js/document.querySelector)
                   |r $ %{} :Leaf (:at 1499755354983) (:by |root) (:text ||.app)
+          :examples $ []
         |persist-storage! $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1533919515671) (:by |rJG4IHzWf)
             :data $ {}
@@ -1983,6 +2019,7 @@
                             :data $ {}
                               |T $ %{} :Leaf (:at 1533919515671) (:by |rJG4IHzWf) (:text |:store)
                               |j $ %{} :Leaf (:at 1533919515671) (:by |rJG4IHzWf) (:text |@*reel)
+          :examples $ []
         |reload! $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1630153483284) (:by |rJG4IHzWf)
             :data $ {}
@@ -2043,6 +2080,7 @@
                       |T $ %{} :Leaf (:at 1630153483284) (:by |rJG4IHzWf) (:text |hud!)
                       |j $ %{} :Leaf (:at 1630153483284) (:by |rJG4IHzWf) (:text "|\"error")
                       |r $ %{} :Leaf (:at 1630153483284) (:by |rJG4IHzWf) (:text |build-errors)
+          :examples $ []
         |render-app! $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1499755354983) (:by nil)
             :data $ {}
@@ -2059,6 +2097,7 @@
                       |T $ %{} :Leaf (:at 1499755354983) (:by |root) (:text |comp-container)
                       |j $ %{} :Leaf (:at 1507400119272) (:by |root) (:text |@*reel)
                   |v $ %{} :Leaf (:at 1630153540791) (:by |rJG4IHzWf) (:text |dispatch!)
+          :examples $ []
         |repeat! $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1610793045335) (:by |rJG4IHzWf)
             :data $ {}
@@ -2093,6 +2132,7 @@
                       |D $ %{} :Leaf (:at 1610793072002) (:by |rJG4IHzWf) (:text |*)
                       |L $ %{} :Leaf (:at 1610794470143) (:by |rJG4IHzWf) (:text |1000)
                       |T $ %{} :Leaf (:at 1610793071233) (:by |rJG4IHzWf) (:text |duration)
+          :examples $ []
         |snippets $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1551977434239) (:by |rJG4IHzWf)
             :data $ {}
@@ -2104,6 +2144,7 @@
                 :data $ {}
                   |T $ %{} :Leaf (:at 1551977458023) (:by |rJG4IHzWf) (:text |println)
                   |j $ %{} :Leaf (:at 1551977477010) (:by |rJG4IHzWf) (:text |config/cdn?)
+          :examples $ []
       :ns $ %{} :CodeEntry (:doc |)
         :code $ %{} :Expr (:at 1499755354983) (:by nil)
           :data $ {}
@@ -2175,6 +2216,7 @@
                     |T $ %{} :Leaf (:at 1630153491355) (:by |rJG4IHzWf) (:text "|\"bottom-tip")
                     |j $ %{} :Leaf (:at 1630153491355) (:by |rJG4IHzWf) (:text |:default)
                     |r $ %{} :Leaf (:at 1630153491355) (:by |rJG4IHzWf) (:text |hud!)
+        :examples $ []
     |app.schema $ %{} :FileEntry
       :defs $ {}
         |doc-columns $ %{} :CodeEntry (:doc |)
@@ -2456,6 +2498,7 @@
                               |h $ %{} :Leaf (:at 1695547096127) (:by |rJG4IHzWf) (:text "||A trick for cheaper persistent list in JavaScript")
                               |j $ %{} :Leaf (:at 1695547432154) (:by |rJG4IHzWf) (:text |nil)
                               |l $ %{} :Leaf (:at 1695547096127) (:by |rJG4IHzWf) (:text ||https://clojureverse.org/t/a-trick-for-cheaper-persistent-list-in-javascript/7172)
+          :examples $ []
         |doc-features $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1695544042490) (:by |rJG4IHzWf)
             :data $ {}
@@ -2494,6 +2537,7 @@
                       |b $ %{} :Leaf (:at 1695544654853) (:by |rJG4IHzWf) (:text |:feature)
                       |h $ %{} :Leaf (:at 1695544187622) (:by |rJG4IHzWf) (:text "|\"ES Modules Syntax")
                       |l $ %{} :Leaf (:at 1695544192960) (:by |rJG4IHzWf) (:text "|\"To leverage the power of modern browsers with help of Vite, we need another ClojureScript that emits `import`/`export` for Vite. Calcit-js does this! And this page is built with Calcit-js as well, open Console to find out more.")
+          :examples $ []
         |store $ %{} :CodeEntry (:doc |)
           :code $ %{} :Expr (:at 1499755354983) (:by nil)
             :data $ {}
@@ -2514,11 +2558,13 @@
                               |j $ %{} :Expr (:at 1584781007287) (:by |rJG4IHzWf)
                                 :data $ {}
                                   |T $ %{} :Leaf (:at 1584781007486) (:by |rJG4IHzWf) (:text |[])
+          :examples $ []
       :ns $ %{} :CodeEntry (:doc |)
         :code $ %{} :Expr (:at 1499755354983) (:by nil)
           :data $ {}
             |T $ %{} :Leaf (:at 1499755354983) (:by |root) (:text |ns)
             |j $ %{} :Leaf (:at 1499755354983) (:by |root) (:text |app.schema)
+        :examples $ []
     |app.updater $ %{} :FileEntry
       :defs $ {}
         |updater $ %{} :CodeEntry (:doc |)
@@ -2568,6 +2614,7 @@
                               |b $ %{} :Leaf (:at 1691851479629) (:by |rJG4IHzWf) (:text "|\"Unknown op:")
                               |h $ %{} :Leaf (:at 1691851480253) (:by |rJG4IHzWf) (:text |op)
                           |h $ %{} :Leaf (:at 1691851482539) (:by |rJG4IHzWf) (:text |store)
+          :examples $ []
       :ns $ %{} :CodeEntry (:doc |)
         :code $ %{} :Expr (:at 1499755354983) (:by nil)
           :data $ {}
@@ -2585,6 +2632,7 @@
                       :data $ {}
                         |T $ %{} :Leaf (:at 1584874621745) (:by |rJG4IHzWf) (:text |[])
                         |j $ %{} :Leaf (:at 1584874623096) (:by |rJG4IHzWf) (:text |update-states)
+        :examples $ []
   :users $ {}
     |rJG4IHzWf $ {} (:avatar nil) (:id |rJG4IHzWf) (:name |chen) (:nickname |chen) (:password |d41d8cd98f00b204e9800998ecf8427e) (:theme :star-trail)
     |root $ {} (:avatar nil) (:id |root) (:name |root) (:nickname |root) (:password |d41d8cd98f00b204e9800998ecf8427e) (:theme :star-trail)
