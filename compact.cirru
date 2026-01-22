@@ -64,7 +64,7 @@
                         {} $ :class-name style-cards-containers
                         -> doc-features $ map
                           fn (doc)
-                            tag-match doc $ 
+                            tag-match doc $
                               :feature title content
                               [] title $ div
                                 {} $ :class-name style-feature
@@ -110,7 +110,7 @@
         |comp-link $ %{} :CodeEntry (:doc |)
           :code $ quote
             defcomp comp-link (link)
-              tag-match link $ 
+              tag-match link $
                 :link title sub-title url
                 div ({})
                   a $ {} (:href url) (:inner-text title) (:target "\"_blank") (:class-name style-display-link)
@@ -132,7 +132,7 @@
                 {} (:class-name css/row-middle)
                   :style $ {} (:gap "\"8px")
                 add-link "\"Browse APIs" "\"http://apis.calcit-lang.org"
-                add-link "\"Agents Guide" "\"https://calcit-lang.org/Agents.md"
+                add-link "\"Agents Guide" "\"https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md"
                 button $ {} (:inner-text "\"Guidebook")
                   :class-name $ str-spaced css/button style-promo-button
                   :on-click $ fn (e d!) (js/window.open "\"http://repo.calcit-lang.org/guidebook/" "\"_blank")
