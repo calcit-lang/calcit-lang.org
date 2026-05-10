@@ -1,6 +1,6 @@
 ### Editors and AI Agents
 
-Calcit embraces structural editing and abstracts away raw syntax like indentations and brackets. The project AST is stored in a snapshoted data format `compact.cirru`.
+Calcit embraces structural editing and abstracts away raw syntax like indentations and brackets. The project AST is stored in a snapshotted data format `compact.cirru`.
 
 To modify the codebase, Calcit offers a deterministic [CLI toolset](https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md):
 
