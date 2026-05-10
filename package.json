@@ -2,7 +2,8 @@
   "dependencies": {
     "@calcit/procs": "^0.12.34",
     "cirru-color": "^0.2.4",
-    "copy-text-to-clipboard": "^3.2.2"
+    "copy-text-to-clipboard": "^3.2.2",
+    "dayjs": "^1.11.20"
   },
   "devDependencies": {
     "bottom-tip": "^0.1.5",

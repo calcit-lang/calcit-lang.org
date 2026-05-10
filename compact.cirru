@@ -131,7 +131,6 @@
               div
                 {} (:class-name css/row-middle)
                   :style $ {} (:gap "\"8px")
-                add-link "\"Browse APIs" "\"http://apis.calcit-lang.org"
                 add-link "\"Play snippets" "\"http://repo.calcit-lang.org/calcit-wasm-play/"
                 button $ {} (:inner-text "\"Guidebook")
                   :class-name $ str-spaced css/button style-promo-button
