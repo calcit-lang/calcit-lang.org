@@ -4,7 +4,7 @@ defcomp comp-link (link)
       div ({})
         a $ {} (:href url)
           :inner-text title
-          :target |blank
+          :target |_blank
           :class-name style-display-link
         =< 8 nil
         <> sub-title $ str-spaced css/font-fancy style-sub-title
