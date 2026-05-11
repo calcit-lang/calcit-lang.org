@@ -64,7 +64,7 @@
                         {} $ :class-name style-cards-containers
                         -> doc-features $ map
                           fn (doc)
-                            tag-match doc $
+                            match doc $
                               :feature title content
                               [] title $ div
                                 {} $ :class-name style-feature
@@ -84,7 +84,7 @@
                         {} $ :class-name style-columns
                         -> doc-columns $ map-indexed
                           fn (idx column)
-                            [] idx $ tag-match column
+                            [] idx $ match column
                               (:column col-title links)
                                 div
                                   {} $ :class-name style-feature
@@ -109,7 +109,7 @@
         |comp-link $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defcomp comp-link (link)
-              tag-match link $
+              match link $
                 :link title sub-title url
                 div ({})
                   a $ {} (:href url) (:inner-text title) (:target |_blank) (:class-name style-display-link)
@@ -423,7 +423,7 @@
         |updater $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defn updater (store op op-id op-time)
-              tag-match op
+              match op
                 (:states cursor s) (update-states store cursor s)
                 (:hydrate-storage d) d
                 _ $ do (eprintln "|Unknown op:" op) store
