@@ -427,7 +427,7 @@ defn dispatch! (op)
 
 ; Updater function pattern
 defn updater (store op)
-  tag-match op
+  match op
     (:action-name value) $
       assoc store :data (process-action (:data store) value)
     (:nested-action id op2) $
@@ -609,7 +609,7 @@ Components can define custom listeners that respond to events sent via `send-to-
 defn on-keydown (cursor state)
   %{} respo.schema/RespoListener (:name :on-keydown)
     :handler $ fn (event dispatch!)
-      tag-match event $
+      match event $
         :keydown info
         when
           and
@@ -705,8 +705,8 @@ cr query def respo.app.comp.container/comp-container
 **Solution Pattern**:
 
 ```cirru
-; Verify tag-match pattern matches dispatched action
-tag-match op
+; Verify match pattern matches dispatched action
+match op
   (:action-name params) $
     ; Make sure return value is updated store
     assoc store :data new-value

@@ -1,5 +1,5 @@
 defcomp comp-link (link)
-  tag-match link
+  match link
     (:link title sub-title url)
       div ({})
         a $ {} (:href url)

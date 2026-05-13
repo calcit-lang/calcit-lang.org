@@ -143,14 +143,14 @@
             defcomp comp-snippet-demo (states)
               let
                   cursor $ :cursor states
-                  state $ either (:data states) :tag-match
+                  state $ either (:data states) :match
                 div
                   {} (:class-name css/row)
                     :style $ {} (:flex-wrap :wrap)
                   comp-tabs
                     {} (:selected state) (:vertical? true)
                       :style $ {} (:margin-top 20) (:padding "|0 8px") (:min-width 160)
-                    [] (&{} :name :tag-match :title "|Pattern matching") (&{} :name :component :title |Component) (&{} :name :persistent-data :title "|Persistent data") (&{} :name :pipeline :title "|Pipeline macro")
+                    [] (&{} :name :match :title "|Pattern matching") (&{} :name :component :title |Component) (&{} :name :persistent-data :title "|Persistent data") (&{} :name :pipeline :title "|Pipeline macro")
                     fn (info d!)
                       d! cursor $ nth info 1
                   comp-cirru-snippet
@@ -179,9 +179,9 @@
           :code $ quote
             def demo-pipeline $ inline-content! |content/demo/pipeline.cirru
           :examples $ []
-        |demo-tag-match $ %{} :CodeEntry (:doc |) (:schema :dynamic)
+        |demo-match $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
-            def demo-tag-match $ inline-content! |content/demo/tag-match.cirru
+            def demo-match $ inline-content! |content/demo/match.cirru
           :examples $ []
         |inline-content! $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
@@ -190,7 +190,7 @@
         |pick-demo $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
             defn pick-demo (k)
-              case-default k demo-tag-match (:tag-match demo-tag-match) (:pipeline demo-pipeline) (:component demo-component) (:persistent-data demo-persistent-data)
+              case-default k demo-match (:match demo-match) (:pipeline demo-pipeline) (:component demo-component) (:persistent-data demo-persistent-data)
           :examples $ []
         |style-bg $ %{} :CodeEntry (:doc |) (:schema :dynamic)
           :code $ quote
