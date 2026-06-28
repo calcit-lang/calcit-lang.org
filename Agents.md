@@ -67,3 +67,7 @@ yarn vite
 - 严禁直接手改 `compact.cirru`，必须使用 `cr tree` 或 `cr edit`。
 - 路径不要猜。先用 `cr query search` 拿路径，再用 `cr tree show` 确认。
 - 静态样式优先抽到 `defstyle`，动态列表中尽量少写内联 `:style`。
+
+## 模块路径
+
+`deps.cirru` 中模块路径使用目录形式（以 `/` 结尾），`cr` 自动检测目录中的 `calcit.cirru` 或 `compact.cirru`：
