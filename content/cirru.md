@@ -1,7 +1,13 @@
-### Editors
+### Editors and AI Agents
 
-Calcit adopts idea of structural editing, using an auto-layout code editor. [@calcit/editor](https://github.com/calcit-lang/editor) is Calcit's default editor. You may find more about the ideas in [Structural Editing](http://guide.calcit-lang.org/structural-editor.html) section. Snapshot of editor is saved in "Cirru EDN" data format.
+Calcit embraces structural editing and abstracts away raw syntax like indentations and brackets. The project AST is stored in a snapshotted data format `compact.cirru`.
 
-Also see [Cirru Project](http://cirru.org/) for previous work on structural editing.
+To modify the codebase, Calcit offers a deterministic [CLI toolset](https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md):
 
-If you want to write in a text editor, check out `bundle_calcit` command in project. A boilerplate can be find in [minimal-calcit](https://github.com/calcit-lang/minimal-calcit). 也可以查看相关中文[介绍视频](https://www.bilibili.com/video/BV1ry4y1W7VW?from=search&seid=17614445788882056969).
+- `cr query` - Search and navigate symbols, definitions, and code structures dynamically.
+- `cr tree` - Perform structural replacements and modifications (e.g. `cr tree replace`).
+- `cr edit` - Execute incremental changes locally inside namespaces.
+
+Because ast operations are exposed to the command line, Calcit is extremely friendly for AI Code Agents to explore and edit. Instead of fighting space indentation in traditional files, bots can directly alter the tree.
+
+You can also explore the code online with the [WASM Playground](http://repo.calcit-lang.org/calcit-wasm-play/) to try snippets interactively.

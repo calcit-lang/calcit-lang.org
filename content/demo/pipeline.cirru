@@ -1,6 +1,6 @@
-
--> 100 range
+->
+  range 100
   filter $ fn (x)
-    > n 50
+    > x 50
   map $ fn (x) (* x x)
   w-log
