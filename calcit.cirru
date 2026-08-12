@@ -28,14 +28,8 @@
               let
                   store $ read-field reel :store
                   states $ read-field store :states
-                  cursor $ either
-                      read-field states :cursor
-                      , states
-                    []
-                  state $ either
-                      read-field states :data
-                      , states
-                    {} $ :content |
+                  cursor $ either (read-field states :cursor) ([])
+                  state $ either (read-field states :data) ({})
                 div
                   {} $ :class-name (str-spaced css/preset css/global)
                   comp-bg
@@ -154,10 +148,7 @@
             defcomp comp-snippet-demo (states)
               let
                   cursor $ read-field states :cursor
-                  state $ either
-                      either (read-field states :data) :match
-                      , states
-                    , :match
+                  state $ either (read-field states :data) :match
                 div
                   {} (:class-name css/row)
                     :style $ {} (:flex-wrap :wrap)
