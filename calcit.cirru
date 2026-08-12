@@ -157,7 +157,7 @@
                       :style $ {} (:margin-top 20) (:padding "|0 8px") (:min-width 160)
                     [] (&{} :name :match :title "|Pattern matching") (&{} :name :component :title |Component) (&{} :name :persistent-data :title "|Persistent data") (&{} :name :pipeline :title "|Pipeline macro")
                     fn (info d!)
-                      d! cursor $ nth info 1
+                      d! cursor $ option:unwrap-or (nth info 1) nil
                   comp-cirru-snippet $ trim (pick-demo state)
           :examples $ []
           :schema $ :: 'Dynamic
