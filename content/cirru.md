@@ -1,14 +1,17 @@
-### Editors and AI Agents
+### Structural source, editors, and AI agents
 
-Calcit embraces structural editing and abstracts away raw syntax like indentations and brackets. The project AST is stored in the `calcit.cirru` snapshot, which `cr` can inspect and update safely.
+Calcit treats source as a typed, editable program tree rather than a bag of indentation and brackets. The project AST is stored in the `calcit.cirru` snapshot, and the current `cr` toolchain keeps edits anchored to that structure.
 
-To modify the codebase, Calcit offers a deterministic [CLI toolset](https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md):
+Use the deterministic [CLI toolset](https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md) to work in small, reviewable steps:
 
-- `cr query` - Search and navigate symbols, definitions, and code structures dynamically.
-- `cr tree` - Perform structural replacements and modifications (e.g. `cr tree replace`).
-- `cr edit` - Execute incremental changes locally inside namespaces.
-- `cr analyze` - Check types, weak-type debt, examples, and project structure before a change lands.
+- `cr docs agents --full` - Read the current agent and migration rules before editing.
+- `cr query` - Search definitions, usages, schemas, examples, tests, and type information.
+- `cr tree` - Replace, insert, move, wrap, or rewrite AST nodes without guessing paths.
+- `cr edit` - Update definitions, imports, entries, modules, examples, and attached tests.
+- `cr cursor` / `cr edit transaction` - Keep repeated edits anchored or apply multi-step changes atomically.
+- `cr analyze` - Check types, weak-type debt, deprecations, examples, and project structure.
+- `cr test` / `cr js` - Run selected tests or emit JavaScript when the target is a JS project.
 
-Because AST operations and type evidence are exposed to the command line, Calcit is friendly for AI coding agents to explore and edit. Instead of fighting space indentation in traditional files, agents can inspect a definition, apply a small tree mutation, and validate the result.
+The workflow is intentionally inspect → edit → verify: query a definition, preview a structural mutation, check the resulting types and examples, and only then run the project gate. Snapshot writes are serialized; use a transaction with an expected revision for atomic multi-step changes, or separate worktrees for parallel agents.
 
-You can also explore the code online with the [WASM Playground](http://repo.calcit-lang.org/calcit-wasm-play/) to try snippets interactively.
+For new APIs, prefer typed `Option<T>` and `Result<T>` over `?` parameters and `nil`. Only trailing consecutive `Option` parameters are omitted automatically and filled with `None`; non-trailing options remain explicit. Try the language online in the [WASM Playground](http://repo.calcit-lang.org/calcit-wasm-play/).

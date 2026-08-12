@@ -59,11 +59,11 @@
                               :style $ {} (:max-width |100%)
                             div
                               {} $ :class-name style-main-title
-                              <> "|Calcit 0.13.11: typed Lisp for JavaScript ES Modules"
+                              <> "|Calcit 0.13.11: typed Lisp, native runtime, JavaScript ES Modules"
                             =< nil 4
                             div
                               {} $ :class-name style-secondary-title
-                              <> "|A Rust interpreter and JavaScript emitter with typed data, Option, Struct, Enum, and AI-friendly `cr` CLI tools."
+                              <> "|Struct, Enum, Option, Result, typed FFI, and a structural `cr` workflow for reliable programs and AI agents."
                         =< nil 8
                         =< nil 24
                         comp-snippet-demo $ >> states :snippets
@@ -453,7 +453,7 @@
           :schema $ :: 'Dynamic
         |doc-features $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            def doc-features $ [] (:: :feature "|AI-friendly structural CLI" "|Calcit exposes query, tree, edit, and analysis commands for deterministic structural programming. AI Agents can inspect and modify snapshots without guessing indentation.") (:: :feature "|Typed persistent data" "|Typed Struct and Enum values, persistent collections, and Option/Result make data boundaries explicit across native Rust and generated JavaScript.") (:: :feature "|Lisp and macros" "|Calcit keeps code as data and uses macros for expressive, composable programs inspired by ClojureScript, while the core stays small.") (:: :feature "|Indentation-based syntax" "|Write Calcit with indentation instead of balancing parentheses; the cr formatter and structural tools keep the snapshot consistent.") (:: :feature "|Hot code swapping" "|Calcit was built with hot swapping in mind. It watches code changes and re-runs the program on updates. For calcit-js, it works with Vite to reload, learning from Elm, ClojureScript and React.") (:: :feature "|ES Modules output" "|Calcit emits modern ES Modules for Vite and browsers, and this page is built with the same Calcit-to-JavaScript pipeline.")
+            def doc-features $ [] (:: :feature "|Typed structural tooling" "|Calcit exposes query, tree, edit, cursor, transaction, and analysis commands for deterministic inspect-edit-verify workflows. They are designed for people and AI agents.") (:: :feature "|Nominal typed data" "|Struct and Enum make data boundaries explicit; Option and Result model absence and failure while persistent collections keep values ergonomic across Rust and JavaScript.") (:: :feature "|Typed JavaScript boundaries" "|Typed host-FFI contracts and static JavaScript field access carry type evidence across ES Module boundaries, with explicit escape hatches for dynamic interop.") (:: :feature "|Option-first APIs" "|Use Option<T> instead of nil for absence. Trailing Option parameters can be omitted and receive None, while non-trailing options stay explicit.") (:: :feature "|Lisp, macros, and persistent data" "|Calcit keeps code as data with an indentation-based Cirru syntax, functional collections, macros, and a compact runtime inspired by ClojureScript.") (:: :feature "|Native and ES Module output" "|Run once or watch with cr, then emit readable JavaScript ES Modules for Vite, browsers, and Node.js with matching semantics.")
           :examples $ []
           :schema $ :: 'Dynamic
         |store $ %{} 'CodeEntry (:doc |)
