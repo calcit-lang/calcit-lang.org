@@ -4,5 +4,3 @@
     |Respo/respo-markdown.calcit |0.4.22
     |Respo/respo-ui.calcit |0.7.3
     |Respo/respo.calcit |0.16.67
-    |calcit-lang/lilac |0.5.1
-    |calcit-lang/memof |0.0.26
