@@ -22,6 +22,13 @@
                 :class-name $ str-spaced |tile style-bg
           :examples $ []
           :schema $ :: 'Dynamic
+        |comp-cirru-snippet-safe $ %{} 'CodeEntry (:doc |)
+          :code $ quote
+            defcomp comp-cirru-snippet-safe (text)
+              div ({})
+                pre ({}) (<> text)
+          :examples $ []
+          :schema $ :: 'Dynamic
         |comp-container $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-container (reel)
@@ -75,10 +82,10 @@
                                   <> title
                                 div
                                   {} $ :class-name style-feature-content
-                                  comp-md content
+                                  comp-md content $ {} (:class-name |)
                       comp-md-block (inline-content! |content/intro.md)
-                        {} $ :highlight
-                          fn (code lang) (cirru-color/generateHtml code)
+                        {} (:class-name |)
+                          :highlight $ fn (code lang) (cirru-color/generateHtml code)
                       h2
                         {} $ :style ({})
                         <> |Ecosystem
@@ -98,8 +105,8 @@
                                       fn (idx link)
                                         [] idx $ comp-link link
                       comp-md-block (inline-content! |content/cirru.md)
-                        {} $ :highlight
-                          fn (code lang) (cirru-color/generateHtml code)
+                        {} (:class-name |)
+                          :highlight $ fn (code lang) (cirru-color/generateHtml code)
                       =< nil 120
                       div
                         {} $ :class-name css/row-parted
@@ -158,7 +165,7 @@
                     [] (&{} :name :match :title "|Pattern matching") (&{} :name :component :title |Component) (&{} :name :persistent-data :title "|Persistent data") (&{} :name :pipeline :title "|Pipeline macro")
                     fn (info d!)
                       d! cursor $ nth info 1
-                  comp-cirru-snippet $ trim (pick-demo state)
+                  comp-cirru-snippet-safe $ trim (pick-demo state)
           :examples $ []
           :schema $ :: 'Dynamic
         |comp-visual $ %{} 'CodeEntry (:doc |)
