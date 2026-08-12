@@ -158,10 +158,7 @@
                     [] (&{} :name :match :title "|Pattern matching") (&{} :name :component :title |Component) (&{} :name :persistent-data :title "|Persistent data") (&{} :name :pipeline :title "|Pipeline macro")
                     fn (info d!)
                       d! cursor $ nth info 1
-                  comp-cirru-snippet
-                    trim $ pick-demo state
-                    {} $ :style
-                      {} (:flex 1) (:margin "|12px 0px")
+                  comp-cirru-snippet $ trim (pick-demo state)
           :examples $ []
           :schema $ :: 'Dynamic
         |comp-visual $ %{} 'CodeEntry (:doc |)
