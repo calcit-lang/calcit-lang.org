@@ -3,7 +3,7 @@
   :entries $ {}
     :default $ {} (:description |) (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!)
       :modules $ [] |respo.calcit/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/
-      :type-slots $ {}
+      :type-slots $ {} (:dispatch-op |app.schema/Op)
   :files $ {}
     |app.comp.container $ %{} 'FileEntry
       :defs $ {}
@@ -157,7 +157,8 @@
                       :style $ {} (:margin-top 20) (:padding "|0 8px") (:min-width 160)
                     [] (&{} :name :match :title "|Pattern matching") (&{} :name :component :title |Component) (&{} :name :persistent-data :title "|Persistent data") (&{} :name :pipeline :title "|Pipeline macro")
                     fn (info d!)
-                      d! cursor $ option:unwrap-or (nth info 1) nil
+                      d! $ %:: app.schema/Op :states cursor
+                        option:unwrap-or (nth info 1) nil
                   comp-cirru-snippet $ trim (pick-demo state)
           :examples $ []
           :schema $ :: 'Dynamic
@@ -360,7 +361,9 @@
                 println |Dispatch: op
               reset! *reel $ reel-updater updater @*reel op
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'Unit)
+              :args $ [] '*dispatch-op
         |main! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn main! ()
@@ -433,6 +436,11 @@
             |bottom-tip :default hud!
     |app.schema $ %{} 'FileEntry
       :defs $ {}
+        |Op $ %{} 'CodeEntry (:doc |)
+          :code $ quote
+            defenum Op (:states 'List 'Dynamic) (:hydrate-storage 'Dynamic) (:reel/toggle) (:reel/recall 'Number) (:reel/merge) (:reel/reset) (:reel/step) (:reel/run) (:reel/remove 'Number)
+          :examples $ []
+          :schema $ :: 'Dynamic
         |doc-columns $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def doc-columns $ []
