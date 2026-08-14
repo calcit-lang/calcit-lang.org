@@ -24,10 +24,20 @@ jobs:
 
       - uses: calcit-lang/setup-cr@0.0.9
 
+      - name: Validate Calcit snapshot and type baseline
+        run: |
+          caps --ci
+          yarn install --immutable
+          cr calcit.cirru edit format
+          git diff --exit-code -- calcit.cirru
+          cr calcit.cirru analyze check-types --summary-only --format json
+          cr calcit.cirru analyze weak-types --only schema-dynamic,code-dynamic --intent unresolved --summary-only --format json
+          cr calcit.cirru analyze deprecated --summary-only --format json
+
       - name: "compiles to js"
         run: >
-          caps --ci && cr js
-          && yarn && yarn vite build --base=./
+          cr js
+          && yarn vite build --base=./
 
       - name: Deploy to server
         id: deploy
