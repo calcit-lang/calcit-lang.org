@@ -12,7 +12,9 @@
             defn add-link (title url)
               a $ {} (:inner-text title) (:class-name css/link) (:href url) (:target |_blank)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'respo.schema/Component)
+              :args $ [] 'String 'String
         |comp-bg $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-bg ()
@@ -21,7 +23,9 @@
               div $ {}
                 :class-name $ str-spaced |tile style-bg
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'respo.schema/Component)
+              :args $ []
         |comp-container $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-container (reel)
@@ -108,7 +112,9 @@
                       =< nil 40
                   when dev? $ comp-reel (>> states :reel) reel ({})
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'respo.schema/Component)
+              :args $ [] 'Dynamic
         |comp-link $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-link (link)
@@ -120,7 +126,9 @@
                   if (not= sub-title |)
                     <> sub-title $ str-spaced css/font-fancy style-sub-title
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'respo.schema/Component)
+              :args $ [] 'Dynamic
         |comp-promotions $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-promotions () $ div
@@ -142,7 +150,9 @@
                   :class-name $ str-spaced css/button style-promo-button style-main-button
                   :on-click $ fn (e d!) (js/window.open |https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md |_blank)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'respo.schema/Component)
+              :args $ []
         |comp-snippet-demo $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-snippet-demo (states)
@@ -161,7 +171,9 @@
                         option:unwrap-or (nth info 1) nil
                   comp-cirru-snippet $ trim (pick-demo state)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'respo.schema/Component)
+              :args $ [] 'Map
         |comp-visual $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-visual () $ div ({})
@@ -171,27 +183,29 @@
                   {} $ :display :flex
                 img $ {} (:class-name style-editor-img) (:src |https://cos-sh.tiye.me/cos-up/00c992c3061ed59d8c7d533b7a31433b-calcit-editor.png)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'respo.schema/Component)
+              :args $ []
         |demo-component $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def demo-component $ inline-content! |content/demo/comp.cirru
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         |demo-match $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def demo-match $ inline-content! |content/demo/match.cirru
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         |demo-persistent-data $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def demo-persistent-data $ inline-content! |content/demo/persistent-data.cirru
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         |demo-pipeline $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def demo-pipeline $ inline-content! |content/demo/pipeline.cirru
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         |inline-content! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defmacro inline-content! (path) (read-file path)
@@ -202,7 +216,9 @@
             defn pick-demo (k)
               case-default k demo-match (:match demo-match) (:pipeline demo-pipeline) (:component demo-component) (:persistent-data demo-persistent-data)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'String)
+              :args $ [] 'Dynamic
         |style-bg $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-bg $ {}
@@ -334,16 +350,16 @@
               (exists? js/process) (= |true js/process.env.cdn)
               :else false
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Bool
         |dev? $ %{} 'CodeEntry (:doc |)
           :code $ quote (def dev? true)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Bool
         |site $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def site $ {} (:dev-ui |http://localhost:8100/main-fonts.css) (:release-ui |http://cdn.tiye.me/favored-fonts/main-fonts.css) (:cdn-url |http://cdn.tiye.me/calcit-workflow/) (:title |Calcit) (:icon |http://cdn.tiye.me/logo/mvc-works.png) (:storage-key |workflow)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'app.schema/SiteConfig
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote (ns app.config)
     |app.main $ %{} 'FileEntry
@@ -380,18 +396,22 @@
               println "|App started."
               println "|@@@@@@@@@@@@@@@@\n@\n@  Well, code is not minified on purpose~\n@\n@   although it's still bundled with Vite.\n@\n@@@@@@@@@@@@@@@@"
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'Unit)
+              :args $ []
         |mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def mount-target $ js/document.querySelector |.app
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         |persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn persist-storage! () $ .setItem js/localStorage (:storage-key config/site)
               js/JSON.stringify $ to-cirru-edn (:store @*reel)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'Unit)
+              :args $ []
         |reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn reload! () $ if (nil? build-errors)
@@ -401,12 +421,16 @@
                 hud! |ok~ |Ok
               hud! |error build-errors
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'Unit)
+              :args $ []
         |render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn render-app! () $ render! mount-target (comp-container @*reel) dispatch!
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'Unit)
+              :args $ []
         |repeat! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn repeat! (duration cb)
@@ -415,12 +439,16 @@
                   repeat! (* 1000 duration) cb
                 * 1000 duration
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'Unit)
+              :args $ [] 'Number 'Fn
         |snippets $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn snippets () $ println config/cdn?
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'String)
+              :args $ []
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote
           ns app.main $ :require
@@ -439,6 +467,11 @@
         |Op $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defenum Op (:states 'List 'Dynamic) (:hydrate-storage 'Dynamic) (:reel/toggle) (:reel/recall 'Number) (:reel/merge) (:reel/reset) (:reel/step) (:reel/run) (:reel/remove 'Number)
+          :examples $ []
+          :schema $ :: 'Dynamic
+        |SiteConfig $ %{} 'CodeEntry (:doc |)
+          :code $ quote
+            defstruct SiteConfig (:dev-ui 'String) (:release-ui 'String) (:cdn-url 'String) (:title 'String) (:icon 'String) (:storage-key 'String)
           :examples $ []
           :schema $ :: 'Dynamic
         |doc-columns $ %{} 'CodeEntry (:doc |)
@@ -463,7 +496,7 @@
               :states $ {}
                 :cursor $ []
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Map
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote (ns app.schema)
     |app.updater $ %{} 'FileEntry
@@ -476,7 +509,9 @@
                 (:hydrate-storage d) d
                 _ $ do (eprintln "|Unknown op:" op) store
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'Map)
+              :args $ [] 'Map 'Dynamic 'Dynamic 'Dynamic
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote
           ns app.updater $ :require

@@ -30,9 +30,38 @@ jobs:
           yarn install --immutable
           cr calcit.cirru edit format
           git diff --exit-code -- calcit.cirru
-          cr calcit.cirru analyze check-types --summary-only --format json
-          cr calcit.cirru analyze weak-types --only schema-dynamic,code-dynamic --intent unresolved --summary-only --format json
-          cr calcit.cirru analyze deprecated --summary-only --format json
+          mkdir -p .calcit/upgrade
+          cr calcit.cirru analyze check-types --summary-only --format json > .calcit/upgrade/check-types.json
+          cr calcit.cirru analyze weak-types --only schema-dynamic,code-dynamic,code-nil --intent unresolved,declared-optional --summary-only --format json > .calcit/upgrade/weak-types.json
+          cr calcit.cirru analyze deprecated --summary-only --format json > .calcit/upgrade/deprecated.json
+          python3 - <<'PY'
+          import json
+          def load(p):
+            d = json.load(open(p))
+            return d.get('data', {}).get('summary', d.get('data', {}))
+          ct = load('.calcit/upgrade/check-types.json')
+          wt = load('.calcit/upgrade/weak-types.json')
+          dep = load('.calcit/upgrade/deprecated.json')
+          base = json.load(open('config/calcit-upgrade-baseline.json'))
+          metrics = {
+            'typeFull': ct.get('levels', {}).get('full', 0),
+            'typeNone': ct.get('levels', {}).get('none', 0),
+            'typeNotFull': ct.get('levels', {}).get('partial', 0),
+            'schemaDynamic': wt.get('kinds', {}).get('schema-dynamic', 0),
+            'codeDynamic': wt.get('kinds', {}).get('code-dynamic', 0),
+            'codeNil': wt.get('kinds', {}).get('code-nil', 0),
+            'declaredOptional': wt.get('intents', {}).get('declared-optional', 0),
+            'deprecatedCalls': dep.get('calls', 0),
+          }
+          fail = []
+          for k, v in metrics.items():
+            if v > base[k]:
+              fail.append(f"{k}: current={v} baseline={base[k]}")
+          if fail:
+            print("BASELINE REGRESSION:", "; ".join(fail))
+            raise SystemExit(1)
+          print("baseline OK:", json.dumps(metrics))
+          PY
 
       - name: "compiles to js"
         run: >
