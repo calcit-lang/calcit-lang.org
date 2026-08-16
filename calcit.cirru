@@ -190,22 +190,22 @@
           :code $ quote
             def demo-component $ inline-content! |content/demo/comp.cirru
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         |demo-match $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def demo-match $ inline-content! |content/demo/match.cirru
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         |demo-persistent-data $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def demo-persistent-data $ inline-content! |content/demo/persistent-data.cirru
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         |demo-pipeline $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def demo-pipeline $ inline-content! |content/demo/pipeline.cirru
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         |inline-content! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defmacro inline-content! (path) (read-file path)
@@ -216,7 +216,9 @@
             defn pick-demo (k)
               case-default k demo-match (:match demo-match) (:pipeline demo-pipeline) (:component demo-component) (:persistent-data demo-persistent-data)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Fn
+            {} (:return 'String)
+              :args $ [] 'Dynamic
         |style-bg $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-bg $ {}
