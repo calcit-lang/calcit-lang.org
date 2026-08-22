@@ -1,8 +1,9 @@
 
-{} (:about "|Machine-generated snapshot. Do not edit directly — changes will be overwritten. Use `cr query` to inspect and `cr edit`/`cr tree` to modify. Run `cr docs agents --full` first. Manual edits must follow format and schema conventions, then run `cr edit format`.") (:package |app) (:version |0.0.1)
+{} (:about "|Machine-generated snapshot. Do not edit directly — changes will be overwritten. Use `calcit query` to inspect and `calcit edit`/`calcit tree` to modify. Run `calcit docs agents --full` first. Manual edits must follow format and schema conventions, then run `calcit edit format`.") (:package |app)
   :entries $ {}
     :default $ {} (:description |) (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!)
-      :modules $ [] |respo.calcit/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/
+      :feature-policy $ {}
+      :modules $ [] |respo.calcit/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/ |js-ffi/
       :type-slots $ {} (:dispatch-op |app.schema/Op)
   :files $ {}
     |app.comp.container $ %{} 'FileEntry
@@ -56,11 +57,11 @@
                               :style $ {} (:max-width |100%)
                             div
                               {} $ :class-name style-main-title
-                              <> "|Calcit 0.13.11: typed Lisp, native runtime, JavaScript ES Modules"
+                              <> "|Calcit 0.13.29: typed Lisp, native runtime, JavaScript ES Modules"
                             =< nil 4
                             div
                               {} $ :class-name style-secondary-title
-                              <> "|Struct, Enum, Option, Result, typed FFI, and a structural `cr` workflow for reliable programs and AI agents."
+                              <> "|Struct, Enum, Option, Result, typed FFI, and a structural `calcit` workflow for reliable programs and AI agents."
                         =< nil 8
                         =< nil 24
                         comp-snippet-demo $ >> states :snippets
@@ -348,7 +349,7 @@
                 exists? js/window
                 , false
               (exists? js/process) (= |true js/process.env.cdn)
-              :else false
+              true false
           :examples $ []
           :schema $ :: 'Bool
         |dev? $ %{} 'CodeEntry (:doc |)
@@ -468,12 +469,12 @@
           :code $ quote
             defenum Op (:states 'List 'Dynamic) (:hydrate-storage 'Dynamic) (:reel/toggle) (:reel/recall 'Number) (:reel/merge) (:reel/reset) (:reel/step) (:reel/run) (:reel/remove 'Number)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Enum
         |SiteConfig $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstruct SiteConfig (:dev-ui 'String) (:release-ui 'String) (:cdn-url 'String) (:title 'String) (:icon 'String) (:storage-key 'String)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Enum
         |doc-columns $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def doc-columns $ []
@@ -487,7 +488,7 @@
           :schema $ :: 'Dynamic
         |doc-features $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            def doc-features $ [] (:: :feature "|Typed structural tooling" "|Calcit exposes query, tree, edit, cursor, transaction, and analysis commands for deterministic inspect-edit-verify workflows. They are designed for people and AI agents.") (:: :feature "|Nominal typed data" "|Struct and Enum make data boundaries explicit; Option and Result model absence and failure while persistent collections keep values ergonomic across Rust and JavaScript.") (:: :feature "|Typed JavaScript boundaries" "|Typed host-FFI contracts and static JavaScript field access carry type evidence across ES Module boundaries, with explicit escape hatches for dynamic interop.") (:: :feature "|Option-first APIs" "|Use Option<T> instead of nil for absence. Trailing Option parameters can be omitted and receive None, while non-trailing options stay explicit.") (:: :feature "|Lisp, macros, and persistent data" "|Calcit keeps code as data with an indentation-based Cirru syntax, functional collections, macros, and a compact runtime inspired by ClojureScript.") (:: :feature "|Native and ES Module output" "|Run once or watch with cr, then emit readable JavaScript ES Modules for Vite, browsers, and Node.js with matching semantics.")
+            def doc-features $ [] (:: :feature "|Typed structural tooling" "|Calcit exposes query, tree, edit, cursor, transaction, and analysis commands for deterministic inspect-edit-verify workflows. They are designed for people and AI agents.") (:: :feature "|Nominal typed data" "|Struct and Enum make data boundaries explicit; Option and Result model absence and failure while persistent collections keep values ergonomic across Rust and JavaScript.") (:: :feature "|Typed JavaScript boundaries" "|Typed host-FFI contracts and static JavaScript field access carry type evidence across ES Module boundaries, with explicit escape hatches for dynamic interop.") (:: :feature "|Option-first APIs" "|Use Option<T> instead of nil for absence. Trailing Option parameters can be omitted and receive None, while non-trailing options stay explicit.") (:: :feature "|Lisp, macros, and persistent data" "|Calcit keeps code as data with an indentation-based Cirru syntax, functional collections, macros, and a compact runtime inspired by ClojureScript.") (:: :feature "|Native and ES Module output" "|Run once or watch with calcit, then emit readable JavaScript ES Modules for Vite, browsers, and Node.js with matching semantics.")
           :examples $ []
           :schema $ :: 'Dynamic
         |store $ %{} 'CodeEntry (:doc |)
