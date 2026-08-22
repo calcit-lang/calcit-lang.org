@@ -15,7 +15,7 @@
 
 The Respo project is a virtual DOM library written in Calcit-js, containing:
 
-- **Main codebase**: `compact.cirru` (2314 lines) - serialized source code
+- **Main codebase**: `calcit.cirru` (2314 lines) - serialized source code
 - **Compiled source**: `calcit.cirru` (13806 lines) - full AST representation
 - **Namespaces**: 33 total namespaces organized by functionality
 - **Version**: 0.16.21
@@ -64,31 +64,31 @@ The Respo project is a virtual DOM library written in Calcit-js, containing:
 
 ```bash
 # List all namespaces in the project
-cr query ns
+calcit query ns
 
 # Get details about a specific namespace (imports, definitions)
-cr query ns respo.core
-cr query ns respo.app.core
+calcit query ns respo.core
+calcit query ns respo.app.core
 
 # List all definitions in a namespace
-cr query defs respo.core
-cr query defs respo.app.updater
+calcit query defs respo.core
+calcit query defs respo.app.updater
 
 # Quick peek at a definition (signature, parameters, docs)
-cr query peek respo.core/defcomp
-cr query peek respo.core/render!
+calcit query peek respo.core/defcomp
+calcit query peek respo.core/render!
 
 # Get complete definition as JSON syntax tree
-cr query def respo.core/render!
-cr query def respo.app.core/dispatch!
+calcit query def respo.core/render!
+calcit query def respo.app.core/dispatch!
 
 # Search for a symbol across all namespaces
-cr query find render!
-cr query find *store
+calcit query find render!
+calcit query find *store
 
 # Find all usages of a specific definition
-cr query usages respo.core/render!
-cr query usages respo.app.core/dispatch!
+calcit query usages respo.core/render!
+calcit query usages respo.app.core/dispatch!
 ```
 
 ### 2. Precise Code Navigation (tree pattern)
@@ -97,26 +97,26 @@ When you need to understand or modify specific parts of a definition:
 
 ```bash
 # Step 1: Read the complete definition first
-cr query def respo.app.updater/updater
+calcit query def respo.app.updater/updater
 
 # Step 2: Use tree show to examine the structure (limit depth to reduce output)
-cr tree show respo.app.updater/updater -p "" -d 1    # View root level
+calcit tree show respo.app.updater/updater -p "" -d 1    # View root level
 
 # Step 3: Dive deeper into specific indices
-cr tree show respo.app.updater/updater -p "2" -d 1   # Check 3rd element
-cr tree show respo.app.updater/updater -p "2,1" -d 1 # Check 2nd child of 3rd element
+calcit tree show respo.app.updater/updater -p "2" -d 1   # Check 3rd element
+calcit tree show respo.app.updater/updater -p "2,1" -d 1 # Check 2nd child of 3rd element
 
 # Step 4: Confirm target location before editing
-cr tree show respo.app.updater/updater -p "2,1,0"    # Final confirmation
+calcit tree show respo.app.updater/updater -p "2,1,0"    # Final confirmation
 
 # Step 5: Use tree commands for surgical modifications
 # JSON inline (recommended)
-cr tree replace respo.app.updater/updater -p "2,1,0" -j '"new-value"'
+calcit tree replace respo.app.updater/updater -p "2,1,0" -j '"new-value"'
 # Or from stdin
-echo '"new-value"' | cr tree replace respo.app.updater/updater -p "2,1,0" -s -J
+echo '"new-value"' | calcit tree replace respo.app.updater/updater -p "2,1,0" -s -J
 ```
 
-echo '["defn", "hello", [], ["println", "|Hello"]]' | cr edit def respo.app.core/hello -s -J
+echo '["defn", "hello", [], ["println", "|Hello"]]' | calcit edit def respo.app.core/hello -s -J
 
 ### 3. Code Modification (Agent Optimized)
 
@@ -142,28 +142,28 @@ For LLM Agents, **JSON inline (`-j`) is the most reliable method** for code gene
 ```bash
 # 1. Add/Update Definition (JSON)
 # (defn greet (name) (println "|Hello" name))
-cr edit def respo.demo/greet -j '["defn", "greet", ["name"], ["println", "\"|Hello\"", "name"]]'
+calcit edit def respo.demo/greet -j '["defn", "greet", ["name"], ["println", "\"|Hello\"", "name"]]'
 
 # 2. Add Definition (Cirru One-liner - risky for complex code)
-cr edit def respo.demo/simple -e 'defn simple (x) (+ x 1)'
+calcit edit def respo.demo/simple -e 'defn simple (x) (+ x 1)'
 
 # 3. Update Imports (JSON)
 # (ns respo.demo (:require [respo.core :refer [div span]]))
-cr edit imports respo.demo -j '[["respo.core", ":refer", ["div", "span"]]]'
+calcit edit imports respo.demo -j '[["respo.core", ":refer", ["div", "span"]]]'
 
 # 4. Remove Definition
-cr edit rm-def respo.demo/old-fn
+calcit edit rm-def respo.demo/old-fn
 
 # 5. Namespace Operations
-cr edit add-ns respo.new-feature
-cr edit rm-ns respo.deprecated
+calcit edit add-ns respo.new-feature
+calcit edit rm-ns respo.deprecated
 ```
 
 **💡 Pro Tip: Validation**
 If unsure about the JSON structure, generate it from Cirru first:
 
 ```bash
-cr cirru parse -O 'defn f (x) (+ x 1)'
+calcit cirru parse -O 'defn f (x) (+ x 1)'
 # Output: ["defn", "f", ["x"], ["+", "x", "1"]]
 ```
 
@@ -171,12 +171,12 @@ cr cirru parse -O 'defn f (x) (+ x 1)'
 
 ```bash
 # Get project configuration (init-fn, reload-fn, version)
-cr query config
+calcit query config
 
 # Set project configuration
-cr edit config version "0.16.22"
-cr edit config init-fn "respo.main/main!"
-cr edit config reload-fn "respo.main/reload!"
+calcit edit config version "0.16.22"
+calcit edit config init-fn "respo.main/main!"
+calcit edit config reload-fn "respo.main/reload!"
 ```
 
 ### 5. Workflow: Building From Scratch
@@ -186,7 +186,7 @@ Follow this sequence to create a new feature cleanly:
 **Step 1: Create Namespace**
 
 ```bash
-cr edit add-ns respo.app.feature-x
+calcit edit add-ns respo.app.feature-x
 ```
 
 **Step 2: Add Imports**
@@ -194,7 +194,7 @@ Define dependencies (e.g., `respo.core`).
 
 ```bash
 # Cirru: (:require [respo.core :refer [defcomp div span]])
-cr edit imports respo.app.feature-x -j '[["respo.core", ":refer", ["defcomp", "div", "span"]]]'
+calcit edit imports respo.app.feature-x -j '[["respo.core", ":refer", ["defcomp", "div", "span"]]]'
 ```
 
 **Step 3: Create Component**
@@ -202,14 +202,14 @@ Define the component logic.
 
 ```bash
 # Cirru: (defcomp comp-x (data) (div {} (<> "Feature X")))
-cr edit def respo.app.feature-x/comp-x -j '["defcomp", "comp-x", ["data"], ["div", ["{}"], ["<>", "\"|Feature X\""]]]'
+calcit edit def respo.app.feature-x/comp-x -j '["defcomp", "comp-x", ["data"], ["div", ["{}"], ["<>", "\"|Feature X\""]]]'
 ```
 
 **Step 4: Verify**
 
 ```bash
-cr query def respo.app.feature-x/comp-x
-cr --check-only
+calcit query def respo.app.feature-x/comp-x
+calcit --check-only
 ```
 
 **Step 5: Integrate**
@@ -217,50 +217,50 @@ Mount or use it in `respo.app.comp.container`.
 
 ```bash
 # 1. Add import to container ns
-cr edit require respo.app.comp.container respo.app.feature-x
+calcit edit require respo.app.comp.container respo.app.feature-x
 
 # 2. Add usage (using surgical edit)
-# Find where to insert using `cr tree show ...`
-# cr tree insert-child ... -j '["respo.app.feature-x/comp-x", "data"]'
+# Find where to insert using `calcit tree show ...`
+# calcit tree insert-child ... -j '["respo.app.feature-x/comp-x", "data"]'
 ```
 
 ### 6. Documentation and Language
 
 ```bash
 # Check for syntax errors and warnings
-cr --check-only
-cr js --check-only
+calcit --check-only
+calcit js --check-only
 
 # Get language documentation
-cr docs api render!
-cr docs ref component
-cr docs list-api     # List all API docs
-cr docs list-guide   # List all guide docs
+calcit docs api render!
+calcit docs ref component
+calcit docs list-api     # List all API docs
+calcit docs list-guide   # List all guide docs
 
 # Parse Cirru code to JSON (for understanding syntax)
-cr cirru parse '(div {} (<> "hello"))'
+calcit cirru parse '(div {} (<> "hello"))'
 
 # Format JSON to Cirru code
-cr cirru format '["div", {}, ["<>", "hello"]]'
+calcit cirru format '["div", {}, ["<>", "hello"]]'
 
 # Parse EDN to JSON
-cr cirru parse-edn '{:a 1 :b [2 3]}'
+calcit cirru parse-edn '{:a 1 :b [2 3]}'
 
 # Show Cirru syntax guide (read before generating Cirru)
-cr cirru show-guide
+calcit cirru show-guide
 ```
 
 ### 6. Library Management
 
 ```bash
 # List official libraries
-cr libs
+calcit libs
 
 # Search libraries by keyword
-cr libs search router
+calcit libs search router
 
 # Read library README from GitHub
-cr libs readme respo
+calcit libs readme respo
 
 # Install/update dependencies
 caps
@@ -276,7 +276,7 @@ Use `call-graph` to visualize the component tree and data flow starting from an 
 
 ```bash
 # Visualize the app structure from the render entry point
-cr analyze call-graph --root respo.app.core/render-app! --ns-prefix respo.app. --max-depth 3
+calcit analyze call-graph --root respo.app.core/render-app! --ns-prefix respo.app. --max-depth 3
 
 # This reveals the component hierarchy:
 # └── render-app!
@@ -293,13 +293,13 @@ Use `search-expr` to find functional patterns (like state management or event ha
 
 ```bash
 # How is state being navigated?
-cr query search-expr '>> states' -l
+calcit query search-expr '>> states' -l
 
 # Where are local state changes dispatched?
-cr query search-expr 'd! cursor' -l
+calcit query search-expr 'd! cursor' -l
 
 # Find all component event handler signatures
-cr query search-expr 'fn (e d!)' -l
+calcit query search-expr 'fn (e d!)' -l
 ```
 
 **Strategy:**
@@ -316,9 +316,9 @@ cr query search-expr 'fn (e d!)' -l
 
 ```bash
 # Always start by exploring related code
-cr query ns respo.app.updater             # Understand state management
-cr query find my-function-name            # Find where it's defined/used
-cr query usages respo.core/render!        # See how render! is used
+calcit query ns respo.app.updater             # Understand state management
+calcit query find my-function-name            # Find where it's defined/used
+calcit query usages respo.core/render!        # See how render! is used
 ```
 
 ### Step 2: Implement the Solution
@@ -327,58 +327,58 @@ Use the **precise editing pattern** for complex changes:
 
 ```bash
 # 1. Read the whole definition
-cr query def namespace/function-name
+calcit query def namespace/function-name
 
 # 2. Map out the structure with tree show
-cr tree show namespace/function-name -p "" -d 1
+calcit tree show namespace/function-name -p "" -d 1
 
 # 3. Navigate to target position
-cr tree show namespace/function-name -p "2,1" -d 1
+calcit tree show namespace/function-name -p "2,1" -d 1
 
 # 4. Make the change (JSON inline recommended)
-cr tree replace namespace/function-name -p "2,1,0" -j '["new", "code"]'
+calcit tree replace namespace/function-name -p "2,1,0" -j '["new", "code"]'
 
 # Or from stdin (JSON format)
-echo '["new", "code"]' | cr tree replace namespace/function-name -p "2,1,0" -s -J
+echo '["new", "code"]' | calcit tree replace namespace/function-name -p "2,1,0" -s -J
 
 # 5. Verify
-cr tree show namespace/function-name -p "2,1"
+calcit tree show namespace/function-name -p "2,1"
 ```
 
 ### Step 3: Test and Validate
 
 ```bash
 # Check syntax without running
-cr --check-only
+calcit --check-only
 
 # Compile to JavaScript and check for errors
-cr js --check-only
+calcit js --check-only
 
 # Run the app once to test
-cr -1
+calcit
 
 # Compile to JavaScript once
-cr -1 js
+calcit js
 
 # Watch mode (will call reload! on code changes)
-cr
+calcit
 ```
 
 ### Step 4: Debug Issues
 
 ```bash
 # Check for error messages
-cr query error
+calcit query error
 
 # Read error stack traces
 cat .calcit-error.cirru  # (if it exists)
 
 # Search for the problematic code
-cr query find problem-symbol
-cr query usages namespace/definition
+calcit query find problem-symbol
+calcit query usages namespace/definition
 
 # Review the definition in detail
-cr query def namespace/definition
+calcit query def namespace/definition
 ```
 
 ---
@@ -398,7 +398,7 @@ defcomp comp-name (param1 param2 & options)
   <> "|Content"
 ```
 
-**JSON AST (Write - for `cr edit`):**
+**JSON AST (Write - for `calcit edit`):**
 
 ```json
 [
@@ -551,7 +551,7 @@ div
 
 ```bash
 # Basic example (thread-first pipeline avoids bash escaping issues)
-cr eval 'thread-first ({} (:display "|flex") (:color "|red") (:padding "|10px")) .to-list respo.render.dom/style->string println' --dep respo.calcit/
+calcit eval 'thread-first ({} (:display "|flex") (:color "|red") (:padding "|10px")) .to-list respo.render.dom/style->string println' --dep respo.calcit/
 # Output: padding:10px;color:red;display:flex;
 ```
 
@@ -663,12 +663,12 @@ js/window.setTimeout
 
 ```bash
 # Check if render-app! is being called
-cr query find render-app!
-cr query usages respo.main/render-app!
+calcit query find render-app!
+calcit query usages respo.main/render-app!
 
 # Verify store watcher is set up
-cr query def respo.app.core/dispatch!
-cr query def respo.main/main!
+calcit query def respo.app.core/dispatch!
+calcit query def respo.main/main!
 ```
 
 **Solution Pattern**:
@@ -693,13 +693,13 @@ defn reload! ()
 
 ```bash
 # Check updater function logic
-cr query def respo.app.updater/updater
+calcit query def respo.app.updater/updater
 
 # Verify dispatch! is calling updater correctly
-cr query def respo.app.core/dispatch!
+calcit query def respo.app.core/dispatch!
 
 # Check the state path in component
-cr query def respo.app.comp.container/comp-container
+calcit query def respo.app.comp.container/comp-container
 ```
 
 **Solution Pattern**:
@@ -722,11 +722,11 @@ dispatch! [:action-name actual-value]
 
 ```bash
 # Check effect definition
-cr query def respo.core/defeffect  # macro documentation
+calcit query def respo.core/defeffect  # macro documentation
 
 # Find effect in component
-cr query find my-effect
-cr query usages respo.app.comp.task/my-effect
+calcit query find my-effect
+calcit query usages respo.app.comp.task/my-effect
 ```
 
 **Solution Pattern**:
@@ -754,10 +754,10 @@ defeffect my-effect (initial-value)
 
 ```bash
 # Check reload! function
-cr query def respo.main/reload!
+calcit query def respo.main/reload!
 
 # Verify clear-cache! is called
-cr query usages respo.core/clear-cache!
+calcit query usages respo.core/clear-cache!
 ```
 
 **Solution Pattern**:
@@ -781,54 +781,54 @@ defn reload! ()
 1. **Understand the context**
 
    ```bash
-   cr query ns namespace-name  # See imports and doc
-   cr query peek namespace-name/def-name  # See signature
+   calcit query ns namespace-name  # See imports and doc
+   calcit query peek namespace-name/def-name  # See signature
    ```
 
 2. **Map the exact location**
 
    ```bash
-   cr tree show namespace-name/def-name -p "" -d 2  # Overview
-   cr tree show namespace-name/def-name -p "2" -d 2  # Check section
-   cr tree show namespace-name/def-name -p "2,1" -d 2  # Precise location
+   calcit tree show namespace-name/def-name -p "" -d 2  # Overview
+   calcit tree show namespace-name/def-name -p "2" -d 2  # Check section
+   calcit tree show namespace-name/def-name -p "2,1" -d 2  # Precise location
    ```
 
 3. **Make surgical change**
 
 ```bash
 # JSON inline (recommended)
-cr tree replace namespace-name/def-name -p "2,1,0" -j '"new-value"'
+calcit tree replace namespace-name/def-name -p "2,1,0" -j '"new-value"'
 
 # Or from stdin (JSON format)
-echo '"new-value"' | cr tree replace namespace-name/def-name -p "2,1,0" -s -J
+echo '"new-value"' | calcit tree replace namespace-name/def-name -p "2,1,0" -s -J
 ```
 
 4. **Verify immediately**
    ```bash
-   cr tree show namespace-name/def-name -p "2,1"  # Confirm change
-   cr --check-only  # Verify syntax
+   calcit tree show namespace-name/def-name -p "2,1"  # Confirm change
+   calcit --check-only  # Verify syntax
    ```
 
 ### Common edit operations:
 
 ```bash
 # Replace a value (JSON inline)
-cr tree replace ns/def -p "2,1,0" -j '"new-value"'
+calcit tree replace ns/def -p "2,1,0" -j '"new-value"'
 
 # Insert before a position (JSON)
-cr tree insert-before ns/def -p "2,1" -j '["new", "element"]'
+calcit tree insert-before ns/def -p "2,1" -j '["new", "element"]'
 
 # Insert after a position (JSON)
-cr tree insert-after ns/def -p "2,1" -j '["new", "element"]'
+calcit tree insert-after ns/def -p "2,1" -j '["new", "element"]'
 
 # Delete a node
-cr tree delete ns/def -p "2,1,0"
+calcit tree delete ns/def -p "2,1,0"
 
 # Insert as child (first child)
-cr tree insert-child ns/def -p "2,1" -j '"child-value"'
+calcit tree insert-child ns/def -p "2,1" -j '"child-value"'
 
 # Append as child (last child, from stdin)
-echo '"child-value"' | cr tree append-child ns/def -p "2,1" -s -J
+echo '"child-value"' | calcit tree append-child ns/def -p "2,1" -s -J
 ```
 
 ---
@@ -839,44 +839,44 @@ echo '"child-value"' | cr tree append-child ns/def -p "2,1" -s -J
 
 ```bash
 # Syntax check only (no execution)
-cr --check-only
+calcit --check-only
 
 # Check JavaScript compilation
-cr js --check-only
+calcit js --check-only
 
 # Run application once
-cr -1
+calcit
 
 # Compile to JS once
-cr -1 js
+calcit js
 ```
 
 ### Test-driven development
 
 ```bash
 # Look at test files
-cr query defs respo.test.main
-cr query def respo.test.main/test-fn
+calcit query defs respo.test.main
+calcit query def respo.test.main/test-fn
 
 # Run tests
-cr -1  ; (if init-fn runs tests)
+calcit  ; (if init-fn runs tests)
 ```
 
 ### Error diagnosis
 
 ```bash
 # View error file
-cr query error
+calcit query error
 cat .calcit-error.cirru
 
 # Search for the problematic definition
-cr query find problem-name
+calcit query find problem-name
 
 # Check the full definition
-cr query def namespace/problem-name
+calcit query def namespace/problem-name
 
 # Validate dependencies
-cr query ns namespace-name  # Check imports
+calcit query ns namespace-name  # Check imports
 ```
 
 ---
@@ -885,8 +885,8 @@ cr query ns namespace-name  # Check imports
 
 ### ⚠️ Critical Rules
 
-1. **NEVER directly edit `calcit.cirru` or `compact.cirru`** with text editors
-   - Use `cr edit` commands instead
+1. **NEVER directly edit `calcit.cirru` or `calcit.cirru`** with text editors
+   - Use `calcit edit` commands instead
    - These are serialized AST structures, not human-readable code
 
 2. **ALWAYS use relative paths for documentation links**
@@ -896,41 +896,41 @@ cr query ns namespace-name  # Check imports
 3. **ALWAYS check syntax before assuming it's correct**
 
    ```bash
-   cr --check-only
+   calcit --check-only
    ```
 
 4. **ALWAYS verify modifications work**
 
    ```bash
-   cr tree show namespace/def -p "modified-path"  # Confirm change
-   cr --check-only  # Check syntax
-   cr -1  # Test run
+   calcit tree show namespace/def -p "modified-path"  # Confirm change
+   calcit --check-only  # Check syntax
+   calcit  # Test run
    ```
 
 5. **Use peek before def** to reduce token consumption
    ```bash
-   cr query peek ns/def  # Light summary
-   cr query def ns/def  # Full AST (use only if needed)
+   calcit query peek ns/def  # Light summary
+   calcit query def ns/def  # Full AST (use only if needed)
    ```
 
 ### 🎯 Optimization Tips for Token Usage
 
 ```bash
 # Fast exploration with limited output
-cr query peek respo.core/defcomp              # 5-10 lines
-cr query defs respo.app.updater               # Quick list
+calcit query peek respo.core/defcomp              # 5-10 lines
+calcit query defs respo.app.updater               # Quick list
 
 # Slower but comprehensive
-cr query def respo.app.updater/updater        # Full JSON AST
+calcit query def respo.app.updater/updater        # Full JSON AST
 
 # Use -d flag to limit JSON depth
-cr tree show ns/def -p "2,1" -d 1            # Shallow
-cr tree show ns/def -p "2,1" -d 3            # Medium
-cr tree show ns/def -p "2,1"                 # Full (default)
+calcit tree show ns/def -p "2,1" -d 1            # Shallow
+calcit tree show ns/def -p "2,1" -d 3            # Medium
+calcit tree show ns/def -p "2,1"                 # Full (default)
 
 # Search before diving deep
-cr query find my-function                     # Find location first
-cr query usages ns/def                        # See usage patterns
+calcit query find my-function                     # Find location first
+calcit query usages ns/def                        # See usage patterns
 ```
 
 ### 📖 Documentation Strategy
@@ -942,8 +942,8 @@ When stuck, use these resources in order:
 3. [Beginner Guide](./beginner-guide.md) - Conceptual introduction
 4. [API Reference](./api.md) - Specific API documentation
 5. [Guide docs](./guide/) - Detailed topics
-6. `cr docs api <keyword>` - Language documentation
-7. Project code itself: `cr query ns <namespace>`
+6. `calcit docs api <keyword>` - Language documentation
+7. Project code itself: `calcit query ns <namespace>`
 
 ---
 
@@ -953,28 +953,28 @@ When stuck, use these resources in order:
 
 ```bash
 # Exploration (read-only, no changes)
-cr query ns                              # List namespaces
-cr query ns respo.core                   # Read namespace details
-cr query defs respo.app.core             # List definitions
-cr query peek respo.core/render!         # Quick peek
-cr query def respo.core/render!          # Full definition
-cr query find render!                    # Search globally
-cr query usages respo.core/render!       # Find usages
+calcit query ns                              # List namespaces
+calcit query ns respo.core                   # Read namespace details
+calcit query defs respo.app.core             # List definitions
+calcit query peek respo.core/render!         # Quick peek
+calcit query def respo.core/render!          # Full definition
+calcit query find render!                    # Search globally
+calcit query usages respo.core/render!       # Find usages
 
 # Navigation (precise editing)
-cr tree show ns/def -p "" -d 1           # View structure
-cr tree show ns/def -p "2,1" -d 1        # Drill down
-cr tree show ns/def -p "2,1,0"           # Confirm target
+calcit tree show ns/def -p "" -d 1           # View structure
+calcit tree show ns/def -p "2,1" -d 1        # Drill down
+calcit tree show ns/def -p "2,1,0"           # Confirm target
 
 # Modification (careful!)
-cr edit def ns/def -j '["defn", "func", [], "body"]'
-cr tree replace ns/def -p "2,1,0" -j '"value"'
-cr edit rm-def ns/def
+calcit edit def ns/def -j '["defn", "func", [], "body"]'
+calcit tree replace ns/def -p "2,1,0" -j '"value"'
+calcit edit rm-def ns/def
 
 # Validation
-cr --check-only                          # Check syntax
-cr query error                           # View errors
-cr -1                                    # Test run
+calcit --check-only                          # Check syntax
+calcit query error                           # View errors
+calcit                                    # Test run
 ```
 
 ### File Paths in Documentation

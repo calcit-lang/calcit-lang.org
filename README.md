@@ -1,8 +1,8 @@
 ## Calcit Home Page
 
-The Calcit homepage presents the current 0.13.11 direction: a typed Lisp with nominal `Struct`/`Enum` data, explicit `Option`/`Result` APIs, typed JavaScript boundaries, and a structural `cr` workflow for human and AI-assisted development.
+The Calcit homepage presents the current 0.13.29 direction: a typed Lisp with nominal `Struct`/`Enum` data, explicit `Option`/`Result` APIs, typed JavaScript boundaries, and a structural `calcit` workflow for human and AI-assisted development.
 
-Recent Calcit releases also make the source snapshot a safer program boundary. `calcit.cirru` supports strict Cirru EDN workflows, `cr` can inspect and mutate definitions structurally, and verification can combine type analysis, examples, attached tests, and JavaScript code generation.
+Recent Calcit releases also make the source snapshot a safer program boundary. `calcit.cirru` supports strict Cirru EDN workflows, `calcit` can inspect and mutate definitions structurally, and verification can combine type analysis, examples, attached tests, and JavaScript code generation.
 
 Toolchain:
 
@@ -10,7 +10,7 @@ Toolchain:
 | -------- | ----------------------------------------------------------------- |
 | calcit   | ![](https://img.shields.io/github/v/release/calcit-lang/calcit)   |
 | editor   | ![](https://img.shields.io/github/v/release/calcit-lang/editor)   |
-| setup-cr | ![](https://img.shields.io/github/v/release/calcit-lang/setup-cr) |
+| setup-calcit | ![](https://img.shields.io/github/v/release/calcit-lang/setup-calcit) |
 
 Libraries:
 
