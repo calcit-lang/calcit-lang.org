@@ -6,9 +6,9 @@
       :modules $ [] |respo.calcit/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/ |js-ffi/
       :type-slots $ {} (:dispatch-op |app.schema/Op)
   :files $ {}
-    |app.comp.container $ %{} 'FileEntry
+    'app.comp.container $ %{} 'FileEntry
       :defs $ {}
-        |add-link $ %{} 'CodeEntry (:doc |)
+        'add-link $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn add-link (title url)
               a $ {} (:inner-text title) (:class-name css/link) (:href url) (:target |_blank)
@@ -16,7 +16,7 @@
           :schema $ :: 'Fn
             {} (:return 'respo.schema/Component)
               :args $ [] 'String 'String
-        |comp-bg $ %{} 'CodeEntry (:doc |)
+        'comp-bg $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-bg ()
               ; img $ {} (:src |http://cdn.tiye.me/logo/calcit.png)
@@ -27,7 +27,7 @@
           :schema $ :: 'Fn
             {} (:return 'respo.schema/Component)
               :args $ []
-        |comp-container $ %{} 'CodeEntry (:doc |)
+        'comp-container $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-container (reel)
               let
@@ -57,7 +57,7 @@
                               :style $ {} (:max-width |100%)
                             div
                               {} $ :class-name style-main-title
-                              <> "|Calcit 0.13.29: typed Lisp, native runtime, JavaScript ES Modules"
+                              <> "|Calcit: typed functional language for real-time applications"
                             =< nil 4
                             div
                               {} $ :class-name style-secondary-title
@@ -83,7 +83,8 @@
                                   comp-md content $ {} (:class-name |)
                       comp-md-block (inline-content! |content/intro.md)
                         {} (:class-name |)
-                          :highlight $ fn (code lang) (cirru-color/generateHtml code)
+                          :highlight $ fn (code lang)
+                            str $ cirru-color/generateHtml code
                       h2
                         {} $ :style ({})
                         <> |Ecosystem
@@ -104,7 +105,8 @@
                                         [] idx $ comp-link link
                       comp-md-block (inline-content! |content/cirru.md)
                         {} (:class-name |)
-                          :highlight $ fn (code lang) (cirru-color/generateHtml code)
+                          :highlight $ fn (code lang)
+                            str $ cirru-color/generateHtml code
                       =< nil 120
                       div
                         {} $ :class-name css/row-parted
@@ -116,7 +118,7 @@
           :schema $ :: 'Fn
             {} (:return 'respo.schema/Component)
               :args $ [] 'Dynamic
-        |comp-link $ %{} 'CodeEntry (:doc |)
+        'comp-link $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-link (link)
               match link $
@@ -130,7 +132,7 @@
           :schema $ :: 'Fn
             {} (:return 'respo.schema/Component)
               :args $ [] 'Dynamic
-        |comp-promotions $ %{} 'CodeEntry (:doc |)
+        'comp-promotions $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-promotions () $ div
               {} (:class-name css/row-parted)
@@ -146,15 +148,17 @@
                 add-link "|Play snippets" |http://repo.calcit-lang.org/calcit-wasm-play/
                 button $ {} (:inner-text |Guidebook)
                   :class-name $ str-spaced css/button style-promo-button
-                  :on-click $ fn (e d!) (js/window.open |http://repo.calcit-lang.org/guidebook/ |_blank)
+                  :on-click $ fn (e d!)
+                    do (js/window.open |http://repo.calcit-lang.org/guidebook/ |_blank) &unit
                 button $ {} (:inner-text "|Agents Guide")
                   :class-name $ str-spaced css/button style-promo-button style-main-button
-                  :on-click $ fn (e d!) (js/window.open |https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md |_blank)
+                  :on-click $ fn (e d!)
+                    do (js/window.open |https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md |_blank) &unit
           :examples $ []
           :schema $ :: 'Fn
             {} (:return 'respo.schema/Component)
               :args $ []
-        |comp-snippet-demo $ %{} 'CodeEntry (:doc |)
+        'comp-snippet-demo $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-snippet-demo (states)
               let
@@ -175,7 +179,7 @@
           :schema $ :: 'Fn
             {} (:return 'respo.schema/Component)
               :args $ [] 'Map
-        |comp-visual $ %{} 'CodeEntry (:doc |)
+        'comp-visual $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defcomp comp-visual () $ div ({})
               div ({}) (<> "|Visual of Calcit Editor:")
@@ -187,32 +191,37 @@
           :schema $ :: 'Fn
             {} (:return 'respo.schema/Component)
               :args $ []
-        |demo-component $ %{} 'CodeEntry (:doc |)
+        'demo-component $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def demo-component $ inline-content! |content/demo/comp.cirru
           :examples $ []
           :schema $ :: 'String
-        |demo-match $ %{} 'CodeEntry (:doc |)
+        'demo-match $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def demo-match $ inline-content! |content/demo/match.cirru
           :examples $ []
           :schema $ :: 'String
-        |demo-persistent-data $ %{} 'CodeEntry (:doc |)
+        'demo-persistent-data $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def demo-persistent-data $ inline-content! |content/demo/persistent-data.cirru
           :examples $ []
           :schema $ :: 'String
-        |demo-pipeline $ %{} 'CodeEntry (:doc |)
+        'demo-pipeline $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def demo-pipeline $ inline-content! |content/demo/pipeline.cirru
           :examples $ []
           :schema $ :: 'String
-        |inline-content! $ %{} 'CodeEntry (:doc |)
+        'inline-content! $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            defmacro inline-content! (path) (read-file path)
+            defmacro inline-content! (path)
+              read-file $ str path
           :examples $ []
-          :schema $ :: 'Dynamic
-        |pick-demo $ %{} 'CodeEntry (:doc |)
+          :schema $ :: 'Macro
+            {}
+              :capabilities $ #{} :fs-read
+              :expansion $ :: 'Expr 'String
+              :required $ [] (:: 'Expr 'String)
+        'pick-demo $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn pick-demo (k)
               case-default k demo-match (:match demo-match) (:pipeline demo-pipeline) (:component demo-component) (:persistent-data demo-persistent-data)
@@ -220,43 +229,43 @@
           :schema $ :: 'Fn
             {} (:return 'String)
               :args $ [] 'Dynamic
-        |style-bg $ %{} 'CodeEntry (:doc |)
+        'style-bg $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-bg $ {}
               |& $ {} (:width |100vw) (:z-index |-10) (:position :fixed) (:opacity |0.5)
           :examples $ []
           :schema $ :: 'Dynamic
-        |style-cards-containers $ %{} 'CodeEntry (:doc |)
+        'style-cards-containers $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-cards-containers $ {}
               |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(300px, 1fr))") (:gap |20px) (:margin "|32px 0")
           :examples $ []
           :schema $ :: 'Dynamic
-        |style-columns $ %{} 'CodeEntry (:doc |)
+        'style-columns $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-columns $ {}
               |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(300px, 1fr))") (:gap |12px)
           :examples $ []
           :schema $ :: 'Dynamic
-        |style-content $ %{} 'CodeEntry (:doc |)
+        'style-content $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-content $ {}
               |& $ {} (:margin "|0 auto") (:max-width |1200px) (:padding "|0 40px")
           :examples $ []
           :schema $ :: 'Dynamic
-        |style-display-link $ %{} 'CodeEntry (:doc |)
+        'style-display-link $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-display-link $ {}
               |& $ {} (:text-decoration :none)
           :examples $ []
           :schema $ :: 'Dynamic
-        |style-editor-img $ %{} 'CodeEntry (:doc |)
+        'style-editor-img $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-editor-img $ {}
               |& $ {} (:max-width "|min(100%, 720px)") (:margin :auto)
           :examples $ []
           :schema $ :: 'Dynamic
-        |style-feature $ %{} 'CodeEntry (:doc |)
+        'style-feature $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-feature $ {}
               |& $ {} (:border-radius |12px)
@@ -271,7 +280,7 @@
                 :box-shadow $ str "|1px 2px 4px " (hsl 0 0 0 0.2)
           :examples $ []
           :schema $ :: 'Dynamic
-        |style-feature-content $ %{} 'CodeEntry (:doc |)
+        'style-feature-content $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-feature-content $ {}
               |& $ {} (:line-height |1.7) (:font-size |15px)
@@ -280,13 +289,13 @@
                 :font-weight 100
           :examples $ []
           :schema $ :: 'Dynamic
-        |style-feature-title $ %{} 'CodeEntry (:doc |)
+        'style-feature-title $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-feature-title $ {}
               |& $ {} (:font-size |16px) (:font-weight |900)
           :examples $ []
           :schema $ :: 'Dynamic
-        |style-main-button $ %{} 'CodeEntry (:doc |)
+        'style-main-button $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-main-button $ {}
               |button& $ {} (:color :white)
@@ -300,26 +309,26 @@
                 :background-color $ hsl 220 80 70
           :examples $ []
           :schema $ :: 'Dynamic
-        |style-main-title $ %{} 'CodeEntry (:doc |)
+        'style-main-title $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-main-title $ {}
               |& $ {} (:font-size |32px) (:line-height |1.2) (:letter-spacing |-0.5px) (:font-family "|Federo, cursive")
           :examples $ []
           :schema $ :: 'Dynamic
-        |style-promo-button $ %{} 'CodeEntry (:doc |)
+        'style-promo-button $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-promo-button $ {}
               |& $ {} (:line-height |40px) (:border-radius |24px) (:padding "|0 24px") (:font-size |15px) (; :font-family "|Federo, cursive")
           :examples $ []
           :schema $ :: 'Dynamic
-        |style-secondary-title $ %{} 'CodeEntry (:doc |)
+        'style-secondary-title $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-secondary-title $ {}
               |& $ {} (:font-size |16px) (:line-height |1.6)
                 :color $ hsl 0 0 40
           :examples $ []
           :schema $ :: 'Dynamic
-        |style-sub-title $ %{} 'CodeEntry (:doc |)
+        'style-sub-title $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstyle style-sub-title $ {}
               |& $ {}
@@ -341,9 +350,9 @@
             app.schema :refer $ doc-features doc-columns
             respo-ui.comp :refer $ comp-tabs comp-cirru-snippet
             reel.schema :refer $ read-field
-    |app.config $ %{} 'FileEntry
+    'app.config $ %{} 'FileEntry
       :defs $ {}
-        |cdn? $ %{} 'CodeEntry (:doc |)
+        'cdn? $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def cdn? $ cond
                 exists? js/window
@@ -352,25 +361,25 @@
               true false
           :examples $ []
           :schema $ :: 'Bool
-        |dev? $ %{} 'CodeEntry (:doc |)
+        'dev? $ %{} 'CodeEntry (:doc |)
           :code $ quote (def dev? true)
           :examples $ []
           :schema $ :: 'Bool
-        |site $ %{} 'CodeEntry (:doc |)
+        'site $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def site $ {} (:dev-ui |http://localhost:8100/main-fonts.css) (:release-ui |http://cdn.tiye.me/favored-fonts/main-fonts.css) (:cdn-url |http://cdn.tiye.me/calcit-workflow/) (:title |Calcit) (:icon |http://cdn.tiye.me/logo/mvc-works.png) (:storage-key |workflow)
           :examples $ []
           :schema $ :: 'app.schema/SiteConfig
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote (ns app.config)
-    |app.main $ %{} 'FileEntry
+    'app.main $ %{} 'FileEntry
       :defs $ {}
-        |*reel $ %{} 'CodeEntry (:doc |)
+        '*reel $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defatom *reel $ -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
           :examples $ []
           :schema $ :: 'Dynamic
-        |dispatch! $ %{} 'CodeEntry (:doc |)
+        'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn dispatch! (op)
               when
@@ -381,7 +390,7 @@
           :schema $ :: 'Fn
             {} (:return 'Unit)
               :args $ [] '*dispatch-op
-        |main! $ %{} 'CodeEntry (:doc |)
+        'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn main! ()
               println "|Running mode:" $ if config/dev? |dev |release
@@ -400,12 +409,12 @@
           :schema $ :: 'Fn
             {} (:return 'Unit)
               :args $ []
-        |mount-target $ %{} 'CodeEntry (:doc |)
+        'mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def mount-target $ js/document.querySelector |.app
           :examples $ []
           :schema $ :: 'String
-        |persist-storage! $ %{} 'CodeEntry (:doc |)
+        'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn persist-storage! () $ .setItem js/localStorage (:storage-key config/site)
               js/JSON.stringify $ to-cirru-edn (:store @*reel)
@@ -413,7 +422,7 @@
           :schema $ :: 'Fn
             {} (:return 'Unit)
               :args $ []
-        |reload! $ %{} 'CodeEntry (:doc |)
+        'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn reload! () $ if (nil? build-errors)
               do (remove-watch *reel :changes) (clear-cache!)
@@ -425,14 +434,14 @@
           :schema $ :: 'Fn
             {} (:return 'Unit)
               :args $ []
-        |render-app! $ %{} 'CodeEntry (:doc |)
+        'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn render-app! () $ render! mount-target (comp-container @*reel) dispatch!
           :examples $ []
           :schema $ :: 'Fn
             {} (:return 'Unit)
               :args $ []
-        |repeat! $ %{} 'CodeEntry (:doc |)
+        'repeat! $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn repeat! (duration cb)
               js/setTimeout
@@ -443,7 +452,7 @@
           :schema $ :: 'Fn
             {} (:return 'Unit)
               :args $ [] 'Number 'Fn
-        |snippets $ %{} 'CodeEntry (:doc |)
+        'snippets $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn snippets () $ println config/cdn?
           :examples $ []
@@ -463,19 +472,19 @@
             app.config :as config
             |./calcit.build-errors :default build-errors
             |bottom-tip :default hud!
-    |app.schema $ %{} 'FileEntry
+    'app.schema $ %{} 'FileEntry
       :defs $ {}
-        |Op $ %{} 'CodeEntry (:doc |)
+        'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defenum Op (:states 'List 'Dynamic) (:hydrate-storage 'Dynamic) (:reel/toggle) (:reel/recall 'Number) (:reel/merge) (:reel/reset) (:reel/step) (:reel/run) (:reel/remove 'Number)
           :examples $ []
           :schema $ :: 'Enum
-        |SiteConfig $ %{} 'CodeEntry (:doc |)
+        'SiteConfig $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defstruct SiteConfig (:dev-ui 'String) (:release-ui 'String) (:cdn-url 'String) (:title 'String) (:icon 'String) (:storage-key 'String)
           :examples $ []
           :schema $ :: 'Enum
-        |doc-columns $ %{} 'CodeEntry (:doc |)
+        'doc-columns $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def doc-columns $ []
               :: :column |Libraries $ [] (:: :link |Recollect "|Diff/patch library designed for Cumulo project" |https://github.com/calcit-lang/recollect) (:: :link "|Calcit WSS" "|WebSocket server binding" |https://github.com/calcit-lang/calcit-wss) (:: :link |Quaternion "|Quaternion math helper" |https://github.com/calcit-lang/quaternion) (:: :link |Std "|Some standard functions" |https://github.com/calcit-lang/calcit.std)
@@ -486,12 +495,12 @@
               :: :column |Articles $ [] (:: :link "|Calcit 相比 Clojure 一些有意思的元编程能力 #226" | |https://github.com/calcit-lang/calcit/discussions/226) (:: :link "|design decision: rename \"keyword\" to \"tag\" #209" | |https://github.com/calcit-lang/calcit/discussions/209) (:: :link "|Calcit 脚本语言一些基础介绍" | |https://zhuanlan.zhihu.com/p/394791973) (:: :link "|Introducing calcit-js: toy language inspired by cljs" | |https://clojureverse.org/t/introducing-calcit-js-toy-language-inspired-by-cljs/7097) (:: :link "|An indentation way to Lisp" | |https://github.com/calcit-lang/calcit-runner/discussions/123) (:: :link "|Problems encountered in generating js" | |https://github.com/calcit-lang/calcit-runner.nim/discussions/148) (:: :link "|calcit-js 的 JavaScript 代码生成与疑难" | |https://github.com/calcit-lang/calcit-runner.nim/discussions/184) (:: :link "|ternary-tree.ts: 关于初期的性能优化(on early optimizations)" | |https://github.com/calcit-lang/ternary-tree.ts/discussions/7) (:: :link "|A trick for cheaper persistent list in JavaScript" | |https://clojureverse.org/t/a-trick-for-cheaper-persistent-list-in-javascript/7172)
           :examples $ []
           :schema $ :: 'Dynamic
-        |doc-features $ %{} 'CodeEntry (:doc |)
+        'doc-features $ %{} 'CodeEntry (:doc |)
           :code $ quote
-            def doc-features $ [] (:: :feature "|Typed structural tooling" "|Calcit exposes query, tree, edit, cursor, transaction, and analysis commands for deterministic inspect-edit-verify workflows. They are designed for people and AI agents.") (:: :feature "|Nominal typed data" "|Struct and Enum make data boundaries explicit; Option and Result model absence and failure while persistent collections keep values ergonomic across Rust and JavaScript.") (:: :feature "|Typed JavaScript boundaries" "|Typed host-FFI contracts and static JavaScript field access carry type evidence across ES Module boundaries, with explicit escape hatches for dynamic interop.") (:: :feature "|Option-first APIs" "|Use Option<T> instead of nil for absence. Trailing Option parameters can be omitted and receive None, while non-trailing options stay explicit.") (:: :feature "|Lisp, macros, and persistent data" "|Calcit keeps code as data with an indentation-based Cirru syntax, functional collections, macros, and a compact runtime inspired by ClojureScript.") (:: :feature "|Native and ES Module output" "|Run once or watch with calcit, then emit readable JavaScript ES Modules for Vite, browsers, and Node.js with matching semantics.")
+            def doc-features $ [] (:: :feature "|Typed structural tooling" "|Calcit exposes query, tree, edit, cursor, transaction, and analysis commands for deterministic inspect-edit-verify workflows. They are designed for people and AI agents.") (:: :feature "|Nominal typed data" "|Struct and Enum make data boundaries explicit; Option and Result model absence and failure while persistent collections keep values ergonomic across Rust and JavaScript.") (:: :feature "|Typed JavaScript boundaries" "|Typed host-FFI contracts and static JavaScript field access carry type evidence across ES Module boundaries, with explicit escape hatches for dynamic interop.") (:: :feature "|Option-first APIs" "|Use Option<T> instead of nil for absence. Trailing Option parameters can be omitted and receive None, while non-trailing options stay explicit.") (:: :feature "|Cirru source, macros, and persistent data" "|Calcit stores canonical code as Cirru syntax trees, combines functional persistent collections with macros, and preserves matching native and JavaScript semantics.") (:: :feature "|Native and ES Module output" "|Run once or watch with calcit, then emit readable JavaScript ES Modules for Vite, browsers, and Node.js with matching semantics.")
           :examples $ []
           :schema $ :: 'Dynamic
-        |store $ %{} 'CodeEntry (:doc |)
+        'store $ %{} 'CodeEntry (:doc |)
           :code $ quote
             def store $ {}
               :states $ {}
@@ -500,9 +509,9 @@
           :schema $ :: 'Map
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote (ns app.schema)
-    |app.updater $ %{} 'FileEntry
+    'app.updater $ %{} 'FileEntry
       :defs $ {}
-        |updater $ %{} 'CodeEntry (:doc |)
+        'updater $ %{} 'CodeEntry (:doc |)
           :code $ quote
             defn updater (store op op-id op-time)
               match op

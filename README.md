@@ -1,8 +1,10 @@
 ## Calcit Home Page
 
-The Calcit homepage presents the current 0.13.29 direction: a typed Lisp with nominal `Struct`/`Enum` data, explicit `Option`/`Result` APIs, typed JavaScript boundaries, and a structural `calcit` workflow for human and AI-assisted development.
+The Calcit homepage presents Calcit as its own typed functional language: nominal `Struct`/`Enum` data, traits and method-oriented capabilities, explicit `Option`/`Result` APIs, typed host boundaries, and a structural source workflow for human and AI-assisted development.
 
-Recent Calcit releases also make the source snapshot a safer program boundary. `calcit.cirru` supports strict Cirru EDN workflows, `calcit` can inspect and mutate definitions structurally, and verification can combine type analysis, examples, attached tests, and JavaScript code generation.
+The canonical `calcit.cirru` source is a structured program boundary. `calcit` can inspect and mutate definitions structurally, while verification combines type analysis, examples, attached tests, architecture checks, and JavaScript code generation.
+
+The primary web-application narrative follows Calcium Workflow: typed operation/message envelopes, one serial deterministic updater, Respo/Recollect projection and diff/patch, revision/ack/resync over WebSocket, bounded async work, and observable convergence.
 
 Toolchain:
 
@@ -37,9 +39,10 @@ Bindings(some are toys):
 | calcit-lang/calcit_wasmtime  | ![](https://img.shields.io/github/v/release/calcit-lang/calcit_wasmtime)  |
 | calcit-lang/calcit-graphviz  | ![](https://img.shields.io/github/v/release/calcit-lang/calcit-graphviz)  |
 
-### Workflow
+### Reference workflow
 
-https://github.com/calcit-lang/respo-calcit-workflow
+- [Calcium Workflow](https://github.com/Cumulo/calcium-workflow) for stateful real-time browser/server applications
+- [Respo Calcit Workflow](https://github.com/calcit-lang/respo-calcit-workflow) for client-side Respo applications
 
 ### License
 
