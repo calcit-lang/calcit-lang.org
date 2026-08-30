@@ -1,15 +1,18 @@
-Calcit is a Rust interpreter and JavaScript ES Module compiler inspired by ClojureScript. The same data model runs natively and in generated browser or Node.js code, so you can prototype with `calcit` and ship through Vite without changing language semantics.
+Calcit is a typed functional language for interactive programs, real-time web applications, and concise native scripting. The same language model runs through a Rust interpreter and generated JavaScript ES Modules, so browser, Node.js, and native code share immutable data, nominal types, traits and methods, Option/Result composition, and explicit host boundaries.
 
-Calcit 0.13.29 sharpens that foundation. Nominal `Struct` and `Enum` types describe data boundaries, `Option` and `Result` make absence and failure explicit, and inferred Option/Result methods keep pipelines readable. Trailing `Option` parameters can be omitted and receive `None`, reducing the need for `?` parameters and `nil`. Typed host-FFI contracts and static JavaScript field access extend those checks to application boundaries.
+Nominal `Struct` and `Enum` types describe domain and protocol boundaries, `Option` and `Result` make absence and failure explicit, and traits expose reusable capabilities through methods. Static analysis preserves these relationships through collection pipelines, JavaScript external objects, and typed native FFI instead of spreading `Dynamic` through application code.
 
-The compiler also treats the source snapshot as a first-class program structure: strict Cirru EDN decoding, typed data-shape patches, readable type symbols, and improved type diagnostics make changes safer. `calcit query`, `calcit tree`, `calcit edit`, cursor workflows, transactions, type analysis, examples, and attached tests give people and AI agents a deterministic way to inspect, change, and verify code.
+Calcit treats the canonical `calcit.cirru` source snapshot as a first-class program structure. `calcit query`, `calcit tree`, `calcit edit`, transactions, type analysis, examples, attached tests, and architecture checks give people and AI agents a deterministic inspect-edit-verify workflow.
+
+For web applications, [Calcium Workflow](https://github.com/Cumulo/calcium-workflow) is the reference model: browsers send typed operations, the server applies one serial deterministic updater, Respo/Recollect derive client projections and diff/patch increments, and revision/ack/resync over WebSocket guarantees convergence under reconnect and backpressure. Async work and `Dynamic` remain at documented transport and system boundaries.
 
 ## Install & Try
 
 You can [try Calcit in the WASM Playground](http://repo.calcit-lang.org/calcit-wasm-play/) for simple snippets. Install the public Calcit tools locally with Cargo:
 
 ```bash
-cargo install calcit --bin calcit --bin caps
+cargo install calcit
+cargo install caps-cli
 ```
 
 `calcit` is the Calcit Runner. Evaluate a snippet, run a snapshot once, or opt into watch mode explicitly:
@@ -44,4 +47,4 @@ println $ {}
 
 Ubuntu binaries can be found on [GitHub Releases](https://github.com/calcit-lang/calcit/releases) for running in CI environments.
 
-Calcit projects store their source in the `calcit.cirru` snapshot (with `calcit.cirru` retained for compatibility). It is a structured program representation: use `calcit query`, `calcit tree`, `calcit edit`, `calcit cursor`, and `calcit edit transaction` to make precise changes, then run type analysis, examples, tests, or JavaScript codegen as appropriate. This gives AI coding assistants the same inspect-edit-verify loop as human maintainers. Read the [Agents Guide](https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md) for the current workflow.
+Calcit projects store canonical source in the `calcit.cirru` snapshot. It is a structured program representation: use `calcit query`, `calcit tree`, `calcit edit`, `calcit cursor`, and `calcit edit transaction` to make precise changes, then run type analysis, examples, tests, architecture checks, or JavaScript codegen as appropriate. This gives AI coding assistants the same inspect-edit-verify loop as human maintainers. Read the [Agents Guide](https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md) for the current workflow.

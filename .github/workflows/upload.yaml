@@ -26,7 +26,7 @@ jobs:
 
       - name: Validate Calcit snapshot and type baseline
         run: |
-          caps --ci
+          caps --strict --ci
           yarn install --immutable
           calcit calcit.cirru edit format
           git diff --exit-code -- calcit.cirru
