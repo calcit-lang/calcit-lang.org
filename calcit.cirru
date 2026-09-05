@@ -14,7 +14,7 @@
               a $ {} (:inner-text title) (:class-name css/link) (:href url) (:target |_blank)
           :examples $ []
           :schema $ :: 'Fn
-            {} (:return 'respo.schema/Component)
+            {} (:return 'respo.schema/Element)
               :args $ [] 'String 'String
         'comp-bg $ %{} 'CodeEntry (:doc |)
           :code $ quote
@@ -383,7 +383,9 @@
           :code $ quote
             defn dispatch! (op)
               when
-                and config/dev? $ not= (nth op 0) :states
+                and config/dev? $ not=
+                  option:unwrap-or (nth op 0) :unknown
+                  , :states
                 println |Dispatch: op
               reset! *reel $ reel-updater updater @*reel op
           :examples $ []
