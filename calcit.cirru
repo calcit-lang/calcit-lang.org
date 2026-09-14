@@ -18,7 +18,7 @@
             :args $ [] 'String 'String
         'comp-bg $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-bg ()
-            ; img $ {} (:src |http://cdn.tiye.me/logo/calcit.png)
+            ; img $ {} (:src |https://cdn.tiye.me/logo/calcit.png)
               :style $ {} (:width |60vw) (:z-index -10) (:min-width |480px) (:position :fixed) (:opacity 0.12) (:right 0) (:top |10vh)
             div $ {} $ :class-name (str-spaced |tile style-bg)
           :examples $ []
@@ -45,7 +45,7 @@
                         {}
                           :style $ {} $ :flex-wrap :wrap
                           :class-name $ str-spaced css/row-center
-                        img $ {} (:src |http://cdn.tiye.me/logo/calcit.png)
+                        img $ {} (:src |https://cdn.tiye.me/logo/calcit.png)
                           :style $ {} (:width 96) (:height 96)
                         =< 16 nil
                         div
@@ -111,7 +111,7 @@
                     div
                       {} $ :class-name css/row-parted
                       div $ {}
-                      div ({}) (add-link "|GitHub calcit-lang" |http://github.com/calcit-lang/) (=< 16 nil)
+                      div ({}) (add-link "|GitHub calcit-lang" |https://github.com/calcit-lang/) (=< 16 nil)
                         add-link |Discussions |https://github.com/calcit-lang/calcit/discussions
                     =< nil 40
                 when dev? $ comp-reel (>> states :reel) reel $ {}
@@ -144,11 +144,11 @@
               div
                 {} (:class-name css/row-middle)
                   :style $ {} $ :gap |8px
-                add-link "|Play snippets" |http://repo.calcit-lang.org/calcit-wasm-play/
+                add-link "|Play snippets" |https://repo.calcit-lang.org/calcit-wasm-play/
                 button $ {} (:inner-text |Guidebook)
                   :class-name $ str-spaced css/button style-promo-button
                   :on-click $ fn (e d!)
-                    do (open-window! |http://repo.calcit-lang.org/guidebook/ |_blank) &unit
+                    do (open-window! |https://repo.calcit-lang.org/guidebook/ |_blank) &unit
                 button $ {} (:inner-text "|Agents Guide")
                   :class-name $ str-spaced css/button style-promo-button style-main-button
                   :on-click $ fn (e d!)
@@ -361,7 +361,7 @@
           :schema $ :: 'Bool
         'site $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def site
-            app.schema/SiteConfig :dev-ui |http://localhost:8100/main-fonts.css :release-ui |http://cdn.tiye.me/favored-fonts/main-fonts.css :cdn-url |http://cdn.tiye.me/calcit-workflow/ :title |Calcit :icon |http://cdn.tiye.me/logo/mvc-works.png :storage-key |workflow
+            app.schema/SiteConfig :dev-ui |http://localhost:8100/main-fonts.css :release-ui |https://cdn.tiye.me/favored-fonts/main-fonts.css :cdn-url |https://cdn.tiye.me/calcit-workflow/ :title |Calcit :icon |https://cdn.tiye.me/logo/mvc-works.png :storage-key |workflow
           :examples $ []
           :schema $ :: 'app.schema/SiteConfig
       :ns $ %{} 'NsEntry (:doc |)
@@ -508,7 +508,7 @@
               :: :column "|AI Agents" $ []
                 :: :link "|Agents Guide (CalcitAgent.md)" | |https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md
                 :: :link "|GitHub: calcit-lang/calcit" | |https://github.com/calcit-lang/calcit
-                :: :link "|WASM Playground (try snippets)" | |http://repo.calcit-lang.org/calcit-wasm-play/
+                :: :link "|WASM Playground (try snippets)" | |https://repo.calcit-lang.org/calcit-wasm-play/
                 :: :link "|Calcit 语言依赖命令行接入 AI 代码生成的探索" | |https://www.bilibili.com/video/BV1Rbv6BtE48/
                 :: :link "|猜想: 界面仔也算上下文工程师" | |https://www.bilibili.com/video/BV1M6AVz5EtE/
               :: :column |Tools $ [] (:: :link "|Calcit IR viewer" | |https://github.com/calcit-lang/calcit-ir-viewer)
