@@ -3,8 +3,7 @@
   :about "|Machine-generated snapshot. Do not edit directly — changes will be overwritten. Use `calcit query` to inspect and `calcit edit`/`calcit tree` to modify. Run `calcit docs agents --contract` before mutations; use `--full` for first orientation or changed contract digest. Manual edits must follow format and schema conventions, then run `calcit edit format`."
   :package |app
   :entries $ {} $ :default
-    {} (:description |) (:init-fn 'app.main/main!) (:mode :js)
-      :reload-fn 'app.main/reload!
+    {} (:description |) (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!) (:target :browser)
       :feature-policy $ {}
       :modules $ [] |respo.calcit/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/ |js-ffi/
       :type-slots $ {} $ :dispatch-op |app.schema/Op
@@ -15,18 +14,15 @@
           :code $ quote $ defn add-link (title url)
             a $ {} (:inner-text title) (:class-name css/link) (:href url) (:target |_blank)
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :return 'respo.schema/Element
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Element)
             :args $ [] 'String 'String
         'comp-bg $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-bg ()
-            ; img $ {}
-              :src |http://cdn.tiye.me/logo/calcit.png
+            ; img $ {} (:src |http://cdn.tiye.me/logo/calcit.png)
               :style $ {} (:width |60vw) (:z-index -10) (:min-width |480px) (:position :fixed) (:opacity 0.12) (:right 0) (:top |10vh)
             div $ {} $ :class-name (str-spaced |tile style-bg)
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :return 'respo.schema/Component
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ []
         'comp-container $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-container (reel)
@@ -49,8 +45,7 @@
                         {}
                           :style $ {} $ :flex-wrap :wrap
                           :class-name $ str-spaced css/row-center
-                        img $ {}
-                          :src |http://cdn.tiye.me/logo/calcit.png
+                        img $ {} (:src |http://cdn.tiye.me/logo/calcit.png)
                           :style $ {} (:width 96) (:height 96)
                         =< 16 nil
                         div
@@ -65,7 +60,13 @@
                             <> "|Struct, Enum, Option, Result, typed FFI, and a structural `calcit` workflow for reliable programs and AI agents."
                       =< nil 8
                       =< nil 24
-                      comp-snippet-demo $ >> states :snippets
+                      let
+                          snippet-states $ >> states :snippets
+                          snippet-cursor $ assert-type (read-field snippet-states :cursor) (:: 'List 'Tag)
+                          snippet-selection $ assert-type
+                            either (read-field snippet-states :data) :match
+                            , 'Tag
+                        comp-snippet-demo snippet-cursor snippet-selection
                       =< nil 8
                       comp-promotions
                     list->
@@ -81,8 +82,7 @@
                             div
                               {} $ :class-name style-feature-content
                               comp-md content $ {} $ :class-name |
-                    comp-md-block
-                      inline-content! |content/intro.md
+                    comp-md-block (inline-content! |content/intro.md)
                       {} (:class-name |)
                         :highlight $ fn (code lang)
                           str $ cirru-color/generateHtml code
@@ -99,10 +99,11 @@
                             <> col-title style-feature-title
                             list->
                               {} $ :style $ {} (:margin-left 6)
-                              -> links $ map-indexed $ fn (idx link)
-                                [] idx $ comp-link link
-                    comp-md-block
-                      inline-content! |content/cirru.md
+                              ->
+                                assert-type links $ :: 'List 'Enum
+                                map-indexed $ fn (idx link)
+                                  [] idx $ comp-link link
+                    comp-md-block (inline-content! |content/cirru.md)
                       {} (:class-name |)
                         :highlight $ fn (code lang)
                           str $ cirru-color/generateHtml code
@@ -110,30 +111,25 @@
                     div
                       {} $ :class-name css/row-parted
                       div $ {}
-                      div ({})
-                        add-link "|GitHub calcit-lang" |http://github.com/calcit-lang/
-                        =< 16 nil
+                      div ({}) (add-link "|GitHub calcit-lang" |http://github.com/calcit-lang/) (=< 16 nil)
                         add-link |Discussions |https://github.com/calcit-lang/calcit/discussions
                     =< nil 40
                 when dev? $ comp-reel (>> states :reel) reel $ {}
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :return 'respo.schema/Component
-            :args $ [] 'Dynamic
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ [] $ :: 'reel.typed/State 'app.schema/Op 'app.schema/Store
         'comp-link $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-link (link)
             match link $
               :link title sub-title url
               div ({})
-                a $ {} (:href url) (:inner-text title) (:target |_blank)
-                  :class-name style-display-link
+                a $ {} (:href url) (:inner-text title) (:target |_blank) (:class-name style-display-link)
                 if (not= sub-title |) (=< 8 nil)
                 if (not= sub-title |)
                   <> sub-title $ str-spaced css/font-fancy style-sub-title
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :return 'respo.schema/Component
-            :args $ [] 'Dynamic
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ [] 'Enum
         'comp-promotions $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-promotions ()
             div
@@ -152,73 +148,69 @@
                 button $ {} (:inner-text |Guidebook)
                   :class-name $ str-spaced css/button style-promo-button
                   :on-click $ fn (e d!)
-                    do
-                      js/window.open |http://repo.calcit-lang.org/guidebook/ |_blank
-                      , &unit
+                    do (open-window! |http://repo.calcit-lang.org/guidebook/ |_blank) &unit
                 button $ {} (:inner-text "|Agents Guide")
                   :class-name $ str-spaced css/button style-promo-button style-main-button
                   :on-click $ fn (e d!)
                     do
-                      js/window.open |https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md |_blank
+                      open-window! |https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md |_blank
                       , &unit
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :return 'respo.schema/Component
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ []
         'comp-snippet-demo $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defcomp comp-snippet-demo (states)
-            let
-                cursor $ read-field states :cursor
-                state $ either (read-field states :data) :match
-              div
-                {} (:class-name css/row)
-                  :style $ {} $ :flex-wrap :wrap
-                comp-tabs
-                  {} (:selected state) (:vertical? true)
-                    :style $ {} (:margin-top 20) (:padding "|0 8px") (:min-width 160)
-                  []
-                    &{} :name :match :title "|Pattern matching"
-                    &{} :name :component :title |Component
-                    &{} :name :persistent-data :title "|Persistent data"
-                    &{} :name :pipeline :title "|Pipeline macro"
-                  fn (info d!)
-                    d! $ %:: app.schema/Op :states cursor $ option:unwrap-or (nth info 1) nil
-                comp-cirru-snippet $ trim $ pick-demo state
+          :code $ quote $ defcomp comp-snippet-demo (cursor state)
+            div
+              {} (:class-name css/row)
+                :style $ {} $ :flex-wrap :wrap
+              comp-tabs
+                ui-schema/make-tabs-options state (%some true) (%none)
+                  %some $ {} (:margin-top 20) (:padding "|0 8px") (:min-width 160)
+                [] (%:: ui-schema/TabRoute :tab :match "|Pattern matching") (%:: ui-schema/TabRoute :tab :component |Component) (%:: ui-schema/TabRoute :tab :persistent-data "|Persistent data") (%:: ui-schema/TabRoute :tab :pipeline "|Pipeline macro")
+                hint-fn
+                  {}
+                    :args $ [] (:: 'respo-ui.schema/TabRoute 'Tag) 'DynFn
+                    :return 'Unit
+                  :: fn (info d!)
+                    let
+                        dispatch $ assert-type d! $ :: 'Fn
+                          {}
+                            :args $ [] 'Enum
+                            :return 'Unit
+                      match info $
+                        :tab value display
+                        do
+                          dispatch $ %:: app.schema/Op :states cursor value
+                          , &unit
+              comp-cirru-snippet $ trim $ pick-demo state
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :return 'respo.schema/Component
-            :args $ [] 'Map
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ [] (:: 'List 'Tag) 'Tag
         'comp-visual $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-visual ()
             div ({})
-              div ({})
-                <> "|Visual of Calcit Editor:"
+              div ({}) (<> "|Visual of Calcit Editor:")
               div
                 {} $ :style $ {} (:display :flex)
                 img $ {} (:class-name style-editor-img)
                   :src |https://cos-sh.tiye.me/cos-up/00c992c3061ed59d8c7d533b7a31433b-calcit-editor.png
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :return 'respo.schema/Component
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ []
         'demo-component $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ def demo-component
-            inline-content! |content/demo/comp.cirru
+          :code $ quote $ def demo-component (inline-content! |content/demo/comp.cirru)
           :examples $ []
           :schema $ :: 'String
         'demo-match $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ def demo-match
-            inline-content! |content/demo/match.cirru
+          :code $ quote $ def demo-match (inline-content! |content/demo/match.cirru)
           :examples $ []
           :schema $ :: 'String
         'demo-persistent-data $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ def demo-persistent-data
-            inline-content! |content/demo/persistent-data.cirru
+          :code $ quote $ def demo-persistent-data (inline-content! |content/demo/persistent-data.cirru)
           :examples $ []
           :schema $ :: 'String
         'demo-pipeline $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ def demo-pipeline
-            inline-content! |content/demo/pipeline.cirru
+          :code $ quote $ def demo-pipeline (inline-content! |content/demo/pipeline.cirru)
           :examples $ []
           :schema $ :: 'String
         'inline-content! $ %{} 'CodeEntry (:doc |)
@@ -229,50 +221,48 @@
             :capabilities $ #{} :fs-read
             :expansion $ :: 'Expr 'String
             :required $ [] $ :: 'Expr 'String
+        'open-window! $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn open-window! (url target) (js/window.open url target) &unit
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'Unit)
+            :args $ [] 'String 'String
+            :features $ #{} :js-ffi
         'pick-demo $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn pick-demo (k)
-            case-default k demo-match (:match demo-match) (:pipeline demo-pipeline) (:component demo-component)
-              :persistent-data demo-persistent-data
+            case-default k demo-match (:match demo-match) (:pipeline demo-pipeline) (:component demo-component) (:persistent-data demo-persistent-data)
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'String)
-            :args $ [] 'Dynamic
+            :args $ [] 'Tag
         'style-bg $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-bg
             {} $ |& $ {} (:width |100vw) (:z-index |-10) (:position :fixed) (:opacity |0.5)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         'style-cards-containers $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-cards-containers
-            {} $ |& $ {} (:display :grid)
-              :grid-template-columns "|repeat(auto-fit, minmax(300px, 1fr))"
-              :gap |20px
-              :margin "|32px 0"
+            {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(300px, 1fr))") (:gap |20px) (:margin "|32px 0")
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         'style-columns $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-columns
-            {} $ |& $ {} (:display :grid)
-              :grid-template-columns "|repeat(auto-fit, minmax(300px, 1fr))"
-              :gap |12px
+            {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(300px, 1fr))") (:gap |12px)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         'style-content $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-content
             {} $ |& $ {} (:margin "|0 auto") (:max-width |1200px) (:padding "|0 40px")
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         'style-display-link $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-display-link
             {} $ |& $ {} (:text-decoration :none)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         'style-editor-img $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-editor-img
-            {} $ |& $ {}
-              :max-width "|min(100%, 720px)"
-              :margin :auto
+            {} $ |& $ {} (:max-width "|min(100%, 720px)") (:margin :auto)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         'style-feature $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-feature
             {}
@@ -281,15 +271,13 @@
                 :padding "|16px 20px"
                 :transition-duration |240ms
                 :background-color $ hsl 0 0 98
-                :hover $ {}
-                  :box-shadow "|0 4px 12px rgba(0,0,0,0.06)"
-                  :transform "|translateY(-2px)"
+                :hover $ {} (:box-shadow "|0 4px 12px rgba(0,0,0,0.06)") (:transform "|translateY(-2px)")
                   :border-color $ hsl 0 0 76
                 :transition-property |all
               |&:hover $ {} $ :box-shadow
                 str "|1px 2px 4px " $ hsl 0 0 0 0.2
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         'style-feature-content $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-feature-content
             {} $ |& $ {} (:line-height |1.7) (:font-size |15px)
@@ -297,12 +285,12 @@
               ; :font-family ui/font-fancy
               :font-weight 100
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         'style-feature-title $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-feature-title
             {} $ |& $ {} (:font-size |16px) (:font-weight |900)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         'style-main-button $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-main-button
             {}
@@ -316,29 +304,29 @@
               |button&:active $ {} (:color :white)
                 :background-color $ hsl 220 80 70
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         'style-main-title $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-main-title
             {} $ |& $ {} (:font-size |32px) (:line-height |1.2) (:letter-spacing |-0.5px) (:font-family "|Federo, cursive")
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         'style-promo-button $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-promo-button
             {} $ |& $ {} (:line-height |40px) (:border-radius |24px) (:padding "|0 24px") (:font-size |15px) (; :font-family "|Federo, cursive")
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         'style-secondary-title $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-secondary-title
             {} $ |& $ {} (:font-size |16px) (:line-height |1.6)
               :color $ hsl 0 0 40
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
         'style-sub-title $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-sub-title
             {} $ |& $ {}
               :color $ hsl 0 0 50
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'String
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.comp.container
           :require (respo-ui.core :as ui)
@@ -353,32 +341,27 @@
             respo-ui.css :as css
             app.schema :refer $ doc-features doc-columns
             respo-ui.comp :refer $ comp-tabs comp-cirru-snippet
+            respo-ui.schema :as ui-schema
             reel.schema :refer $ read-field
     'app.config $ %{} 'FileEntry
       :defs $ {}
         'cdn? $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ def cdn?
-            cond
-                exists? js/window
-                , false
-              (exists? js/process)
-                = |true js/process.env.cdn
-              true false
+          :code $ quote $ def cdn? (detect-cdn?)
           :examples $ []
           :schema $ :: 'Bool
+        'detect-cdn? $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn detect-cdn? ()
+            = |true $ option:unwrap-or (get-env |cdn) |false
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'Bool)
+            :args $ []
         'dev? $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def dev? true
           :examples $ []
           :schema $ :: 'Bool
         'site $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def site
-            {}
-              :dev-ui |http://localhost:8100/main-fonts.css
-              :release-ui |http://cdn.tiye.me/favored-fonts/main-fonts.css
-              :cdn-url |http://cdn.tiye.me/calcit-workflow/
-              :title |Calcit
-              :icon |http://cdn.tiye.me/logo/mvc-works.png
-              :storage-key |workflow
+            app.schema/SiteConfig :dev-ui |http://localhost:8100/main-fonts.css :release-ui |http://cdn.tiye.me/favored-fonts/main-fonts.css :cdn-url |http://cdn.tiye.me/calcit-workflow/ :title |Calcit :icon |http://cdn.tiye.me/logo/mvc-works.png :storage-key |workflow
           :examples $ []
           :schema $ :: 'app.schema/SiteConfig
       :ns $ %{} 'NsEntry (:doc |)
@@ -386,21 +369,27 @@
     'app.main $ %{} 'FileEntry
       :defs $ {}
         '*reel $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defatom *reel
-            -> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store)
+          :code $ quote $ defatom *reel (typed/new-reel schema/store)
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'Ref $ :: 'reel.typed/State 'app.schema/Op 'app.schema/Store
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
-            when
-              and config/dev? $ not=
-                option:unwrap-or (nth op 0) :unknown
-                , :states
-              println |Dispatch: op
-            reset! *reel $ reel-updater updater @*reel op
+            when config/dev? $ println |Dispatch: op
+            let
+                typed-op $ assert-type op 'Enum
+                control $ typed/decode-control typed-op
+              reset! *reel $ assert-type
+                match control
+                  (:some action) (typed/apply-control updater @*reel action)
+                  (:none)
+                    typed/record-op updater @*reel (assert-type typed-op 'app.schema/Op) (generate-id!)
+                      :timestamp $ shared/date-now-snapshot
+                :: 'reel.typed/State 'app.schema/Op 'app.schema/Store
+              , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] '*dispatch-op
+            :args $ [] 'Dynamic
+            :features $ #{} :js-ffi
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             println "|Running mode:" $ if config/dev? |dev |release
@@ -418,48 +407,54 @@
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
+            :features $ #{} :js-ffi
         'mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def mount-target
-            js/document.querySelector |.app
+            option:unwrap $ browser/query-selector |.app
           :examples $ []
-          :schema $ :: 'String
+          :schema $ :: 'js-ffi.browser/DomElementHost
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
-            .setItem js/localStorage (:storage-key config/site)
-              js/JSON.stringify $ to-cirru-edn $ :store @*reel
+            browser/storage-set! (:storage-key config/site)
+              format-cirru-edn $ :store @*reel
+            , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
+            :features $ #{} :js-ffi
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! ()
             if (nil? build-errors)
               do (remove-watch *reel :changes) (clear-cache!)
                 add-watch *reel :changes $ fn (reel prev) (render-app!)
-                reset! *reel $ refresh-reel @*reel schema/store updater
+                reset! *reel $ typed/refresh updater @*reel schema/store
                 hud! |ok~ |Ok
               hud! |error build-errors
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
+            :features $ #{} :js-ffi
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
             render! mount-target (comp-container @*reel) dispatch!
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
+            :features $ #{} :js-ffi
         'repeat! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn repeat! (duration cb)
-            js/setTimeout
-              fn () (cb)
-                repeat! (* 1000 duration) cb
-              * 1000 duration
+            browser/set-interval! cb $ * 1000 duration
+            , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] 'Number 'Fn
+            :args $ [] 'Number $ :: 'Fn
+              {} (:return 'Unit)
+                :args $ []
+            :features $ #{} :js-ffi
         'snippets $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn snippets () (println config/cdn?)
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'String)
+          :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.main
@@ -468,57 +463,59 @@
             app.comp.container :refer $ comp-container
             app.updater :refer $ updater
             app.schema :as schema
-            reel.util :refer $ listen-devtools!
-            reel.core :refer $ reel-updater refresh-reel
-            reel.schema :as reel-schema
+            reel.util :refer $ listen-devtools! generate-id!
+            reel.typed :as typed
             app.config :as config
+            js-ffi.browser :as browser
+            js-ffi.shared :as shared
             |./calcit.build-errors :default build-errors
             |bottom-tip :default hud!
     'app.schema $ %{} 'FileEntry
       :defs $ {}
         'Op $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defenum Op (:states 'List 'Dynamic) (:hydrate-storage 'Dynamic) (:reel/toggle) (:reel/recall 'Number) (:reel/merge) (:reel/reset) (:reel/step) (:reel/run) (:reel/remove 'Number)
+          :code $ quote $ defenum Op (:states 'List 'Dynamic) (:hydrate-storage 'app.schema/Store) (:reel/toggle) (:reel/recall 'Number) (:reel/merge) (:reel/reset) (:reel/step) (:reel/run) (:reel/remove 'Number)
           :examples $ []
           :schema $ :: 'Enum
         'SiteConfig $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct SiteConfig (:dev-ui 'String) (:release-ui 'String) (:cdn-url 'String) (:title 'String) (:icon 'String) (:storage-key 'String)
           :examples $ []
           :schema $ :: 'Enum
+        'Store $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstruct Store (:states 'Map)
+          :examples $ []
+          :schema $ :: 'StructDef
+        'decode-store $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn decode-store (data)
+            if
+              or (map? data) (struct? data)
+              match (get data :states)
+                (:some states)
+                  if (map? states)
+                    %some $ Store :states $ assert-type states 'Map
+                    %none
+                (:none) (%none)
+              %none
+          :examples $ []
+          :schema $ :: 'Fn $ {}
+            :args $ [] 'Dynamic
+            :features $ #{} :js-ffi
+            :return $ :: 'Option 'app.schema/Store
         'doc-columns $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def doc-columns
             []
-              :: :column |Libraries $ []
-                :: :link |Recollect "|Diff/patch library designed for Cumulo project" |https://github.com/calcit-lang/recollect
-                :: :link "|Calcit WSS" "|WebSocket server binding" |https://github.com/calcit-lang/calcit-wss
-                :: :link |Quaternion "|Quaternion math helper" |https://github.com/calcit-lang/quaternion
-                :: :link |Std "|Some standard functions" |https://github.com/calcit-lang/calcit.std
-              :: :column |Frameworks $ []
-                :: :link |Respo "|virtual DOM library" |https://github.com/Respo/respo.calcit
-                :: :link |Cumulo "|template for tiny realtime apps" |https://github.com/Cumulo/calcium-workflow
-                :: :link |Phlox "|virtual DOM like wrapper on top of PIXI" |https://github.com/Quamolit/phlox.calcit
-                :: :link |Lagopus "|thin WebGPU abstraction" |https://github.com/Triadica/lagopus
-                :: :link |Quamolit "|what if we make animations in React's way?" |https://github.com/Quamolit/quamolit.calcit
-                :: :link |Quaterfoil "|thin virtual DOM wrapper over three.js" |https://github.com/Quamolit/quatrefoil.calcit
+              :: :column |Libraries $ [] (:: :link |Recollect "|Diff/patch library designed for Cumulo project" |https://github.com/calcit-lang/recollect) (:: :link "|Calcit WSS" "|WebSocket server binding" |https://github.com/calcit-lang/calcit-wss) (:: :link |Quaternion "|Quaternion math helper" |https://github.com/calcit-lang/quaternion) (:: :link |Std "|Some standard functions" |https://github.com/calcit-lang/calcit.std)
+              :: :column |Frameworks $ [] (:: :link |Respo "|virtual DOM library" |https://github.com/Respo/respo.calcit) (:: :link |Cumulo "|template for tiny realtime apps" |https://github.com/Cumulo/calcium-workflow) (:: :link |Phlox "|virtual DOM like wrapper on top of PIXI" |https://github.com/Quamolit/phlox.calcit) (:: :link |Lagopus "|thin WebGPU abstraction" |https://github.com/Triadica/lagopus) (:: :link |Quamolit "|what if we make animations in React's way?" |https://github.com/Quamolit/quamolit.calcit) (:: :link |Quaterfoil "|thin virtual DOM wrapper over three.js" |https://github.com/Quamolit/quatrefoil.calcit)
               :: :column "|AI Agents" $ []
                 :: :link "|Agents Guide (CalcitAgent.md)" | |https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md
                 :: :link "|GitHub: calcit-lang/calcit" | |https://github.com/calcit-lang/calcit
                 :: :link "|WASM Playground (try snippets)" | |http://repo.calcit-lang.org/calcit-wasm-play/
                 :: :link "|Calcit 语言依赖命令行接入 AI 代码生成的探索" | |https://www.bilibili.com/video/BV1Rbv6BtE48/
                 :: :link "|猜想: 界面仔也算上下文工程师" | |https://www.bilibili.com/video/BV1M6AVz5EtE/
-              :: :column |Tools $ []
-                :: :link "|Calcit IR viewer" | |https://github.com/calcit-lang/calcit-ir-viewer
+              :: :column |Tools $ [] (:: :link "|Calcit IR viewer" | |https://github.com/calcit-lang/calcit-ir-viewer)
                 :: :link "|Calcit Error viewer" | |https://github.com/calcit-lang/calcit-error-viewer
                 :: :link "|Calcit binding for clipboard" | |https://github.com/calcit-lang/calcit-clipboard
                 :: :link "|Calcit JSON" "|JSON binding" |https://github.com/calcit-lang/calcit-json
-              :: :column |Videos $ []
-                :: :link "|Calcit 更新记录: schema 类型标注, defstruct defenum 等" | |https://www.bilibili.com/video/BV1SRw4z7ENg/
-                :: :link "|Calcit 更新记录: Traits" | |https://www.bilibili.com/video/BV1JWF9ziEpc/
-                :: :link "|Calcit 更新记录: 类型标注相关的思考" | |https://www.bilibili.com/video/BV18DzDBZExw/
-                :: :link "|Calcit 语言依赖命令行接入 AI 代码生成的探索" | |https://www.bilibili.com/video/BV1Rbv6BtE48/
-                :: :link "|Calcit 近期更新, 文字外延等" | |https://www.bilibili.com/video/BV1TMRuB3EtQ/
-                :: :link "|Respo 更新记录: 组件级监听器的说明" | |https://www.bilibili.com/video/BV1JAkFBzECf/
-                :: :link "|Calcit 开发记录: list-match 语法" | |https://www.bilibili.com/video/BV1Su4y1X7kg/
-                :: :link "|Calcit 0.7 变更记录, Tag, Tuple 和多态" | |https://www.bilibili.com/video/BV11L411v7Vk/
+              :: :column |Videos $ [] (:: :link "|Calcit 更新记录: schema 类型标注, defstruct defenum 等" | |https://www.bilibili.com/video/BV1SRw4z7ENg/) (:: :link "|Calcit 更新记录: Traits" | |https://www.bilibili.com/video/BV1JWF9ziEpc/) (:: :link "|Calcit 更新记录: 类型标注相关的思考" | |https://www.bilibili.com/video/BV18DzDBZExw/) (:: :link "|Calcit 语言依赖命令行接入 AI 代码生成的探索" | |https://www.bilibili.com/video/BV1Rbv6BtE48/) (:: :link "|Calcit 近期更新, 文字外延等" | |https://www.bilibili.com/video/BV1TMRuB3EtQ/) (:: :link "|Respo 更新记录: 组件级监听器的说明" | |https://www.bilibili.com/video/BV1JAkFBzECf/) (:: :link "|Calcit 开发记录: list-match 语法" | |https://www.bilibili.com/video/BV1Su4y1X7kg/) (:: :link "|Calcit 0.7 变更记录, Tag, Tuple 和多态" | |https://www.bilibili.com/video/BV11L411v7Vk/)
               :: :column |Articles $ []
                 :: :link "|Calcit 相比 Clojure 一些有意思的元编程能力 #226" | |https://github.com/calcit-lang/calcit/discussions/226
                 :: :link "|design decision: rename \"keyword\" to \"tag\" #209" | |https://github.com/calcit-lang/calcit/discussions/209
@@ -530,7 +527,7 @@
                 :: :link "|ternary-tree.ts: 关于初期的性能优化(on early optimizations)" | |https://github.com/calcit-lang/ternary-tree.ts/discussions/7
                 :: :link "|A trick for cheaper persistent list in JavaScript" | |https://clojureverse.org/t/a-trick-for-cheaper-persistent-list-in-javascript/7172
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'List 'Enum
         'doc-features $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def doc-features
             []
@@ -541,13 +538,12 @@
               :: :feature "|Cirru source, macros, and persistent data" "|Calcit stores canonical code as Cirru syntax trees, combines functional persistent collections with macros, and preserves matching native and JavaScript semantics."
               :: :feature "|Native and ES Module output" "|Run once or watch with calcit, then emit readable JavaScript ES Modules for Vite, browsers, and Node.js with matching semantics."
           :examples $ []
-          :schema $ :: 'Dynamic
+          :schema $ :: 'List 'Enum
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
-            {} $ :states $ {}
-              :cursor $ []
+            Store :states $ {} $ :cursor ([])
           :examples $ []
-          :schema $ :: 'Map
+          :schema $ :: 'app.schema/Store
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.schema
     'app.updater $ %{} 'FileEntry
@@ -555,12 +551,15 @@
         %{} 'CodeEntry (:doc |)
           :code $ quote $ defn updater (store op op-id op-time)
             match op
-              (:states cursor s) (update-states store cursor s)
-              (:hydrate-storage d) d
-              _ $ do (eprintln "|Unknown op:" op) store
+              (:states cursor data)
+                assoc store :states $ assert-type
+                  update-states (:states store) cursor data
+                  , 'Map
+              (:hydrate-storage data) data
+              _ store
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Map)
-            :args $ [] 'Map 'Dynamic 'Dynamic 'Dynamic
+          :schema $ :: 'Fn $ {} (:return 'app.schema/Store)
+            :args $ [] 'app.schema/Store 'app.schema/Op 'String 'Number
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.updater
           :require $ [] respo.cursor :refer $ [] update-states
