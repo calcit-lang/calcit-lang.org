@@ -147,14 +147,12 @@
                 add-link "|Play snippets" |https://repo.calcit-lang.org/calcit-wasm-play/
                 button $ {} (:inner-text |Guidebook)
                   :class-name $ str-spaced css/button style-promo-button
-                  :on-click $ fn (e d!)
-                    do (open-window! |https://repo.calcit-lang.org/guidebook/ |_blank) &unit
+                  :on-click $ fn (e d!) (open-window! |https://repo.calcit-lang.org/guidebook/ |_blank) &unit
                 button $ {} (:inner-text "|Agents Guide")
                   :class-name $ str-spaced css/button style-promo-button style-main-button
                   :on-click $ fn (e d!)
-                    do
-                      open-window! |https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md |_blank
-                      , &unit
+                    open-window! |https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md |_blank
+                    , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ []
@@ -180,7 +178,7 @@
                       match info $
                         :tab value display
                         do
-                          dispatch $ %:: app.schema/Op :states cursor value
+                          dispatch $ app.schema/Op :states cursor value
                           , &unit
               comp-cirru-snippet $ trim $ pick-demo state
           :examples $ []
@@ -499,7 +497,7 @@
           :schema $ :: 'Fn $ {}
             :args $ [] 'Dynamic
             :features $ #{} :js-ffi
-            :return $ :: 'Option 'app.schema/Store
+            :return $ :: 'calcit.core/Option 'app.schema/Store
         'doc-columns $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def doc-columns
             []
