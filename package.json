@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@calcit/procs": "0.17.1",
+    "@calcit/procs": "0.18.1",
     "cirru-color": "^0.2.4",
     "copy-text-to-clipboard": "^3.2.2",
     "dayjs": "^1.11.21"
@@ -9,6 +9,6 @@
     "bottom-tip": "^0.1.5",
     "vite": "8.3.0"
   },
-  "version": "0.0.3",
+  "version": "0.0.4",
   "packageManager": "yarn@4.12.0"
 }
