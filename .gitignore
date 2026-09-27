@@ -10,3 +10,5 @@ dist/
 .yarn/
 .DS_Store
 .calcit/upgrade
+.pnp.cjs
+.pnp.loader.mjs
