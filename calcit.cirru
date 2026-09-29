@@ -114,7 +114,7 @@
                       div ({}) (add-link "|GitHub calcit-lang" |https://github.com/calcit-lang/) (=< 16 nil)
                         add-link |Discussions |https://github.com/calcit-lang/calcit/discussions
                     =< nil 40
-                when dev? $ comp-reel (>> states :reel) reel $ {}
+                when dev? $ comp-reel (>> states :reel) (reel-view/view-data reel) ({})
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] $ :: 'reel.typed/State 'app.schema/Op 'app.schema/Store
@@ -162,8 +162,8 @@
               {} (:class-name css/row)
                 :style $ {} $ :flex-wrap :wrap
               comp-tabs
-                ui-schema/make-tabs-options state (%some true) (%none)
-                  %some $ {} (:margin-top 20) (:padding "|0 8px") (:min-width 160)
+                ui-schema/make-tabs-options state (Option :some true) (Option :none)
+                  Option :some $ {} (:margin-top 20) (:padding "|0 8px") (:min-width 160)
                 [] (%:: ui-schema/TabRoute :tab :match "|Pattern matching") (%:: ui-schema/TabRoute :tab :component |Component) (%:: ui-schema/TabRoute :tab :persistent-data "|Persistent data") (%:: ui-schema/TabRoute :tab :pipeline "|Pipeline macro")
                 hint-fn
                   {}
@@ -341,6 +341,7 @@
             respo-ui.comp :refer $ comp-tabs comp-cirru-snippet
             respo-ui.schema :as ui-schema
             reel.schema :refer $ read-field
+            reel.typed-compat :as reel-view
     'app.config $ %{} 'FileEntry
       :defs $ {}
         'cdn? $ %{} 'CodeEntry (:doc |)
@@ -489,10 +490,10 @@
               match (get data :states)
                 (:some states)
                   if (map? states)
-                    %some $ Store :states $ assert-type states 'Map
-                    %none
-                (:none) (%none)
-              %none
+                    Option :some $ Store :states $ assert-type states 'Map
+                    Option :none
+                (:none) (Option :none)
+              Option :none
           :examples $ []
           :schema $ :: 'Fn $ {}
             :args $ [] 'Dynamic
