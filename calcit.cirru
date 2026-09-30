@@ -552,7 +552,7 @@
             match op
               (:states cursor data)
                 assoc store :states $ assert-type
-                  update-states (:states store) cursor data
+                  update-state-tree (:states store) cursor data
                   , 'Map
               (:hydrate-storage data) data
               _ store
@@ -561,4 +561,4 @@
             :args $ [] 'app.schema/Store 'app.schema/Op 'String 'Number
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.updater
-          :require $ [] respo.cursor :refer $ [] update-states
+          :require $ respo.cursor :refer $ update-state-tree
