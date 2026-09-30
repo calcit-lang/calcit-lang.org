@@ -10,8 +10,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: upload-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: upload-${{ github.repository }}-${{ github.event_name == 'pull_request' && 'pr' || github.ref }}
+  cancel-in-progress: false
 
 jobs:
   test:
@@ -50,6 +50,9 @@ jobs:
 
     - name: Validate Calcit upgrade
       run: |
+        set -euo pipefail
+        test ! -e compact.cirru
+        test ! -e package.cirru
         test "$(calcit --version)" = "0.27.0"
         calcit edit format
         git diff --exit-code -- calcit.cirru
@@ -87,8 +90,10 @@ jobs:
 
     - name: Build web assets with CDN URLs
       run: |
+        set -euo pipefail
         yarn compile
         yarn build
+        node --test scripts/state-regression.test.mjs
 
     - name: Check COS credentials
       id: cos-credentials
