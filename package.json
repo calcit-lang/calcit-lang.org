@@ -10,6 +10,8 @@
     "vite": "8.3.0"
   },
   "scripts": {
+    "test:docs": "calcit docs check-md content/intro.md --failures-only && calcit docs check-md content/cirru.md --failures-only",
+    "test": "yarn test:docs && yarn compile && node --test scripts/state-regression.test.mjs",
     "compile": "calcit calcit.cirru js",
     "build": "yarn compile && vite build",
     "release": "yarn build",
