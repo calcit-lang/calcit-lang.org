@@ -41,6 +41,22 @@ Bindings(some are toys):
 
 ### Reference workflow
 
+Use Calcit/procs 0.27.0, Node 24 and Yarn 4.18.0 with canonical
+`calcit.cirru` / `deps.cirru`. Install via `caps --ci` and
+`yarn install --immutable`. `yarn dev` compiles initially and starts Vite;
+run `calcit calcit.cirru js -w` in another terminal for live source edits.
+Build/release compile once. No extra process manager or npm dependency is needed.
+
+CI retains canonical formatting, strict entry/all-public checks, both existing
+state-tree regression tests and actual build. Repeated type-debt reports are
+removed without adding upload checkers or tests. Frontend base and COS action
+v1.1.1 use the same prefix: `calcit-lang/calcit-lang.org/` in production and
+`pr/<number>/<run-id>/<attempt>/` for previews. Concurrency is per PR, separate
+from production, without cancelling active uploads. The action handles public
+upload verification. Original upload policy and server `dist/*` destination are
+unchanged, as are snapshot, homepage text/data and state logic. PR success is not
+production deployment or physical browser acceptance.
+
 - [Calcium Workflow](https://github.com/Cumulo/calcium-workflow) for stateful real-time browser/server applications
 - [Respo Calcit Workflow](https://github.com/calcit-lang/respo-calcit-workflow) for client-side Respo applications
 

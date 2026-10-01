@@ -11,9 +11,9 @@
   },
   "scripts": {
     "compile": "calcit calcit.cirru js",
-    "build": "vite build",
-    "release": "yarn compile && yarn build",
-    "dev": "vite"
+    "build": "yarn compile && vite build",
+    "release": "yarn build",
+    "dev": "yarn compile && vite"
   },
   "version": "0.0.5",
   "packageManager": "yarn@4.18.0"
