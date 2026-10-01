@@ -60,6 +60,7 @@ jobs:
         calcit edit format
         git diff --exit-code -- calcit.cirru
         calcit calcit.cirru --check-only
+        yarn test:docs
         calcit calcit.cirru analyze check-public \
           --ns app.comp.container \
           --ns app.config \

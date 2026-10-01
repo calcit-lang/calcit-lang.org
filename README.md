@@ -1,12 +1,12 @@
-## Calcit Home Page
+## Calcit 官网
 
-The Calcit homepage presents Calcit as its own typed functional language: nominal `Struct`/`Enum` data, traits and method-oriented capabilities, explicit `Option`/`Result` APIs, typed host boundaries, and a structural source workflow for human and AI-assisted development.
+官网介绍 Calcit 的结构化源码、名义 `Struct`/`Enum`、traits、方法和 `Option`/`Result`，重点展示人类与 AI Agent 可以实际使用的查询、编辑和验证流程。
 
-The canonical `calcit.cirru` source is a structured program boundary. `calcit` can inspect and mutate definitions structurally, while verification combines type analysis, examples, attached tests, architecture checks, and JavaScript code generation.
+`calcit.cirru` 是程序树，只通过 Calcit 结构化命令修改；Markdown 正文在 `content/` 中。生成的 `js-out/` 和 `dist/` 不提交。规范见 [AGENTS.md](AGENTS.md)。
 
-The primary web-application narrative follows Calcium Workflow: typed operation/message envelopes, one serial deterministic updater, Respo/Recollect projection and diff/patch, revision/ack/resync over WebSocket, bounded async work, and observable convergence.
+官网从小型 Respo 应用开始介绍，状态同步再参考 Calcium Workflow。类型声明不能替代运行时 FFI 验证，WASM/WASI 也不是任意 JS 模块的替代目标；正文区分已有能力与应用需要自行验证的协议。
 
-Toolchain:
+工具链：
 
 | Package  | Version                                                           |
 | -------- | ----------------------------------------------------------------- |
@@ -14,7 +14,7 @@ Toolchain:
 | editor   | ![](https://img.shields.io/github/v/release/calcit-lang/editor)   |
 | setup-calcit | ![](https://img.shields.io/github/v/release/calcit-lang/setup-calcit) |
 
-Libraries:
+类库：
 
 | Package                   | Version                                                                |
 | ------------------------- | ---------------------------------------------------------------------- |
@@ -24,7 +24,7 @@ Libraries:
 | calcit-lang/stir-template | ![](https://img.shields.io/github/v/release/calcit-lang/stir-template) |
 | Cirru/respo-cirru-editor  | ![](https://img.shields.io/github/v/release/Cirru/respo-cirru-editor)  |
 
-Bindings(some are toys):
+宿主绑定（部分为实验项目）：
 
 | Package                      | Version                                                                   |
 | ---------------------------- | ------------------------------------------------------------------------- |
@@ -39,27 +39,28 @@ Bindings(some are toys):
 | calcit-lang/calcit_wasmtime  | ![](https://img.shields.io/github/v/release/calcit-lang/calcit_wasmtime)  |
 | calcit-lang/calcit-graphviz  | ![](https://img.shields.io/github/v/release/calcit-lang/calcit-graphviz)  |
 
-### Reference workflow
+### 开发与验收
 
-Use Calcit/procs 0.27.0, Node 24 and Yarn 4.18.0 with canonical
-`calcit.cirru` / `deps.cirru`. Install via `caps --ci` and
-`yarn install --immutable`. `yarn dev` compiles initially and starts Vite;
-run `calcit calcit.cirru js -w` in another terminal for live source edits.
-Build/release compile once. No extra process manager or npm dependency is needed.
+使用 Calcit/`@calcit/procs` **0.27.0**、Node **24**、Yarn **4.18.0**。先确认 `calcit --version` 与 `deps.cirru` 匹配，再运行：
 
-CI retains canonical formatting, strict entry/all-public checks, both existing
-state-tree regression tests and actual build. Repeated type-debt reports are
-removed without adding upload checkers or tests. Frontend base and COS action
-v1.1.1 use the same prefix: `calcit-lang/calcit-lang.org/` in production and
-`pr/<number>/<run-id>/<attempt>/` for previews. Concurrency is per PR, separate
-from production, without cancelling active uploads. The action handles public
-upload verification. Original upload policy and server `dist/*` destination are
-unchanged, as are snapshot, homepage text/data and state logic. PR success is not
-production deployment or physical browser acceptance.
+```bash
+caps --ci
+yarn install --immutable
+calcit --check-only
+yarn test
+yarn build
+yarn dev
+```
 
-- [Calcium Workflow](https://github.com/Cumulo/calcium-workflow) for stateful real-time browser/server applications
-- [Respo Calcit Workflow](https://github.com/calcit-lang/respo-calcit-workflow) for client-side Respo applications
+`yarn test` 执行正文中的 Cirru 示例，重新生成 JavaScript，再运行原有状态树回归测试；`yarn build` 编译并打包。`yarn dev` 初始编译后启动 Vite；结构化源码的实时编译可在另一终端运行 `calcit js -w`。不要用本机 alpha 编译器替代稳定版，也不要通过 `--compat-types` 隐藏版本错配。
 
-### License
+目前 Markdown 暂固定到不可变修复提交 `dfb932c11eb84b62ea5500bc2ede920b65b814e6`：已发布的 0.4.46 内联渲染会传入非法 List 子节点，代码块也未适配 UI 的 `Option<PresentationOptions>`。上游发布包含修复的版本后再换回版本号，不能直接回退到 0.4.46。现有回归文件同时检查两篇完整正文的 HTML 渲染，避免仅构建通过但浏览器白屏。
+
+CI 保留 Snapshot 格式、严格 entry/公开定义检查、文档示例、状态树测试和实际构建。COS 生产路径为 `calcit-lang/calcit-lang.org/`，PR 预览为其下的 `pr/<number>/<run-id>/<attempt>/`，预览与生产分开串行上传。PR 构建成功不等于生产部署完成，也不替代浏览器验收。
+
+- [Respo Calcit Workflow](https://github.com/calcit-lang/respo-calcit-workflow)：浏览器应用起点
+- [Calcium Workflow](https://github.com/Cumulo/calcium-workflow)：状态同步应用参考
+
+### 许可
 
 MIT

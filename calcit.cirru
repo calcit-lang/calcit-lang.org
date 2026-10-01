@@ -165,21 +165,18 @@
                 ui-schema/make-tabs-options state (Option :some true) (Option :none)
                   Option :some $ {} (:margin-top 20) (:padding "|0 8px") (:min-width 160)
                 [] (%:: ui-schema/TabRoute :tab :match "|Pattern matching") (%:: ui-schema/TabRoute :tab :component |Component) (%:: ui-schema/TabRoute :tab :persistent-data "|Persistent data") (%:: ui-schema/TabRoute :tab :pipeline "|Pipeline macro")
-                hint-fn
-                  {}
+                fn (info d!)
+                  hint-fn $ {}
                     :args $ [] (:: 'respo-ui.schema/TabRoute 'Tag) 'DynFn
                     :return 'Unit
-                  :: fn (info d!)
-                    let
-                        dispatch $ assert-type d! $ :: 'Fn
-                          {}
-                            :args $ [] 'Enum
-                            :return 'Unit
-                      match info $
-                        :tab value display
-                        do
-                          dispatch $ app.schema/Op :states cursor value
-                          , &unit
+                  let
+                      dispatch $ assert-type d! $ :: 'Fn
+                        {}
+                          :args $ [] 'app.schema/Op
+                          :return 'Unit
+                    match info $
+                      :tab value display
+                      dispatch $ app.schema/Op :states cursor value
               comp-cirru-snippet $ trim $ pick-demo state
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
