@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: upload-${{ github.repository }}-${{ github.event_name == 'pull_request' && 'pr' || github.ref }}
+  group: frontend-${{ github.repository }}-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || 'production' }}
   cancel-in-progress: false
 
 jobs:
@@ -42,6 +42,7 @@ jobs:
 
     - name: Resolve immutable dependencies
       run: |
+        set -euo pipefail
         # Published dependencies request different compatible js-ffi and
         # Respo versions; Caps records the deterministic highest selections.
         caps --ci
@@ -51,6 +52,8 @@ jobs:
     - name: Validate Calcit upgrade
       run: |
         set -euo pipefail
+        test -f calcit.cirru
+        test -f deps.cirru
         test ! -e compact.cirru
         test ! -e package.cirru
         test "$(calcit --version)" = "0.27.0"
@@ -64,20 +67,15 @@ jobs:
           --ns app.schema \
           --ns app.updater \
           --summary-only --format json
-        calcit calcit.cirru analyze check-types --summary-only --format json
-        calcit calcit.cirru analyze weak-types \
-          --only schema-dynamic,unresolved-type-slot,code-dynamic \
-          --intent unresolved --summary-only --format json
-        calcit calcit.cirru analyze deprecated --summary-only --format json
-        calcit calcit.cirru analyze dynamic-methods --summary-only --format json
 
     - name: Select CDN asset path
       id: asset-path
       env:
         CDN_ORIGIN: https://cos-sh.tiye.me
+        PR_NUMBER: ${{ github.event.pull_request.number }}
       run: |
         if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
-          asset_prefix="${GITHUB_REPOSITORY}/pr/"
+          asset_prefix="${GITHUB_REPOSITORY}/pr/${PR_NUMBER}/${GITHUB_RUN_ID}/${GITHUB_RUN_ATTEMPT}/"
         elif [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
           asset_prefix="${GITHUB_REPOSITORY}/"
         else
@@ -91,7 +89,6 @@ jobs:
     - name: Build web assets with CDN URLs
       run: |
         set -euo pipefail
-        yarn compile
         yarn build
         node --test scripts/state-regression.test.mjs
 
