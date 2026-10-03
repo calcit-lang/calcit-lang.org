@@ -27,6 +27,8 @@
   .stagger > * { opacity:0; transform:translateY(16px); transition:opacity .5s, transform .5s; }
   .slide.on .stagger > * { opacity:1; transform:none; }
   .slide.on .stagger > *:nth-child(2) { transition-delay:.5s } .slide.on .stagger > *:nth-child(3) { transition-delay:1s } .slide.on .stagger > *:nth-child(4) { transition-delay:1.5s }
+  body.static .slide, body.static .stagger > * { transition:none !important; transition-delay:0s !important; }
+  body.static .cur::after { content:""; }
   #hud { position:fixed; right:16px; bottom:12px; font:14px monospace; color:#667; z-index:9; } body.rec #hud { display:none; }
   #bar { position:absolute; left:0; bottom:0; height:6px; background:var(--accent); width:0; transition:width .4s; }
 </style>
@@ -127,8 +129,11 @@ const bar = document.getElementById('bar');
 let idx = -1, timer = null, typeTimer = null, auto = new URLSearchParams(location.search).has('auto');
 function fit() { const s = Math.min(innerWidth / 1920, innerHeight / 1080); stage.style.transform = `translate(-50%,-50%) scale(${s})`; }
 addEventListener('resize', fit); fit();
+const STATIC = new URLSearchParams(location.search).get('static');
 function typeLines(pre) {
-  const lines = JSON.parse(pre.dataset.lines); pre.textContent = ''; pre.classList.add('cur');
+  const lines = JSON.parse(pre.dataset.lines);
+  if (STATIC !== null) { pre.textContent = lines.join('\n'); return; }
+  pre.textContent = ''; pre.classList.add('cur');
   let li = 0, ci = 0;
   clearInterval(typeTimer);
   typeTimer = setInterval(() => {
@@ -155,7 +160,8 @@ addEventListener('keydown', e => {
   else if (e.key === ' ') { auto = !auto; show(idx); e.preventDefault(); }
   else if (e.key.toLowerCase() === 'r') document.body.classList.toggle('rec');
 });
-show(0);
+if (STATIC !== null) { document.body.classList.add('static', 'rec'); bar.style.display = 'none'; show(+STATIC - 1); }
+else show(0);
 </script>
 </body>
 </html>

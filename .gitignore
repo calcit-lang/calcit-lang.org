@@ -20,3 +20,6 @@ video/*
 !video/.gitkeep
 !video/*.html
 !video/README.md
+!video/*.py
+!video/*.mjs
+!video/narration.json
