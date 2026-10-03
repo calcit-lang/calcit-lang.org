@@ -9,7 +9,6 @@ Calcit 是以结构化源码为基础的类型化函数式语言，主要用于 
 ```bash
 cargo install calcit --version 0.27.0 --locked
 cargo install caps-cli
-calcit eval 'println "|Hello Calcit"'
 ```
 
 资源不足的 Linux 机器可优先使用 [GitHub Releases](https://github.com/calcit-lang/calcit/releases) 的预编译文件，包括 Ubuntu 22.04 的无 WASM 版本；选择匹配系统与架构的文件，不需要本机编译完整工具链。
@@ -26,7 +25,7 @@ calcit js
 
 ## 不可变数据与类型推断
 
-下面的例子可以通过 `calcit eval --stdin` 执行，网站 CI 也会检查这些 Cirru 代码块。集合参数在前，函数参数在后：
+下面的例子放进项目的 `calcit.cirru` 定义即可使用，网站 CI 通过 `calcit docs check-md` 检查这些 Cirru 代码块。集合参数在前，函数参数在后：
 
 ```cirru
 let

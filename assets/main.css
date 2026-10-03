@@ -21,3 +21,23 @@
 div.md-block div[data-comp="comp-snippet"] {
   margin-top: 16px;
 }
+
+html { scroll-behavior: smooth; }
+[id] { scroll-margin-top: 72px; }
+html { color-scheme: light; }
+body { background-color: #eaf1ff; color: #1a2240; }
+.tile { background-image: none !important; }
+
+/* code blocks keep a solid backdrop above the shader background */
+[data-comp="comp-snippet"], [data-comp="comp-cirru-snippet"] {
+  background-color: #f8faff;
+  border: 1px solid #d3e0ff;
+  border-radius: 10px;
+  padding: 12px 16px;
+  box-shadow: 0 2px 10px rgba(60, 90, 200, 0.06);
+}
+[data-comp="comp-snippet"], [data-comp="comp-cirru-snippet"] { max-width: 100%; min-width: 0; overflow-x: auto; box-sizing: border-box; }
+@media (max-width: 640px) {
+  [data-comp="comp-nav"] { flex-wrap: nowrap !important; }
+  [data-comp="comp-nav"] > div:last-child { flex-wrap: nowrap !important; overflow-x: auto; white-space: nowrap; min-width: 0; }
+}

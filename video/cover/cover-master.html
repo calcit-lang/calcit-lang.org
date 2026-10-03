@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<style>
+  @font-face { font-family: Federo; src: url('../../assets/Federo-Regular.ttf'); }
+  * { margin:0; box-sizing:border-box; }
+  html { background:#dfeaff; }
+  /* master is 1920x1440 (4:3). The 16:9 version is the centered 1920x1080 band (y 180..1260),
+     so every key element lives inside .stage. */
+  body { width:1920px; height:1440px; overflow:hidden; position:relative; font-family:-apple-system,"PingFang SC","Noto Sans SC",sans-serif; color:#1a2240; }
+  .stage { position:absolute; left:0; top:180px; width:1920px; height:1080px; }
+  .left { position:absolute; left:130px; top:150px; width:1000px; }
+  .tag { display:inline-block; font-size:40px; font-weight:800; color:#fff; background:#5a5ae8; padding:10px 28px; border-radius:14px; letter-spacing:.06em; }
+  .brand { font-family:Federo, cursive; font-size:210px; line-height:1; letter-spacing:-4px; margin:34px 0 18px; color:#1a2240; }
+  .sub { font-size:76px; line-height:1.25; font-weight:900; letter-spacing:-1px; }
+  .sub b { color:#5a5ae8; }
+  .chips { margin-top:44px; display:flex; gap:16px; flex-wrap:wrap; }
+  .chips span { font-size:36px; font-weight:700; color:#364080; background:rgba(255,255,255,.85); border:2px solid #c9d8ff; border-radius:999px; padding:10px 26px; }
+  pre { position:absolute; right:110px; top:250px; width:640px; margin:0; background:#1b1e2d; color:#eef0ff; border-radius:26px; padding:36px 40px; font:30px/1.6 Menlo, Consolas, monospace; box-shadow:0 30px 80px rgba(30,40,100,.35); transform:rotate(1.5deg); white-space:pre-wrap; }
+  .d { color:#8d96c0; } .w { color:#ffd479; } .a { color:#a9a9ff; } .ok { color:#7ee6ac; }
+</style></head><body>
+<div class="stage">
+  <div class="left">
+    <div class="tag">近期更新概览</div>
+    <div class="brand">Calcit</div>
+    <div class="sub">为 <b>AI Agent</b> 做了什么<br>命令行与类型系统</div>
+    <div class="chips"><span>0.14 → 0.28</span><span>结构化编辑</span><span>严格类型</span></div>
+  </div>
+  <pre><span class="d">$</span> calcit --check-only
+<span class="w">[W_FN_ARG_TYPE_MISMATCH]</span>
+Function `app.main/add-one`
+arg 1 expects <span class="ok">:number</span>,
+got <span class="a">:string</span>
+<span class="d">@app.main/main! @3.1</span>
+
+<span class="d">$</span> calcit query type …
+.filter <span class="ok">proven</span>
+.each   <span class="w">open</span></pre>
+</div>
+<script type="module">
+  import { startShaderBackground } from '../../assets/shader-bg.mjs';
+  startShaderBackground();
+</script>
+</body></html>
