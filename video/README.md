@@ -14,7 +14,8 @@
 ```bash
 yarn build                                   # 生成 dist/ (官网截图来源)
 export CHROME_PATH=<Chromium 可执行文件>
-NODE_PATH=<含 playwright-core 的 node_modules> node video/capture.mjs   # 逐段截图 -> video/build/frames
+(cd video && npm install)                    # 只安装 playwright-core, 不影响官网依赖
+node video/capture.mjs                       # 逐段截图 -> video/build/frames
 VIDEO_ENV=<含 GEMINI_API_KEY 与 GEMINI_BASE_URL 的 .env> python3 video/build.py
 ```
 

@@ -10,18 +10,19 @@ import tts
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, 'build'); AUDIO = os.path.join(OUT, 'audio'); FRAMES = os.path.join(OUT, 'frames')
 VOICE = os.environ.get('TTS_VOICE', 'Kore')
+MODEL = os.environ.get('TTS_MODEL', 'gemini-2.5-flash-preview-tts')
 SEG_GAP, SUB_MAX = 0.5, 22
 STYLE = '用自然、平稳的普通话朗读下面这段话：'
 
 def audio_path(text):
-    return os.path.join(AUDIO, hashlib.sha1(f'{VOICE}\n{text}'.encode()).hexdigest()[:16] + '.wav')
+    return os.path.join(AUDIO, hashlib.sha256(f'{MODEL}\n{VOICE}\n{STYLE}\n{text}'.encode()).hexdigest()[:16] + '.wav')
 
 def synth(text):
     p = audio_path(text)
     if os.path.exists(p): return p
     for attempt in range(5):
         try:
-            tts.synth(text, p + '.tmp', voice=VOICE, style=STYLE); os.replace(p + '.tmp', p); return p
+            tts.synth(text, p + '.tmp', voice=VOICE, style=STYLE, model=MODEL); os.replace(p + '.tmp', p); return p
         except (SystemExit, Exception) as e:
             print('tts retry', attempt, e, flush=True)
     raise SystemExit('TTS failed: ' + text[:30])
