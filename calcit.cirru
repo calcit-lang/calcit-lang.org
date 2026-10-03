@@ -19,16 +19,15 @@
         'comp-agent-section $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-agent-section ()
             div
-              {} $ :class-name style-section
-              comp-section-head "|为 AI Agent 设计的命令行" "|Agent 不需要猜缩进或批量改写文本。calcit.cirru 保存的是 Cirru EDN 语法树, 命令行可以先定位真实的 definition 与路径, 再做局部结构化修改, 最后用默认严格检查和测试验证。"
+              {} (:class-name style-section) (:id |agent)
+              comp-section-head "|为 AI Agent 设计的命令行" "|同一套命令服务人类与 Agent: 默认输出适合阅读的 Markdown, 加 --format edn 就能得到稳定字段, 供程序分支。"
               div
-                {} $ :class-name style-two-col
-                div ({})
-                  comp-step |1 "|读取契约" "|calcit docs agents --contract 输出紧凑的修改契约和稳定摘要, 首次接触项目时再读 --full。"
-                  comp-step |2 "|查询定位" "|query ns / defs / context / search 返回真实的 namespace、definition 与 AST 路径, 支持 --format edn 供程序分支。"
-                  comp-step |3 "|结构化编辑" "|edit、tree、cursor 与 transaction 只改目标节点, 并可用 --expect-revision 防止并行写入覆盖。"
-                  comp-step |4 "|严格验证" "|calcit --check-only 与 calcit test 默认严格诊断, calcit fix 给出可审阅的确定性迁移。"
-                comp-terminal "|$ calcit docs agents --contract\n$ calcit query defs app.schema\n$ calcit query search 'Store' --source project\n$ calcit tree show app.schema/store --path ''\n$ calcit tree replace app.schema/store --path '<path>' \\\n    --input-format cirru --code 'quote <node>'\n$ calcit --check-only\n$ calcit test app.schema/store --require-match"
+                {} $ :class-name style-timeline
+                comp-step-card |01 "|读取契约" "|docs agents --contract 输出紧凑的修改契约与稳定摘要, 摘要不变就不必重读。"
+                comp-step-card |02 "|查询定位" "|query ns / defs / context / search 给出真实的定义与路径, 不需要猜。"
+                comp-step-card |03 "|结构化编辑" "|edit、tree、cursor、transaction 只改目标节点, 并发写入用 revision 保护。"
+                comp-step-card |04 "|严格验证" "|--check-only 与 calcit test 默认严格诊断, calcit fix 给出可审阅的迁移。"
+              comp-terminal "|$ calcit docs agents --contract\n$ calcit query search 'Store' --source project\n$ calcit tree show app.schema/store --path ''\n$ calcit tree replace app.schema/store --path '<path>' \\\n    --input-format cirru --code 'quote <node>'\n$ calcit --check-only\n$ calcit test app.schema/store --require-match"
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ []
@@ -37,6 +36,61 @@
             ; img $ {} (:src |https://cdn.tiye.me/logo/calcit.png)
               :style $ {} (:width |60vw) (:z-index -10) (:min-width |480px) (:position :fixed) (:opacity 0.12) (:right 0) (:top |10vh)
             div $ {} $ :class-name (str-spaced |tile style-bg)
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ []
+        'comp-compare-section $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defcomp comp-compare-section ()
+            div
+              {} (:class-name style-section) (:id |why)
+              comp-section-head "|为什么不直接改文本" "|文本源码对人很自然, 对 Agent 却意味着猜测。Calcit 把每一步都换成可检查的操作。"
+              div
+                {} $ :class-name style-compare
+                div
+                  {} $ :class-name style-compare-head
+                  <> |
+                div
+                  {} $ :class-name style-compare-head
+                  <> "|普通文本源码"
+                div
+                  {} $ :class-name style-compare-head
+                  <> |calcit.cirru
+                div
+                  {} $ :class-name $ str-spaced style-compare-cell style-feature-title
+                  <> "|定位"
+                div
+                  {} $ :class-name $ str-spaced style-compare-cell style-compare-plain
+                  <> "|搜索字符串, 猜行号和缩进"
+                div
+                  {} $ :class-name $ str-spaced style-compare-cell style-compare-good
+                  <> "|query 返回真实的 definition 与 AST 路径"
+                div
+                  {} $ :class-name $ str-spaced style-compare-cell style-feature-title
+                  <> "|修改"
+                div
+                  {} $ :class-name $ str-spaced style-compare-cell style-compare-plain
+                  <> "|整段重写, 容易误伤相邻代码"
+                div
+                  {} $ :class-name $ str-spaced style-compare-cell style-compare-good
+                  <> "|tree / edit 只替换目标节点"
+                div
+                  {} $ :class-name $ str-spaced style-compare-cell style-feature-title
+                  <> "|并发"
+                div
+                  {} $ :class-name $ str-spaced style-compare-cell style-compare-plain
+                  <> "|后写的覆盖先写的"
+                div
+                  {} $ :class-name $ str-spaced style-compare-cell style-compare-good
+                  <> "|transaction 与 --expect-revision 前置条件"
+                div
+                  {} $ :class-name $ str-spaced style-compare-cell style-feature-title
+                  <> "|验证"
+                div
+                  {} $ :class-name $ str-spaced style-compare-cell style-compare-plain
+                  <> "|运行起来才发现问题"
+                div
+                  {} $ :class-name $ str-spaced style-compare-cell style-compare-good
+                  <> "|默认严格检查, 定义可附带测试"
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ []
@@ -50,10 +104,14 @@
                 comp-bg
                 div
                   {} $ :class-name style-content
+                  comp-nav
                   comp-hero
+                  comp-compare-section
+                  comp-agent-section
+                  comp-types-section
                   div
-                    {} $ :class-name style-section
-                    comp-section-head "|几行代码看看 Calcit" "|不可变数据、模式匹配、管道宏和 Respo 组件。切换标签查看示例。"
+                    {} (:class-name style-section) (:id |glance)
+                    comp-section-head "|语言一瞥" "|不可变数据、模式匹配、管道宏和 Respo 组件。切换标签查看示例。"
                     let
                         snippet-states $ >> states :snippets
                         snippet-cursor $ assert-type (read-field snippet-states :cursor) (:: 'List 'Tag)
@@ -61,84 +119,115 @@
                           either (read-field snippet-states :data) :match
                           , 'Tag
                       comp-snippet-demo snippet-cursor snippet-selection
-                  comp-agent-section
-                  comp-types-section
-                  div
-                    {} $ :class-name style-section
-                    comp-section-head "|特性一览" "|围绕结构化源码、名义类型和跨后端语义设计。"
-                    list->
-                      {} $ :class-name style-cards-containers
-                      -> doc-features $ map $ fn (doc)
-                        match doc $
-                          :feature title content
-                          [] title $ div
-                            {} $ :class-name style-feature
-                            div
-                              {} $ :class-name style-feature-title
-                              <> title
-                            div
-                              {} $ :class-name style-feature-content
-                              comp-md content $ {} $ :class-name |
                   comp-start-section
-                  div
-                    {} $ :class-name style-section
-                    comp-md-block (inline-content! |content/intro.md)
-                      {} (:class-name |)
-                        :highlight $ fn (code lang)
-                          str $ cirru-color/generateHtml code
-                  div
-                    {} $ :class-name style-section
-                    comp-section-head "|生态" "|类库、框架、工具、视频与文章。"
-                    list->
-                      {} $ :class-name style-columns
-                      -> doc-columns $ map-indexed $ fn (idx column)
-                        [] idx $ match column $
-                          :column col-title links
-                          div
-                            {} $ :class-name style-feature
-                            <> col-title style-feature-title
-                            list->
-                              {} $ :style $ {} (:margin-left 6)
-                              ->
-                                assert-type links $ :: 'List 'Enum
-                                map-indexed $ fn (idx link)
-                                  [] idx $ comp-link link
-                  div
-                    {} $ :class-name style-section
-                    comp-md-block (inline-content! |content/cirru.md)
-                      {} (:class-name |)
-                        :highlight $ fn (code lang)
-                          str $ cirru-color/generateHtml code
-                  =< nil 120
-                  div
-                    {} $ :class-name css/row-parted
-                    div $ {}
-                    div ({}) (add-link "|GitHub calcit-lang" |https://github.com/calcit-lang/) (=< 16 nil)
-                      add-link |Discussions |https://github.com/calcit-lang/calcit/discussions
-                  =< nil 40
+                  comp-ecosystem
+                  comp-deep-read
+                  comp-footer
                 when dev? $ comp-reel (>> states :reel) (reel-view/view-data reel) ({})
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] $ :: 'reel.typed/State 'app.schema/Op 'app.schema/Store
+        'comp-deep-read $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defcomp comp-deep-read ()
+            div
+              {} $ :class-name style-section
+              comp-section-head "|深入阅读" "|安装细节、类型示例、JavaScript 与 WASI 边界, 以及 Agent 工作流的完整步骤。"
+              create-element :details ({})
+                create-element :summary
+                  {} $ :style $ {} (:cursor :pointer) (:font-weight |700) (:margin-bottom |16px)
+                  <> "|展开: 安装与运行、类型推断、目标平台"
+                comp-md-block (inline-content! |content/intro.md)
+                  {} (:class-name |)
+                    :highlight $ fn (code lang)
+                      str $ cirru-color/generateHtml code
+              =< nil 16
+              create-element :details ({})
+                create-element :summary
+                  {} $ :style $ {} (:cursor :pointer) (:font-weight |700) (:margin-bottom |16px)
+                  <> "|展开: 结构化源码与 AI Agent 完整流程"
+                comp-md-block (inline-content! |content/cirru.md)
+                  {} (:class-name |)
+                    :highlight $ fn (code lang)
+                      str $ cirru-color/generateHtml code
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ []
+        'comp-ecosystem $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defcomp comp-ecosystem ()
+            div
+              {} (:class-name style-section) (:id |ecosystem)
+              comp-section-head "|生态" "|从这里开始逛。"
+              list->
+                {} $ :class-name style-columns
+                -> doc-columns $ map-indexed $ fn (idx column)
+                  [] idx $ match column $
+                    :column col-title links
+                    div
+                      {} $ :class-name style-feature
+                      <> col-title style-feature-title
+                      list->
+                        {} $ :style $ {} (:margin-top 8)
+                        ->
+                          assert-type links $ :: 'List 'Enum
+                          map-indexed $ fn (idx link)
+                            [] idx $ comp-link link
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ []
+        'comp-footer $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defcomp comp-footer ()
+            div
+              {}
+                :class-name $ str-spaced style-footer css/row-parted
+                :style $ {} $ :flex-wrap :wrap
+              <> "|Calcit · MIT"
+              div ({}) (add-link |GitHub |https://github.com/calcit-lang/) (=< 16 nil)
+                add-link |Discussions |https://github.com/calcit-lang/calcit/discussions
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ []
         'comp-hero $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-hero ()
             div
-              {} $ :class-name style-hero
-              img $ {} (:src |https://cdn.tiye.me/logo/calcit.png) (:alt |Calcit)
-                :style $ {} (:width 96) (:height 96)
-              div
-                {} $ :class-name style-main-title
-                <> |Calcit
-              div
-                {} $ :class-name style-hero-tagline
-                <> "|面向 AI Agent 与人类协作的类型化函数式语言"
-              div
-                {} $ :class-name style-secondary-title
-                <> "|结构化源码、严格类型检查和可查询的命令行, 让每一次修改都能先查看、再编辑、最后验证。编译到 JavaScript ES Modules, 也能在 Rust 解释器里运行脚本。"
-              div
-                {} $ :class-name style-install
-                <> "|cargo install calcit --locked"
-              comp-promotions
+              {} $ :class-name style-hero2
+              div ({})
+                div
+                  {} $ :class-name style-eyebrow
+                  <> "|typed · structural · agent-ready"
+                div
+                  {} $ :class-name style-hero-title
+                  <> "|让 AI Agent 与人一起, 稳妥地改代码"
+                div
+                  {} $ :class-name style-secondary-title
+                  <> "|Calcit 是一门类型化的函数式语言。源码存成可查询的语法树, 类型检查默认严格, 命令行把每次修改变成“查询, 编辑, 验证”的闭环。编译到 JavaScript ES Modules, 也能在 Rust 解释器中运行。"
+                =< nil 20
+                div
+                  {} (:class-name css/row-middle)
+                    :style $ {} (:gap |12px) (:flex-wrap :wrap)
+                  button $ {} (:inner-text "|Agents 指南")
+                    :class-name $ str-spaced css/button style-promo-button style-main-button
+                    :on-click $ fn (e d!)
+                      open-window! |https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md |_blank
+                      , &unit
+                  button $ {} (:inner-text |Guidebook)
+                    :class-name $ str-spaced css/button style-promo-button
+                    :on-click $ fn (e d!) (open-window! |https://repo.calcit-lang.org/guidebook/ |_blank) &unit
+                  a $ {} (:inner-text "|GitHub →") (:href |https://github.com/calcit-lang/calcit/) (:target |_blank) (:class-name style-nav-link)
+                =< nil 24
+                div
+                  {} (:class-name css/row-middle)
+                    :style $ {} (:gap |8px) (:flex-wrap :wrap)
+                  span $ {} (:class-name style-chip) (:inner-text "|calcit.cirru 语法树")
+                  span $ {} (:class-name style-chip) (:inner-text "|默认严格类型")
+                  span $ {} (:class-name style-chip) (:inner-text "|JS · native · WASI")
+                  img $ {} (:alt |Versions)
+                    :src |https://img.shields.io/github/v/release/calcit-lang/calcit
+              div ({})
+                comp-terminal "|$ calcit query defs app.schema\nDefinitions: 7\n  Op  SiteConfig  Store  decode-store  …\n\n$ calcit tree show app.schema/store --path ''\ndef store $ Store :states $ {}\n\n$ calcit --check-only\n✓ Check passed"
+                =< nil 12
+                div
+                  {} $ :class-name style-install
+                  <> "|cargo install calcit --locked && cargo install calcit-caps"
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ []
@@ -154,6 +243,60 @@
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] 'Enum
+        'comp-nav $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defcomp comp-nav ()
+            div
+              {} $ :class-name style-nav
+              div
+                {} (:class-name css/row-middle)
+                  :style $ {} $ :gap |10px
+                img $ {} (:src |https://cdn.tiye.me/logo/calcit.png) (:alt |Calcit)
+                  :style $ {} (:width 28) (:height 28)
+                span $ {} (:inner-text |Calcit) (:class-name style-nav-brand)
+              div
+                {} (:class-name css/row-middle)
+                  :style $ {} (:gap |4px) (:flex-wrap :wrap)
+                a $ {} (:inner-text "|为什么") (:href |#why) (:class-name style-nav-link)
+                a $ {} (:inner-text "|Agent 工作流") (:href |#agent) (:class-name style-nav-link)
+                a $ {} (:inner-text "|类型系统") (:href |#types) (:class-name style-nav-link)
+                a $ {} (:inner-text "|语言一瞥") (:href |#glance) (:class-name style-nav-link)
+                a $ {} (:inner-text "|开始使用") (:href |#start) (:class-name style-nav-link)
+                a $ {} (:inner-text "|生态") (:href |#ecosystem) (:class-name style-nav-link)
+                a $ {} (:inner-text |GitHub) (:href |https://github.com/calcit-lang/calcit/) (:target |_blank) (:class-name style-nav-link)
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ []
+        'comp-pillars $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defcomp comp-pillars ()
+            div
+              {} $ :class-name style-pillars
+              div
+                {} $ :class-name style-feature
+                div
+                  {} $ :class-name style-feature-title
+                  <> "|看得见的源码"
+                div
+                  {} $ :class-name style-feature-content
+                  <> "|calcit.cirru 是 Cirru EDN 语法树。先查到真实的定义和路径, 再只改目标节点。"
+              div
+                {} $ :class-name style-feature
+                div
+                  {} $ :class-name style-feature-title
+                  <> "|有证据的类型"
+                div
+                  {} $ :class-name style-feature-content
+                  <> "|Struct、Enum、Option、Result 都是名义类型, 默认严格诊断, 错误带源码位置。"
+              div
+                {} $ :class-name style-feature
+                div
+                  {} $ :class-name style-feature-title
+                  <> "|可复现的验证"
+                div
+                  {} $ :class-name style-feature-content
+                  <> "|check、test、docs check-md 与 fix 构成闭环, 文档示例也会被执行。"
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ []
         'comp-promotions $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-promotions ()
             div
@@ -220,9 +363,16 @@
         'comp-start-section $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-start-section ()
             div
-              {} $ :class-name style-section
-              comp-section-head "|三步开始" "|从已发布的稳定版本开始, 项目的版本由 deps.cirru 固定。"
-              comp-terminal "|# 1. install\ncargo install calcit --locked\ncargo install calcit-caps\n\n# 2. try a snippet\ncalcit eval 'println \"|Hello Calcit\"'\n\n# 3. run a project\ncaps --ci\ncalcit --check-only\ncalcit js"
+              {} (:class-name style-section) (:id |start)
+              comp-section-head "|从 calcit.cirru 开始" "|一个 Calcit 项目由 deps.cirru 固定版本, 由 calcit.cirru 保存入口配置和程序树。日常开发围绕这两个文件, 不需要临时片段。"
+              div
+                {} $ :class-name style-two-col
+                div ({})
+                  comp-step |1 "|安装工具链" "|cargo install calcit 与 calcit-caps, 版本以项目的 deps.cirru 为准。"
+                  comp-step |2 "|解析依赖" "|caps --ci 按 deps.cirru 安装模块, 项目只读取 .calcit/modules 中的链接。"
+                  comp-step |3 "|运行或编译" "|calcit 读取 calcit.cirru 的默认入口, 按 mode 单次运行或生成 JavaScript; -w 开启监听。"
+                  comp-step |4 "|结构化修改" "|用 calcit query、tree、edit 改 calcit.cirru, 再 --check-only 与 calcit test 验证。"
+                comp-terminal "|$ ls\ncalcit.cirru  deps.cirru  package.json\n\n$ caps --ci\n$ calcit --check-only\n✓ Check passed\n\n$ calcit          # run :entries.default once\n$ calcit js       # emit ES Modules to js-out/\n$ calcit -w       # watch and hot reload"
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ []
@@ -244,6 +394,22 @@
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] 'String 'String 'String
+        'comp-step-card $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defcomp comp-step-card (idx title text)
+            div
+              {} $ :class-name style-step-card
+              div
+                {} $ :class-name style-step-num
+                <> idx
+              div
+                {} $ :style $ {} (:font-weight |700) (:margin-bottom |6px)
+                <> title
+              div
+                {} $ :class-name style-feature-content
+                <> text
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ [] 'String 'String 'String
         'comp-terminal $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-terminal (text)
             pre $ {} (:class-name style-terminal) (:inner-text text)
@@ -253,14 +419,15 @@
         'comp-types-section $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-types-section ()
             div
-              {} $ :class-name style-section
-              comp-section-head "|让类型成为 Agent 的护栏" "|Struct 与 Enum 是名义类型, Option 表达缺失, Result 表达失败。类型检查默认严格: 已知矛盾在编译期报告并带源码位置, 开放的外部数据则必须在边界 decode, 而不是用转换糊弄过去。"
+              {} (:class-name style-section) (:id |types)
+              comp-section-head "|让类型成为 Agent 的护栏" "|Struct 与 Enum 是名义类型, Option 表达缺失, Result 表达失败。签名写在 schema 里, 调用错了在检查阶段就会指出位置。"
               div
                 {} $ :class-name style-two-col
-                comp-terminal "|defstruct Store (:states 'Map)\n\ndefenum Op\n  :states 'List 'Dynamic\n  :reel/toggle\n\ndef values $ [] 10 20\nassert= (Option :some 20) $ values.get 1\nassert= (Option :none) $ values.get 2\nassert= 0 $ (values.get 2).unwrap-or 0"
-                div ({}) (comp-step |A "|名义 Struct / Enum" "|领域数据有明确字段与变体, match 做穷尽检查, 构造错误在编译期暴露。") (comp-step |B "|Option / Result" "|缺失与失败留在容器里, 通过方法组合处理, 不再靠 nil 传播。")
-                  comp-step |C "|Dynamic 只在边界" "|JS FFI 与外部数据显式声明为开放值, 用 try-parse-cirru-edn-as 等解码器验证后再使用。"
-                  comp-step |D "|错误可修复" "|诊断带类型证据与源码位置, 配合 calcit fix 与 analyze 命令, Agent 能按证据改而不是猜。"
+                div ({})
+                  comp-terminal "|defn add-one (n) (+ n 1)\n; schema: Fn (Number) -> Number\n\ndefn main! ()\n  println $ add-one |hello"
+                  =< nil 12
+                  comp-terminal "|$ calcit --check-only\n[W_FN_ARG_TYPE_MISMATCH] Function `app.main/add-one`\n  arg 1 expects type `:number`, but got `:string`\n  Expression: `app.main/add-one |hello`\n  @app.main/main! @3.1"
+                div ({}) (comp-step |A "|名义 Struct / Enum" "|领域数据有明确字段与变体, match 做穷尽检查。") (comp-step |B "|Option / Result" "|缺失与失败留在容器里, 用方法组合, 不靠 nil 传播。") (comp-step |C "|Dynamic 只在边界" "|JS FFI 与外部数据显式声明为开放值, 用解码器验证后再使用。") (comp-step |D "|诊断带证据" "|错误码、期望类型、实际类型和 AST 路径都在输出里, Agent 按证据修复。")
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ []
@@ -318,17 +485,56 @@
           :schema $ :: 'String
         'style-cards-containers $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-cards-containers
-            {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(300px, 1fr))") (:gap |20px) (:margin "|32px 0")
+            {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(min(300px, 100%), 1fr))") (:gap |20px) (:margin "|32px 0")
+          :examples $ []
+          :schema $ :: 'String
+        'style-chip $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-chip
+            {} $ |& $ {} (:display :inline-flex) (:align-items :center) (:gap |8px) (:padding "|6px 14px") (:border-radius |999px) (:font-size |13px) (:font-weight |600)
+              :color $ hsl 228 60 35
+              :background-color $ hsl 0 0 100 0.7
+              :border $ str "|1px solid " $ hsl 225 70 84
           :examples $ []
           :schema $ :: 'String
         'style-columns $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-columns
-            {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(300px, 1fr))") (:gap |12px)
+            {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(min(240px, 100%), 1fr))") (:gap |12px)
+          :examples $ []
+          :schema $ :: 'String
+        'style-compare $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-compare
+            {} $ |& $ {} (:display :grid) (:grid-template-columns "|minmax(56px, 96px) 1fr 1fr") (:border-radius |16px) (:overflow :hidden)
+              :border $ str "|1px solid " $ hsl 225 60 86
+          :examples $ []
+          :schema $ :: 'String
+        'style-compare-cell $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-compare-cell
+            {} $ |& $ {} (:padding "|14px 18px") (:font-size |15px) (:line-height |1.6)
+              :border-top $ str "|1px solid " $ hsl 225 60 90
+          :examples $ []
+          :schema $ :: 'String
+        'style-compare-good $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-compare-good
+            {} $ |& $ {}
+              :background-color $ hsl 228 90 98
+              :color $ hsl 230 50 25
+          :examples $ []
+          :schema $ :: 'String
+        'style-compare-head $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-compare-head
+            {} $ |& $ {} (:padding "|12px 18px") (:font-weight |700) (:font-size |14px)
+              :background-color $ hsl 228 80 96
+          :examples $ []
+          :schema $ :: 'String
+        'style-compare-plain $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-compare-plain
+            {} $ |& $ {}
+              :color $ hsl 0 0 45
           :examples $ []
           :schema $ :: 'String
         'style-content $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-content
-            {} $ |& $ {} (:margin "|0 auto") (:max-width |1200px) (:padding "|0 40px")
+            {} $ |& $ {} (:margin "|0 auto") (:max-width |1200px) (:padding "|0 clamp(16px, 4vw, 40px)")
           :examples $ []
           :schema $ :: 'String
         'style-display-link $ %{} 'CodeEntry (:doc |)
@@ -339,6 +545,12 @@
         'style-editor-img $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-editor-img
             {} $ |& $ {} (:max-width "|min(100%, 720px)") (:margin :auto)
+          :examples $ []
+          :schema $ :: 'String
+        'style-eyebrow $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-eyebrow
+            {} $ |& $ {} (:font-size |13px) (:letter-spacing |3px) (:text-transform :uppercase) (:font-weight |600)
+              :color $ hsl 240 70 60
           :examples $ []
           :schema $ :: 'String
         'style-feature $ %{} 'CodeEntry (:doc |)
@@ -369,6 +581,13 @@
             {} $ |& $ {} (:font-size |16px) (:font-weight |900)
           :examples $ []
           :schema $ :: 'String
+        'style-footer $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-footer
+            {} $ |& $ {} (:margin-top |96px) (:padding "|24px 0 48px") (:font-size |14px)
+              :border-top $ str "|1px solid " $ hsl 0 0 90
+              :color $ hsl 0 0 45
+          :examples $ []
+          :schema $ :: 'String
         'style-hero $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-hero
             {} $ |& $ {} (:padding "|72px 0 40px") (:display :flex) (:flex-direction :column) (:align-items :center) (:text-align :center) (:gap |16px)
@@ -378,6 +597,17 @@
           :code $ quote $ defstyle style-hero-tagline
             {} $ |& $ {} (:font-size |22px) (:line-height |1.4) (:font-weight |600)
               :color $ hsl 240 50 40
+          :examples $ []
+          :schema $ :: 'String
+        'style-hero-title $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-hero-title
+            {} $ |& $ {} (:font-size "|clamp(34px, 5vw, 54px)") (:line-height |1.12) (:letter-spacing |-1.2px) (:font-weight |800) (:margin "|14px 0 18px")
+              :color $ hsl 230 45 18
+          :examples $ []
+          :schema $ :: 'String
+        'style-hero2 $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-hero2
+            {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(min(420px, 100%), 1fr))") (:gap |48px) (:align-items :center) (:padding "|72px 0 24px")
           :examples $ []
           :schema $ :: 'String
         'style-install $ %{} 'CodeEntry (:doc |)
@@ -405,6 +635,32 @@
             {} $ |& $ {} (:font-size |32px) (:line-height |1.2) (:letter-spacing |-0.5px) (:font-family "|Federo, cursive")
           :examples $ []
           :schema $ :: 'String
+        'style-nav $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-nav
+            {} $ |& $ {} (:position :sticky) (:top 12) (:z-index 20) (:display :flex) (:align-items :center) (:justify-content :space-between) (:padding "|8px 16px") (:margin-top |12px) (:gap |16px) (:flex-wrap :wrap) (:border-radius |16px)
+              :background-color $ hsl 220 60 99 0.55
+              :backdrop-filter "|blur(14px) saturate(1.4)"
+              :border $ str "|1px solid " $ hsl 225 80 80 0.35
+              :box-shadow "|0 4px 20px hsla(225,60%,50%,0.12)"
+          :examples $ []
+          :schema $ :: 'String
+        'style-nav-brand $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-nav-brand
+            {} $ |& $ {} (:font-family "|Federo, cursive") (:font-size |20px)
+          :examples $ []
+          :schema $ :: 'String
+        'style-nav-link $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-nav-link
+            {} $ |& $ {} (:text-decoration :none) (:font-size |14px) (:padding "|4px 10px") (:border-radius |8px)
+              :color $ hsl 0 0 30
+              :hover $ {} $ :background-color (hsl 240 60 95)
+          :examples $ []
+          :schema $ :: 'String
+        'style-pillars $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-pillars
+            {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(260px, 1fr))") (:gap |20px) (:margin-top |56px)
+          :examples $ []
+          :schema $ :: 'String
         'style-promo-button $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-promo-button
             {} $ |& $ {} (:line-height |40px) (:border-radius |24px) (:padding "|0 24px") (:font-size |15px) (; :font-family "|Federo, cursive")
@@ -418,7 +674,11 @@
           :schema $ :: 'String
         'style-section $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-section
-            {} $ |& $ {} (:margin "|72px 0 0")
+            {} $ |& $ {} (:margin "|40px 0 0") (:padding "|clamp(24px, 4vw, 40px) clamp(18px, 4vw, 44px)") (:border-radius |24px)
+              :background-color $ hsl 0 0 100 0.78
+              :backdrop-filter "|blur(10px)"
+              :border $ str "|1px solid " $ hsl 225 70 86 0.7
+              :box-shadow "|0 12px 40px hsla(225,60%,40%,0.08)"
           :examples $ []
           :schema $ :: 'String
         'style-section-lead $ %{} 'CodeEntry (:doc |)
@@ -438,6 +698,19 @@
               :background-color $ hsl 240 90 76
           :examples $ []
           :schema $ :: 'String
+        'style-step-card $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-step-card
+            {} $ |& $ {} (:padding "|18px 20px") (:border-radius |16px) (:position :relative)
+              :background-color $ hsl 228 90 97
+              :border $ str "|1px solid " $ hsl 225 70 88
+          :examples $ []
+          :schema $ :: 'String
+        'style-step-num $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-step-num
+            {} $ |& $ {} (:font-family "|Federo, cursive") (:font-size |30px) (:line-height |1) (:margin-bottom |10px)
+              :color $ hsl 240 80 68
+          :examples $ []
+          :schema $ :: 'String
         'style-sub-title $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-sub-title
             {} $ |& $ {}
@@ -451,16 +724,21 @@
               :box-shadow "|0 8px 24px hsla(230,40%,20%,0.18)"
           :examples $ []
           :schema $ :: 'String
+        'style-timeline $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-timeline
+            {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(210px, 1fr))") (:gap |16px) (:margin-bottom |24px)
+          :examples $ []
+          :schema $ :: 'String
         'style-two-col $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-two-col
-            {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(340px, 1fr))") (:gap |24px) (:align-items :start)
+            {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(min(340px, 100%), 1fr))") (:gap |24px) (:align-items :start)
           :examples $ []
           :schema $ :: 'String
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.comp.container
           :require (respo-ui.core :as ui)
             respo.util.format :refer $ hsl
-            respo.core :refer $ defcomp defeffect <> >> div button textarea span input a body img list-> h2 pre
+            respo.core :refer $ defcomp defeffect <> >> div button textarea span input a body img list-> h2 pre create-element
             respo.comp.space :refer $ =<
             reel.comp.reel :refer $ comp-reel
             respo-md.comp.md :refer $ comp-md comp-md-block
@@ -633,29 +911,15 @@
         'doc-columns $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def doc-columns
             []
-              :: :column |Libraries $ [] (:: :link |Recollect "|Diff/patch library designed for Cumulo project" |https://github.com/calcit-lang/recollect) (:: :link "|Calcit WSS" "|WebSocket server binding" |https://github.com/calcit-lang/calcit-wss) (:: :link |Quaternion "|Quaternion math helper" |https://github.com/calcit-lang/quaternion) (:: :link |Std "|Some standard functions" |https://github.com/calcit-lang/calcit.std)
-              :: :column |Frameworks $ [] (:: :link |Respo "|virtual DOM library" |https://github.com/Respo/respo.calcit) (:: :link |Cumulo "|template for tiny realtime apps" |https://github.com/Cumulo/calcium-workflow) (:: :link |Phlox "|virtual DOM like wrapper on top of PIXI" |https://github.com/Quamolit/phlox.calcit) (:: :link |Lagopus "|thin WebGPU abstraction" |https://github.com/Triadica/lagopus) (:: :link |Quamolit "|what if we make animations in React's way?" |https://github.com/Quamolit/quamolit.calcit) (:: :link |Quaterfoil "|thin virtual DOM wrapper over three.js" |https://github.com/Quamolit/quatrefoil.calcit)
-              :: :column "|AI Agents" $ []
-                :: :link "|Agents Guide (CalcitAgent.md)" | |https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md
-                :: :link "|GitHub: calcit-lang/calcit" | |https://github.com/calcit-lang/calcit
-                :: :link "|WASM Playground (try snippets)" | |https://repo.calcit-lang.org/calcit-wasm-play/
-                :: :link "|Calcit 语言依赖命令行接入 AI 代码生成的探索" | |https://www.bilibili.com/video/BV1Rbv6BtE48/
-                :: :link "|猜想: 界面仔也算上下文工程师" | |https://www.bilibili.com/video/BV1M6AVz5EtE/
-              :: :column |Tools $ [] (:: :link "|Calcit IR viewer" | |https://github.com/calcit-lang/calcit-ir-viewer)
-                :: :link "|Calcit Error viewer" | |https://github.com/calcit-lang/calcit-error-viewer
-                :: :link "|Calcit binding for clipboard" | |https://github.com/calcit-lang/calcit-clipboard
-                :: :link "|Calcit JSON" "|JSON binding" |https://github.com/calcit-lang/calcit-json
-              :: :column |Videos $ [] (:: :link "|Calcit 更新记录: schema 类型标注, defstruct defenum 等" | |https://www.bilibili.com/video/BV1SRw4z7ENg/) (:: :link "|Calcit 更新记录: Traits" | |https://www.bilibili.com/video/BV1JWF9ziEpc/) (:: :link "|Calcit 更新记录: 类型标注相关的思考" | |https://www.bilibili.com/video/BV18DzDBZExw/) (:: :link "|Calcit 语言依赖命令行接入 AI 代码生成的探索" | |https://www.bilibili.com/video/BV1Rbv6BtE48/) (:: :link "|Calcit 近期更新, 文字外延等" | |https://www.bilibili.com/video/BV1TMRuB3EtQ/) (:: :link "|Respo 更新记录: 组件级监听器的说明" | |https://www.bilibili.com/video/BV1JAkFBzECf/) (:: :link "|Calcit 开发记录: list-match 语法" | |https://www.bilibili.com/video/BV1Su4y1X7kg/) (:: :link "|Calcit 0.7 变更记录, Tag, Tuple 和多态" | |https://www.bilibili.com/video/BV11L411v7Vk/)
-              :: :column |Articles $ []
-                :: :link "|Calcit 相比 Clojure 一些有意思的元编程能力 #226" | |https://github.com/calcit-lang/calcit/discussions/226
-                :: :link "|design decision: rename \"keyword\" to \"tag\" #209" | |https://github.com/calcit-lang/calcit/discussions/209
-                :: :link "|Calcit 脚本语言一些基础介绍" | |https://zhuanlan.zhihu.com/p/394791973
-                :: :link "|Introducing calcit-js: toy language inspired by cljs" | |https://clojureverse.org/t/introducing-calcit-js-toy-language-inspired-by-cljs/7097
-                :: :link "|An indentation way to Lisp" | |https://github.com/calcit-lang/calcit-runner/discussions/123
-                :: :link "|Problems encountered in generating js" | |https://github.com/calcit-lang/calcit-runner.nim/discussions/148
-                :: :link "|calcit-js 的 JavaScript 代码生成与疑难" | |https://github.com/calcit-lang/calcit-runner.nim/discussions/184
-                :: :link "|ternary-tree.ts: 关于初期的性能优化(on early optimizations)" | |https://github.com/calcit-lang/ternary-tree.ts/discussions/7
-                :: :link "|A trick for cheaper persistent list in JavaScript" | |https://clojureverse.org/t/a-trick-for-cheaper-persistent-list-in-javascript/7172
+              :: :column "|起点" $ [] (:: :link |Guidebook "|语言与工具的完整指南" |https://repo.calcit-lang.org/guidebook/)
+                :: :link "|Agents 指南" |CalcitAgent.md |https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md
+                :: :link "|WASM Playground" "|在线试代码片段" |https://repo.calcit-lang.org/calcit-wasm-play/
+                :: :link "|Respo Calcit Workflow" "|浏览器应用模板" |https://github.com/calcit-lang/respo-calcit-workflow
+              :: :column "|框架与类库" $ [] (:: :link |Respo "|虚拟 DOM 框架" |https://github.com/Respo/respo.calcit) (:: :link |Cumulo "|实时小应用模板" |https://github.com/Cumulo/calcium-workflow) (:: :link |Recollect "|diff/patch 同步" |https://github.com/calcit-lang/recollect) (:: :link |Phlox "|PIXI 虚拟 DOM 封装" |https://github.com/Quamolit/phlox.calcit) (:: :link |Lagopus "|WebGPU 薄封装" |https://github.com/Triadica/lagopus)
+              :: :column "|工具" $ [] (:: :link |caps "|依赖管理" |https://github.com/calcit-lang/caps) (:: :link |setup-calcit "|GitHub Actions" |https://github.com/calcit-lang/setup-calcit)
+                :: :link "|Error viewer" | |https://github.com/calcit-lang/calcit-error-viewer
+                :: :link "|IR viewer" | |https://github.com/calcit-lang/calcit-ir-viewer
+              :: :column "|视频" $ [] (:: :link "|命令行接入 AI 代码生成的探索" | |https://www.bilibili.com/video/BV1Rbv6BtE48/) (:: :link "|更新记录: Traits" | |https://www.bilibili.com/video/BV1JWF9ziEpc/) (:: :link "|更新记录: 类型标注相关的思考" | |https://www.bilibili.com/video/BV18DzDBZExw/)
           :examples $ []
           :schema $ :: 'List 'Enum
         'doc-features $ %{} 'CodeEntry (:doc |)

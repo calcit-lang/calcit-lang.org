@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Calcit 近期更新 — 幻灯</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  @font-face { font-family: Federo; src: url('../assets/Federo-Regular.ttf'); }
+  :root { --ink:#1a2240; --dim:#4a5580; --accent:#6b6bff; --line:#c9d8ff; --panel:rgba(255,255,255,.80); }
+  * { box-sizing:border-box; }
+  html { background:#e4eeff; } html, body { margin:0; height:100%; color:var(--ink); font-family:-apple-system,"PingFang SC","Noto Sans SC",sans-serif; overflow:hidden; }
+  #stage { position:absolute; left:50%; top:50%; width:1920px; height:1080px; transform-origin:center; }
+  .slide { position:absolute; inset:0; zoom:1.3; padding:70px 100px 60px; display:flex; flex-direction:column; justify-content:center; gap:30px; opacity:0; pointer-events:none; transition:opacity .5s; }
+  .slide.on { opacity:1; pointer-events:auto; }
+  .eyebrow { font-size:26px; letter-spacing:6px; text-transform:uppercase; font-weight:600; color:var(--accent); }
+  h1 { font-size:84px; line-height:1.1; margin:0; letter-spacing:-2px; font-weight:800; }
+  h2 { font-size:64px; line-height:1.15; margin:0; letter-spacing:-1px; font-weight:800; }
+  .lead { font-size:36px; line-height:1.6; color:var(--dim); margin:0; max-width:1400px; }
+  .brand { font-family:Federo, cursive; }
+  .panel { background:var(--panel); border:1px solid var(--line); border-radius:28px; padding:34px 44px; backdrop-filter:blur(10px); box-shadow:0 14px 44px rgba(60,90,200,.10); }
+  .grid { display:grid; gap:24px; } .g2 { grid-template-columns:1fr 1fr; } .g3 { grid-template-columns:repeat(3,1fr); } .g4 { grid-template-columns:repeat(4,1fr); }
+  .card { background:#f6f9ff; border:1px solid var(--line); border-radius:20px; padding:26px 30px; }
+  .card .n { font-family:Federo, cursive; font-size:44px; color:#8a8aff; line-height:1; margin-bottom:12px; }
+  .card h3 { margin:0 0 8px; font-size:34px; } .card p { margin:0; font-size:27px; line-height:1.55; color:var(--dim); }
+  pre.term { margin:0; background:#1b1e2d; color:#eef0ff; border-radius:20px; padding:28px 36px; font:27px/1.65 Menlo, Consolas, monospace; box-shadow:0 12px 36px rgba(30,40,90,.25); white-space:pre-wrap; }
+  .c-dim { color:#8d96c0; } .c-ok { color:#7ee6ac; } .c-warn { color:#ffd479; } .c-bad { color:#ff9a9a; } .c-acc { color:#a9a9ff; }
+  .chip { display:inline-block; padding:8px 20px; border-radius:999px; background:rgba(255,255,255,.8); border:1px solid var(--line); font-size:25px; font-weight:600; color:#364080; margin-right:12px; }
+  ul.pts { margin:0; padding-left:36px; font-size:31px; line-height:1.7; color:var(--dim); } ul.pts b { color:var(--ink); }
+  .tag { font-size:24px; font-weight:700; color:#fff; background:var(--accent); border-radius:10px; padding:4px 14px; margin-right:12px; vertical-align:middle; }
+  .tl { display:grid; grid-template-columns:repeat(4,1fr); gap:0; position:relative; margin-top:10px; }
+  .tl::before { content:""; position:absolute; left:0; right:0; top:19px; height:4px; background:linear-gradient(90deg,#b8c8ff,#6b6bff); border-radius:2px; }
+  .tl > div { padding-top:52px; position:relative; padding-right:24px; }
+  .tl > div::before { content:""; position:absolute; top:8px; left:0; width:24px; height:24px; border-radius:50%; background:#fff; border:5px solid var(--accent); }
+  .tl b { display:block; font-size:36px; margin-bottom:8px; } .tl span { font-size:26px; line-height:1.5; color:var(--dim); }
+.chart { display:flex; align-items:flex-end; gap:22px; height:400px; padding:0 10px; }
+  .bar { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:6px; height:100%; }
+  .bar i { display:block; width:100%; max-width:90px; border-radius:10px 10px 0 0; background:linear-gradient(#b9c8ff,#8fa6ff); } .bar i.hot { background:linear-gradient(#8a8aff,#5a5ae8); }
+  .bar b { font-size:26px; } .bar span { font-size:24px; color:var(--dim); }
+  .note { font-size:24px; color:var(--dim); margin-top:10px; text-align:right; }
+  .tl5 { grid-template-columns:repeat(5,1fr) !important; } .tl i { font-style:normal; display:block; font-size:23px; color:var(--accent); font-weight:700; margin-bottom:4px; }
+  .r { opacity:0; transform:translateY(14px); transition:opacity .4s, transform .4s; } .r.show { opacity:1; transform:none; }
+  body.static .slide, body.static .r { transition:none !important; }
+  #hud { position:fixed; right:14px; bottom:10px; font:13px monospace; color:#667; z-index:9; } body.rec #hud { display:none; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- 1 cover -->
+<section class="slide" style="justify-content:center">
+  <div class="eyebrow">Calcit · 0.14 → 0.28</div>
+  <h1 class="r" data-r="0">近期更新概览<br>Calcit 为 <span style="color:var(--accent)">AI Agent</span> 做了什么</h1>
+  <p class="lead r" data-r="1">写给已经了解 Calcit 的人：这几个月，命令行和类型系统发生了哪些变化，背后的设计意图是什么。</p>
+</section>
+
+<!-- 2 recap + three lines -->
+<section class="slide">
+  <div class="eyebrow">先回顾</div>
+  <h2>你熟悉的 Calcit</h2>
+  <div class="r" data-r="0"><span class="chip">Cirru 缩进语法</span><span class="chip">持久化数据</span><span class="chip">宏与代码即数据</span><span class="chip">Rust 解释器</span><span class="chip">编译到 JavaScript</span><span class="chip">Respo 生态</span></div>
+  <h2 class="r" data-r="1" style="margin-top:20px">近期变化的三条主线</h2>
+  <div class="grid g3">
+    <div class="card r" data-r="2"><div class="n">01</div><h3>命令行</h3><p>让人和 Agent 都能“先查询，再修改，再验证”。</p></div>
+    <div class="card r" data-r="3"><div class="n">02</div><h3>类型系统</h3><p>默认严格，类型证据贯穿调用、方法与边界。</p></div>
+    <div class="card r" data-r="4"><div class="n">03</div><h3>工程与目标平台</h3><p>独立的 caps，WASM、WASI 与受检的 JS 边界。</p></div>
+  </div>
+</section>
+
+<!-- 3 pace -->
+<section class="slide">
+  <div class="eyebrow">时间线 · 节奏</div>
+  <h2>近期大量代码由 AI 生成，节奏明显加快</h2>
+  <div class="panel">
+    <div class="chart"><div class="bar r" data-r="0"><i style="height:37px" class=""></i><b>75</b><span>1月</span></div><div class="bar r" data-r="0"><i style="height:47px" class=""></i><b>95</b><span>2月</span></div><div class="bar r" data-r="0"><i style="height:54px" class=""></i><b>109</b><span>3月</span></div><div class="bar r" data-r="0"><i style="height:51px" class=""></i><b>102</b><span>4月</span></div><div class="bar r" data-r="0"><i style="height:18px" class=""></i><b>37</b><span>5月</span></div><div class="bar r" data-r="0"><i style="height:33px" class=""></i><b>67</b><span>6月</span></div><div class="bar r" data-r="0"><i style="height:38px" class=""></i><b>76</b><span>7月</span></div><div class="bar r" data-r="1"><i style="height:246px" class="hot"></i><b>490</b><span>8月</span></div><div class="bar r" data-r="1"><i style="height:300px" class="hot"></i><b>597</b><span>9月</span></div><div class="bar r" data-r="0"><i style="height:47px" class=""></i><b>95</b><span>10月*</span></div></div>
+    <div class="note r" data-r="2">2026 年每月提交数（* 10 月只统计到 3 日）</div>
+  </div>
+  <div class="grid g3">
+    <div class="card r" data-r="2"><h3>约 130 个版本</h3><p>从 8 月初的 0.13.0 到 10 月初的 0.28.0，含预发布标签。</p></div>
+    <div class="card r" data-r="3"><h3>几乎每天一版</h3><p>9 月下旬 0.17 到 0.27，每天都有新的版本发布。</p></div>
+    <div class="card r" data-r="4"><h3>方向多是试验</h3><p>快速尝试，再决定保留、拆分还是放下。</p></div>
+  </div>
+</section>
+
+<!-- 4 milestones -->
+<section class="slide">
+  <div class="eyebrow">时间线 · 里程碑</div>
+  <h2>从 0.13 到 0.28 的几个节点</h2>
+  <div class="panel">
+    <div class="tl tl5">
+      <div class="r" data-r="0"><i>8 月 6 日</i><b>0.13.0</b><span>此后一个月内，0.13 系列发布了约八十个补丁版本。</span></div>
+      <div class="r" data-r="1"><i>9 月 7 日</i><b>0.14.0</b><span>运行、检查与代码生成默认严格诊断。</span></div>
+      <div class="r" data-r="2"><i>9 月 15 日前后</i><b>0.14.20 – 0.15</b><span><code>calcit wasm</code> / <code>wasi</code> 成为公开命令；组件边界覆盖 Struct、Enum、数值，随后是 async。</span></div>
+      <div class="r" data-r="3"><i>9 月 19 – 28 日</i><b>0.17 – 0.26</b><span>近乎每天一版：caps 拆分、模块仓库、严格检查继续收紧。</span></div>
+      <div class="r" data-r="4"><i>9 月 29 日 – 10 月 2 日</i><b>0.27 – 0.28</b><span>项目级结构化改写，受检的 JS 宿主转换。</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 experiments -->
+<section class="slide">
+  <div class="eyebrow">时间线 · 试验与取舍</div>
+  <h2>方向包含很多试验：保留、拆出、放下</h2>
+  <div class="grid g3">
+    <div class="card r" data-r="0"><div class="n">留</div><h3>保留并深化</h3><ul class="pts" style="font-size:25px;padding-left:28px"><li>命令行优先的结构化编辑</li><li>默认严格的类型检查</li><li>新增编译投入集中在 WebAssembly</li></ul></div>
+    <div class="card r" data-r="1"><div class="n">拆</div><h3>拆出去独立演进</h3><ul class="pts" style="font-size:25px;padding-left:28px"><li>caps 包管理，独立发布</li><li>calcit-native-ffi 共享 ABI</li><li>calcit-bindgen，实验性生成器</li></ul></div>
+    <div class="card r" data-r="2"><div class="n">放</div><h3>放下或不再推荐</h3><ul class="pts" style="font-size:25px;padding-left:28px"><li>Calcit Editor 不再是日常路径</li><li>近期没有 LSP 计划</li><li>compact.cirru 退役，统一 calcit.cirru</li></ul></div>
+  </div>
+  <p class="lead r" data-r="3">试验的结果，最终都落在命令行和类型系统这两条主线上。</p>
+</section>
+
+<!-- 4 command map -->
+<section class="slide">
+  <div class="eyebrow">主线一 · 命令行</div>
+  <h2>一套命令，覆盖“看、改、验”</h2>
+  <div class="grid g4">
+    <div class="card r" data-r="0"><div class="n">看</div><h3>query</h3><p>ns、defs、search、type、usages，读到的都是真实的定义与路径。</p></div>
+    <div class="card r" data-r="1"><div class="n">改</div><h3>edit · tree</h3><p>按 AST 路径替换、插入、包裹；<code>cursor</code> 负责连续操作。</p></div>
+    <div class="card r" data-r="2"><div class="n">验</div><h3>--check-only · test</h3><p>默认严格检查；定义可以挂测试，空选择不算通过。</p></div>
+    <div class="card r" data-r="3"><div class="n">迁</div><h3>fix · analyze</h3><p>确定性的迁移建议，和 weak-types、check-public 等分析。</p></div>
+  </div>
+  <pre class="term r" data-r="4"><span class="c-dim">$</span> calcit query defs app.schema
+<span class="c-dim">$</span> calcit tree show app.schema/store --path ''
+<span class="c-dim">$</span> calcit tree replace app.schema/store --path '&lt;path&gt;' --input-format cirru --code 'quote &lt;node&gt;'
+<span class="c-dim">$</span> calcit --check-only</pre>
+</section>
+
+<!-- 5 types overview -->
+<section class="slide">
+  <div class="eyebrow">主线二 · 类型系统</div>
+  <h2>类型从“提示”变成“证据”</h2>
+  <div class="grid g2">
+    <div class="card r" data-r="0"><h3>名义数据</h3><p>Struct 与 Enum 表达领域模型，match 做穷尽检查，Option 表示缺失，Result 表示失败。</p></div>
+    <div class="card r" data-r="1"><h3>schema 与泛型</h3><p>函数签名写在 schema 里，泛型和 trait 约束让回调、容器的类型关系可以被传递。</p></div>
+    <div class="card r" data-r="2"><h3>Dynamic 是边界</h3><p>只在 JS FFI 和外部数据处使用；用解码器验证后再进入业务，而不是强制转换。</p></div>
+    <div class="card r" data-r="3"><h3>诊断带证据</h3><p>错误码、期望与实际类型、AST 路径都在输出里，Agent 可以按证据修复。</p></div>
+  </div>
+</section>
+
+<!-- 6 engineering overview -->
+<section class="slide">
+  <div class="eyebrow">主线三 · 工程与目标平台</div>
+  <h2>工具链拆分，目标平台明确</h2>
+  <div class="grid g3">
+    <div class="card r" data-r="0"><h3>caps 独立</h3><p>依赖由 <code>deps.cirru</code> 声明，<code>caps --ci</code> 安装，项目读取本地模块链接。</p></div>
+    <div class="card r" data-r="1"><h3>WASM · WASI</h3><p><code>calcit wasm</code>、<code>calcit wasi</code> 成为公开命令，Component 边界覆盖 Struct、Enum、明确宽度数值与 async。</p></div>
+    <div class="card r" data-r="2"><h3>受检的 JS 边界</h3><p>JS FFI 带 <code>:js-ffi</code> feature 与类型契约，宿主转换需要显式、可审阅。</p></div>
+  </div>
+  <p class="lead r" data-r="3">接下来挑几个具体案例，稍微展开讲讲背后的设计意图。</p>
+</section>
+
+<!-- 7 case 1 strict -->
+<section class="slide">
+  <div class="eyebrow"><span class="tag">案例 1</span>默认严格诊断</div>
+  <h2>错误要尽早、带着证据出现</h2>
+  <div class="grid g2" style="align-items:start">
+    <pre class="term r" data-r="0"><span class="c-acc">defn</span> add-one (n) (+ n 1)
+<span class="c-dim">; schema: Fn (Number) -> Number</span>
+
+<span class="c-acc">defn</span> main! ()
+  println $ add-one |hello</pre>
+    <pre class="term r" data-r="1"><span class="c-dim">$</span> calcit --check-only
+<span class="c-warn">[W_FN_ARG_TYPE_MISMATCH]</span>
+Function `app.main/add-one`
+arg 1 expects `:number`, got `:string`
+<span class="c-dim">@app.main/main! @3.1</span></pre>
+  </div>
+  <ul class="pts r" data-r="2">
+    <li><b>默认严格</b>：0.14 起不必再开开关；旧项目用 <code>--compat-types</code> 暂时过渡。</li>
+    <li><b>不放宽</b>：升级时不扩大 Dynamic，不用 unsafe-coerce 通过检查。</li>
+  </ul>
+</section>
+
+<!-- 8 case 2 structured editing safety -->
+<section class="slide">
+  <div class="eyebrow"><span class="tag">案例 2</span>结构化编辑的安全</div>
+  <h2>多个 Agent 同时改，也不互相覆盖</h2>
+  <div class="grid g2" style="align-items:start">
+    <div class="grid" style="gap:18px">
+      <div class="card r" data-r="0"><h3>Snapshot 不是文本</h3><p>calcit.cirru 是 Cirru EDN 树，禁止文本 patch，只用 edit、tree、cursor。</p></div>
+      <div class="card r" data-r="1"><h3>先展示，再修改</h3><p>target 与 path 必须来自 query 和 tree show，改完再回读。</p></div>
+      <div class="card r" data-r="2"><h3>并发保护</h3><p>写入前核对 revision，多步变更放进事务，先 dry-run。</p></div>
+    </div>
+    <pre class="term r" data-r="3"><span class="c-dim">$</span> calcit edit transaction \
+    --expect-revision md5:949975ca… \
+    --dry-run --code '&lt;ops&gt;'
+
+<span class="c-dim"># revision 变了就拒绝写入</span>
+<span class="c-dim"># 版本也要对得上：</span>
+<span class="c-dim">#   deps.cirru :calcit-version</span></pre>
+  </div>
+</section>
+
+<!-- 9 case 3 proven/open -->
+<section class="slide">
+  <div class="eyebrow"><span class="tag">案例 3</span>方法契约：proven 与 open</div>
+  <h2>知道哪些调用“被证明”，哪些还“开放”</h2>
+  <pre class="term r" data-r="0"><span class="c-dim">$</span> calcit query type ":: 'List 'Number"
+.filter  <span class="c-ok">proven</span>  (fn(number) -> bool) -> list&lt;number&gt;
+.find    <span class="c-ok">proven</span>  (fn(number) -> bool) -> Option&lt;number&gt;
+.append  <span class="c-ok">proven</span>  (number) -> list&lt;number&gt;
+.each    <span class="c-warn">open</span>    specialized contract retains Dynamic</pre>
+  <ul class="pts r" data-r="1">
+    <li><b>proven</b>：接收者与签名有静态证据，可以放心调用。</li>
+    <li><b>open</b>：仍含 Dynamic，需要检查调用边界，不等于安全。</li>
+  </ul>
+  <p class="lead r" data-r="2">Agent 不必凭名字猜 API，先查类型，再决定怎么写。</p>
+</section>
+
+<!-- 10 case 4 boundaries -->
+<section class="slide">
+  <div class="eyebrow"><span class="tag">案例 4</span>外部数据的类型边界</div>
+  <h2>解析成功，不等于类型验证成功</h2>
+  <div class="grid g2" style="align-items:start">
+    <pre class="term r" data-r="0"><span class="c-dim">; 只证明“语法合法”，内容仍然开放</span>
+"..." .parse-cirru-edn
+<span class="c-dim">  -> Result&lt;Dynamic, String&gt;</span>
+
+<span class="c-dim">; 在输入边界用解码器真正检查形状</span>
+try-parse-cirru-edn-as text
+  :: 'List $ :: 'List 'Number
+<span class="c-dim">  -> Result&lt;List&lt;List&lt;Number&gt;&gt;, String&gt;</span></pre>
+    <div class="grid" style="gap:18px">
+      <div class="card r" data-r="1"><h3>失败必须处理</h3><p>返回 Result，不自动插入 unwrap、默认值或 unsafe cast。</p></div>
+      <div class="card r" data-r="2"><h3>JS FFI 同理</h3><p>声明类型不能证明 JS 实现正确，宿主边界需要独立验证。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 case 5 agent docs contract -->
+<section class="slide">
+  <div class="eyebrow"><span class="tag">案例 5</span>给 Agent 的文档与契约</div>
+  <h2>把“每次都要读的规则”做小、做稳</h2>
+  <pre class="term r" data-r="0"><span class="c-dim">$</span> calcit docs agents --contract
+Agent mutation contract: v1
+Agent contract digest: md5:8c8ec6f2…
+Agent contract length: 2969 bytes, 40 lines
+
+<span class="c-dim">$</span> calcit docs search 'typed dispatch' --module respo.calcit
+Typed dispatch with type slots [module:respo.calcit]</pre>
+  <ul class="pts r" data-r="1">
+    <li><b>紧凑契约</b>：修改前只读几十行，摘要不变就不必重读全文。</li>
+    <li><b>文档可查询</b>：语言与模块文档都能从命令行搜索，减少搬运过期内容。</li>
+    <li><b>输出可机读</b>：<code>--format edn</code> 保留 Tag 与 Symbol 语义，供自动分支。</li>
+  </ul>
+</section>
+
+<!-- 12 fix -->
+<section class="slide">
+  <div class="eyebrow"><span class="tag">案例 6</span>确定性的迁移修复</div>
+  <h2>升级交给规则，不交给猜测</h2>
+  <pre class="term r" data-r="0"><span class="c-dim">$</span> calcit fix --preset surface-latest-v2
+mode: preview   suggestions: 0   changed: false
+rules: removed-data-api-v1, named-enum-constructor-v1,
+       named-struct-constructor-v1, redundant-do-v1,
+       single-expression-do-v1</pre>
+  <div class="grid g3">
+    <div class="card r" data-r="1"><h3>先预览</h3><p>默认只给建议，<code>--apply</code> 才原子写入。</p></div>
+    <div class="card r" data-r="2"><h3>可审阅</h3><p>每条规则有稳定 ID，可以限定 namespace 或 definition。</p></div>
+    <div class="card r" data-r="3"><h3>有边界</h3><p>不猜类型、不填默认值、不用 unsafe-coerce 代替判断。</p></div>
+  </div>
+</section>
+
+<!-- 13 how to follow -->
+<section class="slide">
+  <div class="eyebrow">怎么跟上</div>
+  <h2>已有项目的升级路径</h2>
+  <div class="grid g2" style="align-items:start">
+    <div class="grid" style="gap:18px">
+      <div class="card r" data-r="0"><div class="n">01</div><h3>固定版本</h3><p>以 deps.cirru 的 calcit-version 为准，CLI 要对得上。</p></div>
+      <div class="card r" data-r="1"><div class="n">02</div><h3>读契约</h3><p>docs agents --contract，再按需读 --full。</p></div>
+      <div class="card r" data-r="2"><div class="n">03</div><h3>检查并修复</h3><p>--check-only 看诊断，fix 预览迁移，再逐项验证。</p></div>
+    </div>
+    <pre class="term r" data-r="3"><span class="c-dim">$</span> caps --ci
+<span class="c-dim">$</span> calcit --check-only
+<span class="c-dim">$</span> calcit fix --preset surface-latest-v2
+<span class="c-dim">$</span> calcit docs agents --contract
+<span class="c-dim">$</span> calcit test &lt;ns/def&gt; --require-match
+<span class="c-dim">$</span> calcit js</pre>
+  </div>
+</section>
+
+<!-- 14 end -->
+<section class="slide">
+  <div class="eyebrow">Get started</div>
+  <h1 class="brand r" data-r="0" style="font-size:120px">calcit-lang.org</h1>
+  <p class="lead r" data-r="1">github.com/calcit-lang/calcit · Guidebook · Agents 指南 (CalcitAgent.md)</p>
+</section>
+
+</div>
+<div id="hud">← → 切换 · 空格 逐步显示 · R 隐藏提示</div>
+<script type="module">
+import { startShaderBackground } from '../assets/shader-bg.mjs';
+startShaderBackground();
+const stage = document.getElementById('stage');
+const slides = [...document.querySelectorAll('.slide')];
+const q = new URLSearchParams(location.search);
+const STATIC = q.get('static');
+let idx = 0, step = 99;
+function fit() { const s = Math.min(innerWidth / 1920, innerHeight / 1080); stage.style.transform = `translate(-50%,-50%) scale(${s})`; }
+addEventListener('resize', fit); fit();
+function fitSlide(sl) {
+  let z = 1.3; sl.style.zoom = z;
+  while (z > 0.7 && sl.scrollHeight > sl.clientHeight + 1) { z -= .03; sl.style.zoom = z; }
+}
+function render() {
+  slides.forEach((s, k) => s.classList.toggle('on', k === idx));
+  fitSlide(slides[idx]);
+  slides[idx].querySelectorAll('.r').forEach(e => e.classList.toggle('show', +e.dataset.r <= step));
+}
+function maxStep(i) { return Math.max(...[...slides[i].querySelectorAll('.r')].map(e => +e.dataset.r), 0); }
+if (STATIC !== null) { document.body.classList.add('static', 'rec'); idx = +STATIC - 1; step = q.has('step') ? +q.get('step') : 99; render(); }
+else {
+  step = 0; render();
+  addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { if (step < maxStep(idx)) step++; else if (idx < slides.length - 1) { idx++; step = 0; } e.preventDefault(); }
+    else if (e.key === 'ArrowLeft') { if (step > 0) step--; else if (idx > 0) { idx--; step = maxStep(idx); } }
+    else if (e.key.toLowerCase() === 'r') document.body.classList.toggle('rec');
+    render();
+  });
+}
+</script>
+</body>
+</html>

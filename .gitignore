@@ -24,3 +24,8 @@ video/*
 !video/*.mjs
 !video/narration.json
 !video/package.json
+!video/cover/
+video/cover/*
+!video/cover/cover-master.html
+!video/cover/shot.mjs
+!video/title.txt

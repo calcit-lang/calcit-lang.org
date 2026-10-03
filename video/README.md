@@ -14,9 +14,16 @@
 ```bash
 yarn build                                   # 生成 dist/ (官网截图来源)
 export CHROME_PATH=<Chromium 可执行文件>
-(cd video && npm install)                    # 只安装 playwright-core, 不影响官网依赖
-node video/capture.mjs                       # 逐段截图 -> video/build/frames
+(cd video && npm install)                    # 只安装 playwright-core
+node video/capture.mjs   # 逐段截图 -> video/build/frames
 VIDEO_ENV=<含 GEMINI_API_KEY 与 GEMINI_BASE_URL 的 .env> python3 video/build.py
 ```
 
 输出 `video/build/calcit-intro.mp4`, 以及字幕和时间轴。换音色: `TTS_VOICE=Puck`。密钥只通过环境变量或 `VIDEO_ENV` 提供, 不进仓库。
+
+## 幻灯、封面与标题
+
+- `slides.html` 是当前视频使用的幻灯 (复用官网的晶体背景 `assets/shader-bg.mjs`)，`narration.json` 的 `slide:N:K` 表示第 N 页、显示到第 K 步。`agent-intro.html` 是早期的可录制动画页。
+- `verify.py` 用 Gemini 转写每段配音，发现风格提示被读出就让 `build.py` 重录。
+- `cover/cover-master.html` 渲染 1920×1440 母版；`node video/cover/shot.mjs` 输出 16:9 (取中间 1080 横带) 与 4:3 封面，关键内容都在安全区内。
+- `title.txt` 是 B 站标题、简介与章节。

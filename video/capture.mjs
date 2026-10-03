@@ -10,19 +10,19 @@ import { fileURLToPath } from 'node:url';
 const here = fileURLToPath(new URL('.', import.meta.url));
 const root = resolve(here, '..');
 const videoRoot = resolve(root, 'video');
+const assetsRoot = resolve(root, 'assets');
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.ttf': 'font/ttf' };
 const server = createServer((req, res) => {
   const p = new URL(req.url, 'http://x').pathname;
   try {
-    let f;
-    if (p.startsWith('/video/')) {
-      // serve only visible files inside video/; never .env, dotfiles or paths escaping the folder
-      f = resolve(videoRoot, decodeURIComponent(p.slice('/video/'.length)));
-      const rel = relative(videoRoot, f);
+    // serve only visible files inside video/ or assets/; never .env, dotfiles or paths escaping those folders
+    const under = (base, prefix) => {
+      const f = resolve(base, decodeURIComponent(p.slice(prefix.length)));
+      const rel = relative(base, f);
       if (!rel || rel === '..' || rel.startsWith('..' + sep) || rel.split(sep).some(part => part.startsWith('.'))) throw new Error('private path');
-    } else {
-      f = join(root, 'dist', p === '/' ? 'index.html' : p);
-    }
+      return f;
+    };
+    const f = p.startsWith('/video/') ? under(videoRoot, '/video/') : p.startsWith('/assets/') ? under(assetsRoot, '/assets/') : join(root, 'dist', p === '/' ? 'index.html' : p);
     const body = readFileSync(f);
     res.writeHead(200, { 'content-type': types[extname(f)] || 'application/octet-stream' });
     res.end(body);
@@ -33,14 +33,15 @@ const base = `http://127.0.0.1:${server.address().port}`;
 const plan = JSON.parse(readFileSync(join(here, 'narration.json'), 'utf8'));
 const siteAnchors = { hero: null, agent: '为 AI Agent 设计的命令行', types: '让类型成为 Agent 的护栏', start: '三步开始' };
 mkdirSync(join(here, 'build/frames'), { recursive: true });
-const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH });
+const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH, args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
 for (const [i, seg] of plan.entries()) {
-  const [kind, arg] = seg.frame.split(':');
+  const [kind, arg, step] = seg.frame.split(':');
   const out = join(here, 'build/frames', String(i + 1).padStart(3, '0') + '.png');
   if (kind === 'slide') {
-    await page.goto(`${base}/video/agent-intro.html?static=${arg}`);
-    await page.waitForTimeout(300);
+    await page.goto(`${base}/video/slides.html?static=${arg}${step !== undefined ? '&step=' + step : ''}`);
+    await page.evaluate(() => document.fonts.ready);
+    await page.waitForTimeout(900);   // let the WebGL background paint
   } else {
     await page.goto(base + '/');
     await page.waitForSelector('text=几行代码看看 Calcit');
