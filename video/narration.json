@@ -1,0 +1,15 @@
+[
+ {"frame": "slide:1", "text": "大家好，这个视频介绍 Calcit 在 AI Agent 时代，为命令行工具和类型系统做的努力。Calcit 是一门类型化的函数式语言，可以编译到 JavaScript，也能在 Rust 解释器里运行脚本。"},
+ {"frame": "site:hero", "text": "这是 Calcit 的官网首页，它本身就是用 Calcit 和 Respo 写成的。首页从一条安装命令开始，再带你看代码示例、Agent 工作流和类型系统。"},
+ {"frame": "slide:2", "text": "先看问题。Agent 改代码常有三种失误：凭记忆猜文件和缩进，改错位置；大段重写文本，一次破坏多处；类型信息缺失，错误到运行时才暴露。Calcit 的思路是，让语言和工具链自己提供证据。"},
+ {"frame": "slide:3", "text": "第一步是把源码变成可查询的语法树。calcit.cirru 用 Cirru EDN 保存程序树，不是按行维护的文本。源码、宏展开后的核心表示、生成的 JavaScript 是三个不同层次，只有源码树是可写的边界。"},
+ {"frame": "slide:4", "text": "日常修改是一个闭环。先读取紧凑的修改契约，再用 query 查出真实的 namespace 和定义，用 tree show 看到具体子树，用 tree replace 只替换目标节点，最后运行严格检查和测试。"},
+ {"frame": "site:agent", "text": "官网上把这个闭环拆成四步：读取契约、查询定位、结构化编辑、严格验证，右边是对应的命令。每一步都能被检查，而不是靠 Agent 的记忆。"},
+ {"frame": "slide:5", "text": "每一步都有护栏。契约带有稳定的摘要，没变化就不必重读；查询给出真实路径，不用猜；多步修改用事务和 revision 前置条件，防止并行写入互相覆盖。"},
+ {"frame": "slide:6", "text": "再看类型系统。Struct 和 Enum 是名义类型，Option 表达缺失，Result 表达失败。缺失和失败留在容器里，用方法组合处理，而不是让 nil 一路传下去。"},
+ {"frame": "site:types", "text": "官网的类型部分总结了四点：名义数据、Option 和 Result、Dynamic 只用于边界，以及错误可以按证据修复。"},
+ {"frame": "slide:7", "text": "Calcit 的类型检查默认严格，但不假装知道一切。已知矛盾在编译期报告，带源码位置；开放的外部数据要在边界解码成 Result；迁移时用 calcit fix 得到可审阅的确定性改写，而不是用强制转换糊弄过去。"},
+ {"frame": "slide:8", "text": "文档也在命令行里。calcit docs 可以搜索语言和模块文档，docs check-md 会执行文档里的示例，减少过期文档对 Agent 的误导。"},
+ {"frame": "site:start", "text": "想试试的话，三步就够：安装 calcit，用 eval 跑一个片段，再在项目里检查和生成 JavaScript。"},
+ {"frame": "slide:9", "text": "更多内容请访问 calcit-lang.org 和 GitHub 上的 calcit-lang 组织。谢谢观看。"}
+]
