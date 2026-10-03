@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Calcit for AI Agents — 介绍视频素材</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root { --bg:#0f1220; --fg:#eef0ff; --dim:#9aa3c7; --accent:#8c8cff; --ok:#6be3a4; --warn:#ffcf6b; --card:#181c33; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; height:100%; background:#000; color:var(--fg); font-family: -apple-system, "PingFang SC", "Noto Sans SC", sans-serif; overflow:hidden; }
+  /* 1920x1080 stage scaled to the window, so screen recording at any size stays crisp */
+  #stage { position:absolute; left:50%; top:50%; width:1920px; height:1080px; background:var(--bg); transform-origin:center; overflow:hidden; }
+  .slide { position:absolute; inset:0; padding:110px 140px; display:flex; flex-direction:column; justify-content:center; gap:36px; opacity:0; transform:translateY(24px); transition:opacity .6s, transform .6s; pointer-events:none; }
+  .slide.on { opacity:1; transform:none; pointer-events:auto; }
+  h1 { font-size:96px; margin:0; letter-spacing:-2px; line-height:1.1; }
+  h2 { font-size:64px; margin:0; letter-spacing:-1px; line-height:1.2; }
+  p, li { font-size:38px; line-height:1.55; color:var(--dim); margin:0; }
+  .accent { color:var(--accent); } .ok { color:var(--ok); } .warn { color:var(--warn); }
+  .row { display:flex; gap:48px; align-items:stretch; } .row > * { flex:1; }
+  .card { background:var(--card); border-radius:24px; padding:36px 44px; border:1px solid #2a3058; }
+  .card h3 { margin:0 0 12px; font-size:42px; }
+  .card p { font-size:32px; }
+  pre.term { margin:0; background:#080a16; border-radius:20px; padding:36px 44px; font:32px/1.7 Menlo, Consolas, monospace; color:#e6e8ff; min-height:420px; white-space:pre-wrap; border:1px solid #2a3058; }
+  .cur::after { content:"▋"; color:var(--accent); animation:blink 1s steps(1) infinite; } @keyframes blink { 50% { opacity:0 } }
+  .logo { width:160px; height:160px; }
+  .kicker { font-size:30px; letter-spacing:6px; color:var(--accent); text-transform:uppercase; }
+  .stagger > * { opacity:0; transform:translateY(16px); transition:opacity .5s, transform .5s; }
+  .slide.on .stagger > * { opacity:1; transform:none; }
+  .slide.on .stagger > *:nth-child(2) { transition-delay:.5s } .slide.on .stagger > *:nth-child(3) { transition-delay:1s } .slide.on .stagger > *:nth-child(4) { transition-delay:1.5s }
+  body.static .slide, body.static .stagger > * { transition:none !important; transition-delay:0s !important; }
+  body.static .cur::after { content:""; }
+  #hud { position:fixed; right:16px; bottom:12px; font:14px monospace; color:#667; z-index:9; } body.rec #hud { display:none; }
+  #bar { position:absolute; left:0; bottom:0; height:6px; background:var(--accent); width:0; transition:width .4s; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <!-- 1 -->
+  <section class="slide" data-dur="6">
+    <div class="kicker">Calcit · typed functional language</div>
+    <h1>为 <span class="accent">AI Agent</span><br>准备的命令行与类型系统</h1>
+    <p>结构化源码 · 可查询的 CLI · 严格类型诊断</p>
+  </section>
+  <!-- 2 -->
+  <section class="slide" data-dur="9">
+    <h2>Agent 改代码, 常见的三种失误</h2>
+    <ul class="stagger" style="margin:0;padding-left:44px">
+      <li>凭记忆猜文件和缩进, 改错位置</li>
+      <li>大段文本重写, 一次破坏多处</li>
+      <li>类型信息缺失, 错误到运行时才暴露</li>
+    </ul>
+    <p class="accent">Calcit 的回答: 让语言和工具链自己提供证据。</p>
+  </section>
+  <!-- 3 -->
+  <section class="slide" data-dur="10">
+    <h2>源码是一棵可查询的语法树</h2>
+    <div class="row">
+      <div class="card"><h3>calcit.cirru</h3><p>Cirru EDN 快照保存程序树, 不是按行维护的文本, 也不允许文本 patch。</p></div>
+      <div class="card"><h3>Cirru 语法</h3><p>缩进表达结构, 人读起来像普通代码, 机器读到的是精确的节点。</p></div>
+      <div class="card"><h3>三层分开</h3><p>源 AST、宏展开后的 core、生成的 JavaScript; 只有源树可写。</p></div>
+    </div>
+  </section>
+  <!-- 4 typed terminal -->
+  <section class="slide" data-dur="16" data-term="1">
+    <h2>查询 → 修改 → 验证</h2>
+    <pre class="term cur" data-lines='[
+"$ calcit docs agents --contract",
+"  Agent mutation contract: v1 (digest md5:8c8e…)",
+"$ calcit query defs app.schema",
+"  Definitions: 7  Op · SiteConfig · Store · …",
+"$ calcit tree show app.schema/store --path \"\"",
+"  def store $ Store :states $ {}",
+"$ calcit tree replace app.schema/store --path <path> \\",
+"    --input-format cirru --code \"quote <node>\"",
+"$ calcit --check-only",
+"  ✓ Check passed"]'></pre>
+  </section>
+  <!-- 5 -->
+  <section class="slide" data-dur="10">
+    <h2>每一步都有护栏</h2>
+    <div class="row stagger">
+      <div class="card"><h3 class="accent">先读契约</h3><p>紧凑的修改契约与稳定摘要, 摘要不变就不必重读全文。</p></div>
+      <div class="card"><h3 class="accent">定位真实路径</h3><p>query / search / tree show 给出 namespace、definition 与 AST 路径。</p></div>
+      <div class="card"><h3 class="accent">串行与 revision</h3><p>transaction 与 --expect-revision 防止并行写入互相覆盖。</p></div>
+    </div>
+  </section>
+  <!-- 6 types -->
+  <section class="slide" data-dur="14" data-term="1">
+    <h2>类型是 Agent 的护栏</h2>
+    <pre class="term cur" data-lines='[
+"defstruct Store (:states &#39;Map)",
+"",
+"def values $ [] 10 20",
+"assert= (Option :some 20) $ values.get 1",
+"assert= (Option :none) $ values.get 2",
+"assert= 0 $ (values.get 2).unwrap-or 0",
+"",
+"; Struct · Enum 名义类型, Option 缺失, Result 失败"]'></pre>
+  </section>
+  <!-- 7 -->
+  <section class="slide" data-dur="12">
+    <h2>严格, 但不假装知道一切</h2>
+    <div class="row stagger">
+      <div class="card"><h3 class="ok">已知矛盾 → 编译期报错</h3><p>带源码位置与类型证据, 不会拖到运行时。</p></div>
+      <div class="card"><h3 class="warn">开放数据 → 边界 decode</h3><p>Dynamic 只用于 JS FFI 与外部输入, 解码成 Result 后再使用。</p></div>
+      <div class="card"><h3 class="accent">迁移 → 可审阅的 fix</h3><p>calcit fix 给出确定性改写建议, 不用 unsafe-coerce 糊弄。</p></div>
+    </div>
+  </section>
+  <!-- 8 -->
+  <section class="slide" data-dur="9">
+    <h2>文档也在命令行里</h2>
+    <pre class="term" style="min-height:0">$ calcit docs search 'typed dispatch' --module respo.calcit
+$ calcit docs check-md content/intro.md --failures-only</pre>
+    <p>示例代码会被执行检查, 减少过期文档对 Agent 的误导。</p>
+  </section>
+  <!-- 9 -->
+  <section class="slide" data-dur="8">
+    <div class="kicker">Get started</div>
+    <h1>calcit-lang.org</h1>
+    <p>cargo install calcit --locked<br>github.com/calcit-lang/calcit</p>
+  </section>
+  <div id="bar"></div>
+</div>
+<div id="hud">← → 切换 · Space 暂停/自动播放 · R 录制模式(隐藏提示) · 0 重头</div>
+<script>
+const stage = document.getElementById('stage');
+const slides = [...document.querySelectorAll('.slide')];
+const bar = document.getElementById('bar');
+let idx = -1, timer = null, typeTimer = null, auto = new URLSearchParams(location.search).has('auto');
+function fit() { const s = Math.min(innerWidth / 1920, innerHeight / 1080); stage.style.transform = `translate(-50%,-50%) scale(${s})`; }
+addEventListener('resize', fit); fit();
+const STATIC = new URLSearchParams(location.search).get('static');
+function typeLines(pre) {
+  const lines = JSON.parse(pre.dataset.lines);
+  if (STATIC !== null) { pre.textContent = lines.join('\n'); return; }
+  pre.textContent = ''; pre.classList.add('cur');
+  let li = 0, ci = 0;
+  clearInterval(typeTimer);
+  typeTimer = setInterval(() => {
+    if (li >= lines.length) { clearInterval(typeTimer); return; }
+    const line = lines[li];
+    // command lines type slowly, output lines appear at once
+    if (!line.startsWith('$') && !line.startsWith('def') && !line.startsWith('assert')) { pre.textContent += line + '\n'; li++; ci = 0; return; }
+    pre.textContent += line[ci++];
+    if (ci >= line.length) { pre.textContent += '\n'; li++; ci = 0; }
+  }, 28);
+}
+function show(i) {
+  idx = Math.max(0, Math.min(slides.length - 1, i));
+  slides.forEach((s, k) => s.classList.toggle('on', k === idx));
+  bar.style.width = ((idx + 1) / slides.length * 100) + '%';
+  const pre = slides[idx].querySelector('pre[data-lines]'); if (pre) typeLines(pre);
+  clearTimeout(timer);
+  if (auto && idx < slides.length - 1) timer = setTimeout(() => show(idx + 1), (+slides[idx].dataset.dur || 8) * 1000);
+}
+addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'PageDown') show(idx + 1);
+  else if (e.key === 'ArrowLeft' || e.key === 'PageUp') show(idx - 1);
+  else if (e.key === '0') show(0);
+  else if (e.key === ' ') { auto = !auto; show(idx); e.preventDefault(); }
+  else if (e.key.toLowerCase() === 'r') document.body.classList.toggle('rec');
+});
+if (STATIC !== null) { document.body.classList.add('static', 'rec'); bar.style.display = 'none'; show(+STATIC - 1); }
+else show(0);
+</script>
+</body>
+</html>

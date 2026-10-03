@@ -14,3 +14,13 @@ dist/
 .calcit/upgrade
 .pnp.cjs
 .pnp.loader.mjs
+
+# video outputs (recordings are not tracked)
+video/*
+!video/.gitkeep
+!video/*.html
+!video/README.md
+!video/*.py
+!video/*.mjs
+!video/narration.json
+!video/package.json
