@@ -16,6 +16,22 @@
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Element)
             :args $ [] 'String 'String
+        'comp-agent-section $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defcomp comp-agent-section ()
+            div
+              {} $ :class-name style-section
+              comp-section-head "|为 AI Agent 设计的命令行" "|Agent 不需要猜缩进或批量改写文本。calcit.cirru 保存的是 Cirru EDN 语法树, 命令行可以先定位真实的 definition 与路径, 再做局部结构化修改, 最后用默认严格检查和测试验证。"
+              div
+                {} $ :class-name style-two-col
+                div ({})
+                  comp-step |1 "|读取契约" "|calcit docs agents --contract 输出紧凑的修改契约和稳定摘要, 首次接触项目时再读 --full。"
+                  comp-step |2 "|查询定位" "|query ns / defs / context / search 返回真实的 namespace、definition 与 AST 路径, 支持 --format edn 供程序分支。"
+                  comp-step |3 "|结构化编辑" "|edit、tree、cursor 与 transaction 只改目标节点, 并可用 --expect-revision 防止并行写入覆盖。"
+                  comp-step |4 "|严格验证" "|calcit --check-only 与 calcit test 默认严格诊断, calcit fix 给出可审阅的确定性迁移。"
+                comp-terminal "|$ calcit docs agents --contract\n$ calcit query defs app.schema\n$ calcit query search 'Store' --source project\n$ calcit tree show app.schema/store --path ''\n$ calcit tree replace app.schema/store --path '<path>' \\\n    --input-format cirru --code 'quote <node>'\n$ calcit --check-only\n$ calcit test app.schema/store --require-match"
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ []
         'comp-bg $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-bg ()
             ; img $ {} (:src |https://cdn.tiye.me/logo/calcit.png)
@@ -29,46 +45,27 @@
             let
                 store $ read-field reel :store
                 states $ read-field store :states
-                cursor $ either (read-field states :cursor) ([])
-                state $ either (read-field states :data) ({})
               div
                 {} $ :class-name $ str-spaced css/preset css/global
                 comp-bg
                 div
                   {} $ :class-name style-content
-                  div ({})
-                    div
-                      {}
-                        :class-name $ str-spaced css/column
-                        :style $ {} (:flex 1) (:height :max-content) (:padding "|48px 0 48px")
-                      div
-                        {}
-                          :style $ {} $ :flex-wrap :wrap
-                          :class-name $ str-spaced css/row-center
-                        img $ {} (:src |https://cdn.tiye.me/logo/calcit.png)
-                          :style $ {} (:width 96) (:height 96)
-                        =< 16 nil
-                        div
-                          {} (:class-name css/column)
-                            :style $ {} $ :max-width |100%
-                          div
-                            {} $ :class-name style-main-title
-                            <> "|Calcit: typed functional language for real-time applications"
-                          =< nil 4
-                          div
-                            {} $ :class-name style-secondary-title
-                            <> "|Struct, Enum, Option, Result, typed FFI, and a structural `calcit` workflow for reliable programs and AI agents."
-                      =< nil 8
-                      =< nil 24
-                      let
-                          snippet-states $ >> states :snippets
-                          snippet-cursor $ assert-type (read-field snippet-states :cursor) (:: 'List 'Tag)
-                          snippet-selection $ assert-type
-                            either (read-field snippet-states :data) :match
-                            , 'Tag
-                        comp-snippet-demo snippet-cursor snippet-selection
-                      =< nil 8
-                      comp-promotions
+                  comp-hero
+                  div
+                    {} $ :class-name style-section
+                    comp-section-head "|几行代码看看 Calcit" "|不可变数据、模式匹配、管道宏和 Respo 组件。切换标签查看示例。"
+                    let
+                        snippet-states $ >> states :snippets
+                        snippet-cursor $ assert-type (read-field snippet-states :cursor) (:: 'List 'Tag)
+                        snippet-selection $ assert-type
+                          either (read-field snippet-states :data) :match
+                          , 'Tag
+                      comp-snippet-demo snippet-cursor snippet-selection
+                  comp-agent-section
+                  comp-types-section
+                  div
+                    {} $ :class-name style-section
+                    comp-section-head "|特性一览" "|围绕结构化源码、名义类型和跨后端语义设计。"
                     list->
                       {} $ :class-name style-cards-containers
                       -> doc-features $ map $ fn (doc)
@@ -82,13 +79,16 @@
                             div
                               {} $ :class-name style-feature-content
                               comp-md content $ {} $ :class-name |
+                  comp-start-section
+                  div
+                    {} $ :class-name style-section
                     comp-md-block (inline-content! |content/intro.md)
                       {} (:class-name |)
                         :highlight $ fn (code lang)
                           str $ cirru-color/generateHtml code
-                    h2
-                      {} $ :style $ {}
-                      <> |Ecosystem
+                  div
+                    {} $ :class-name style-section
+                    comp-section-head "|生态" "|类库、框架、工具、视频与文章。"
                     list->
                       {} $ :class-name style-columns
                       -> doc-columns $ map-indexed $ fn (idx column)
@@ -103,21 +103,45 @@
                                 assert-type links $ :: 'List 'Enum
                                 map-indexed $ fn (idx link)
                                   [] idx $ comp-link link
+                  div
+                    {} $ :class-name style-section
                     comp-md-block (inline-content! |content/cirru.md)
                       {} (:class-name |)
                         :highlight $ fn (code lang)
                           str $ cirru-color/generateHtml code
-                    =< nil 120
-                    div
-                      {} $ :class-name css/row-parted
-                      div $ {}
-                      div ({}) (add-link "|GitHub calcit-lang" |https://github.com/calcit-lang/) (=< 16 nil)
-                        add-link |Discussions |https://github.com/calcit-lang/calcit/discussions
-                    =< nil 40
+                  =< nil 120
+                  div
+                    {} $ :class-name css/row-parted
+                    div $ {}
+                    div ({}) (add-link "|GitHub calcit-lang" |https://github.com/calcit-lang/) (=< 16 nil)
+                      add-link |Discussions |https://github.com/calcit-lang/calcit/discussions
+                  =< nil 40
                 when dev? $ comp-reel (>> states :reel) (reel-view/view-data reel) ({})
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] $ :: 'reel.typed/State 'app.schema/Op 'app.schema/Store
+        'comp-hero $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defcomp comp-hero ()
+            div
+              {} $ :class-name style-hero
+              img $ {} (:src |https://cdn.tiye.me/logo/calcit.png) (:alt |Calcit)
+                :style $ {} (:width 96) (:height 96)
+              div
+                {} $ :class-name style-main-title
+                <> |Calcit
+              div
+                {} $ :class-name style-hero-tagline
+                <> "|面向 AI Agent 与人类协作的类型化函数式语言"
+              div
+                {} $ :class-name style-secondary-title
+                <> "|结构化源码、严格类型检查和可查询的命令行, 让每一次修改都能先查看、再编辑、最后验证。编译到 JavaScript ES Modules, 也能在 Rust 解释器里运行脚本。"
+              div
+                {} $ :class-name style-install
+                <> "|cargo install calcit --locked"
+              comp-promotions
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ []
         'comp-link $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-link (link)
             match link $
@@ -156,6 +180,18 @@
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ []
+        'comp-section-head $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defcomp comp-section-head (title lead)
+            div ({})
+              div
+                {} $ :class-name style-section-title
+                <> title
+              div
+                {} $ :class-name style-section-lead
+                <> lead
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ [] 'String 'String
         'comp-snippet-demo $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-snippet-demo (cursor state)
             div
@@ -181,6 +217,53 @@
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] (:: 'List 'Tag) 'Tag
+        'comp-start-section $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defcomp comp-start-section ()
+            div
+              {} $ :class-name style-section
+              comp-section-head "|三步开始" "|从已发布的稳定版本开始, 项目的版本由 deps.cirru 固定。"
+              comp-terminal "|# 1. install\ncargo install calcit --locked\ncargo install calcit-caps\n\n# 2. try a snippet\ncalcit eval 'println \"|Hello Calcit\"'\n\n# 3. run a project\ncaps --ci\ncalcit --check-only\ncalcit js"
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ []
+        'comp-step $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defcomp comp-step (idx title text)
+            div
+              {} (:class-name css/row)
+                :style $ {} (:gap |12px) (:margin-bottom |16px)
+              div
+                {} $ :class-name style-step-badge
+                <> idx
+              div ({})
+                div
+                  {} $ :style $ {} (:font-weight |700)
+                  <> title
+                div
+                  {} $ :class-name style-feature-content
+                  <> text
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ [] 'String 'String 'String
+        'comp-terminal $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defcomp comp-terminal (text)
+            pre $ {} (:class-name style-terminal) (:inner-text text)
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ [] 'String
+        'comp-types-section $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defcomp comp-types-section ()
+            div
+              {} $ :class-name style-section
+              comp-section-head "|让类型成为 Agent 的护栏" "|Struct 与 Enum 是名义类型, Option 表达缺失, Result 表达失败。类型检查默认严格: 已知矛盾在编译期报告并带源码位置, 开放的外部数据则必须在边界 decode, 而不是用转换糊弄过去。"
+              div
+                {} $ :class-name style-two-col
+                comp-terminal "|defstruct Store (:states 'Map)\n\ndefenum Op\n  :states 'List 'Dynamic\n  :reel/toggle\n\ndef values $ [] 10 20\nassert= (Option :some 20) $ values.get 1\nassert= (Option :none) $ values.get 2\nassert= 0 $ (values.get 2).unwrap-or 0"
+                div ({}) (comp-step |A "|名义 Struct / Enum" "|领域数据有明确字段与变体, match 做穷尽检查, 构造错误在编译期暴露。") (comp-step |B "|Option / Result" "|缺失与失败留在容器里, 通过方法组合处理, 不再靠 nil 传播。")
+                  comp-step |C "|Dynamic 只在边界" "|JS FFI 与外部数据显式声明为开放值, 用 try-parse-cirru-edn-as 等解码器验证后再使用。"
+                  comp-step |D "|错误可修复" "|诊断带类型证据与源码位置, 配合 calcit fix 与 analyze 命令, Agent 能按证据改而不是猜。"
+          :examples $ []
+          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
+            :args $ []
         'comp-visual $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-visual ()
             div ({})
@@ -286,6 +369,23 @@
             {} $ |& $ {} (:font-size |16px) (:font-weight |900)
           :examples $ []
           :schema $ :: 'String
+        'style-hero $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-hero
+            {} $ |& $ {} (:padding "|72px 0 40px") (:display :flex) (:flex-direction :column) (:align-items :center) (:text-align :center) (:gap |16px)
+          :examples $ []
+          :schema $ :: 'String
+        'style-hero-tagline $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-hero-tagline
+            {} $ |& $ {} (:font-size |22px) (:line-height |1.4) (:font-weight |600)
+              :color $ hsl 240 50 40
+          :examples $ []
+          :schema $ :: 'String
+        'style-install $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-install
+            {} $ |& $ {} (:font-family "|Menlo, Consolas, monospace") (:font-size |14px) (:padding "|10px 20px") (:border-radius |8px) (:color :white)
+              :background-color $ hsl 230 25 16
+          :examples $ []
+          :schema $ :: 'String
         'style-main-button $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-main-button
             {}
@@ -316,10 +416,44 @@
               :color $ hsl 0 0 40
           :examples $ []
           :schema $ :: 'String
+        'style-section $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-section
+            {} $ |& $ {} (:margin "|72px 0 0")
+          :examples $ []
+          :schema $ :: 'String
+        'style-section-lead $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-section-lead
+            {} $ |& $ {} (:font-size |16px) (:line-height |1.7) (:max-width |760px) (:margin-bottom |24px)
+              :color $ hsl 0 0 38
+          :examples $ []
+          :schema $ :: 'String
+        'style-section-title $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-section-title
+            {} $ |& $ {} (:font-size |26px) (:font-weight |700) (:letter-spacing |-0.3px) (:margin-bottom |8px)
+          :examples $ []
+          :schema $ :: 'String
+        'style-step-badge $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-step-badge
+            {} $ |& $ {} (:width |28px) (:height |28px) (:border-radius |14px) (:display :flex) (:align-items :center) (:justify-content :center) (:font-weight |700) (:color :white) (:flex-shrink 0)
+              :background-color $ hsl 240 90 76
+          :examples $ []
+          :schema $ :: 'String
         'style-sub-title $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-sub-title
             {} $ |& $ {}
               :color $ hsl 0 0 50
+          :examples $ []
+          :schema $ :: 'String
+        'style-terminal $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-terminal
+            {} $ |& $ {} (:font-family "|Menlo, Consolas, monospace") (:font-size |13px) (:line-height |1.7) (:padding "|16px 20px") (:border-radius |12px) (:margin 0) (:overflow-x :auto) (:white-space :pre) (:color :white)
+              :background-color $ hsl 230 25 14
+              :box-shadow "|0 8px 24px hsla(230,40%,20%,0.18)"
+          :examples $ []
+          :schema $ :: 'String
+        'style-two-col $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstyle style-two-col
+            {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(340px, 1fr))") (:gap |24px) (:align-items :start)
           :examples $ []
           :schema $ :: 'String
       :ns $ %{} 'NsEntry (:doc |)
@@ -527,12 +661,14 @@
         'doc-features $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def doc-features
             []
-              :: :feature "|Typed structural tooling" "|Calcit exposes query, tree, edit, cursor, transaction, and analysis commands for deterministic inspect-edit-verify workflows. They are designed for people and AI agents."
-              :: :feature "|Nominal typed data" "|Struct and Enum make data boundaries explicit; Option and Result model absence and failure while persistent collections keep values ergonomic across Rust and JavaScript."
-              :: :feature "|Typed JavaScript boundaries" "|Typed host-FFI contracts and static JavaScript field access carry type evidence across ES Module boundaries, with explicit escape hatches for dynamic interop."
-              :: :feature "|Option-first APIs" "|Use Option<T> instead of nil for absence. Trailing Option parameters can be omitted and receive None, while non-trailing options stay explicit."
-              :: :feature "|Cirru source, macros, and persistent data" "|Calcit stores canonical code as Cirru syntax trees, combines functional persistent collections with macros, and preserves matching native and JavaScript semantics."
-              :: :feature "|Native and ES Module output" "|Run once or watch with calcit, then emit readable JavaScript ES Modules for Vite, browsers, and Node.js with matching semantics."
+              :: :feature "|结构化源码与查询" "|query、tree、edit、cursor、transaction 与 analyze 命令围绕 calcit.cirru 的语法树工作, 人类和 AI Agent 都能按“查询, 修改, 验证”的闭环操作。"
+              :: :feature "|名义类型数据" "|Struct 与 Enum 让数据边界明确, Option 表示缺失, Result 表示失败, 持久化集合在 Rust 与 JavaScript 上保持一致语义。"
+              :: :feature "|严格类型诊断" "|默认严格检查, 已知矛盾带源码位置报告; Dynamic 只用于开放边界, calcit fix 提供可审阅的确定性迁移。"
+              :: :feature "|类型化 JavaScript 边界" "|JS FFI 的类型契约与静态字段访问让 ES Module 边界携带类型证据, 同时保留显式的动态互操作出口。"
+              :: :feature "|Traits 与方法" "|用 trait 描述能力, 方法调用保持清晰; 遇到同名方法时可显式消歧, 不依赖隐式转换。"
+              :: :feature "|JavaScript 与 native" "|生成可读的 ES Modules 供 Vite、浏览器和 Node.js 使用, 也能用 Rust 解释器直接运行脚本; WASM/WASI 是受限目标。"
+              :: :feature "|热更新友好" "|watch 模式重新编译并调用显式的 reload 函数, 在开发 Respo 等应用时保留状态。"
+              :: :feature "|文档同样可验证" "|docs check-md 会执行文档里的 Cirru 示例, calcit docs 可从命令行查询语言与模块文档。"
           :examples $ []
           :schema $ :: 'List 'Enum
         'store $ %{} 'CodeEntry (:doc |)
