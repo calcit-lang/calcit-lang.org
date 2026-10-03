@@ -69,7 +69,7 @@ def main():
         for n, (a, b, s) in enumerate(srt, 1): f.write(f'{n}\n{ts(a)} --> {ts(b)}\n{s}\n\n')
     json.dump(plan, open(os.path.join(OUT, 'timeline.json'), 'w'), ensure_ascii=False, indent=1)
     run(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', 'audio.txt', '-c:a', 'pcm_s16le', '-ar', '24000', '-ac', '1', 'narration.wav'])
-    style = 'FontName=PingFang SC,FontSize=22,PrimaryColour=&H00FFFFFF,OutlineColour=&H80000000,BorderStyle=3,Outline=6,Shadow=0,MarginV=28,Alignment=2'
+    style = 'FontName=PingFang SC,FontSize=11,PrimaryColour=&H00FFFFFF,OutlineColour=&H80000000,BorderStyle=3,Outline=4,Shadow=0,MarginV=18,Alignment=2'
     run(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', 'video.txt', '-i', 'narration.wav',
          '-vf', f"fps=30,format=yuv420p,subtitles=subtitles.srt:force_style='{style}'",
          '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-tune', 'stillimage', '-c:a', 'aac', '-b:a', '160k', '-shortest', '-movflags', '+faststart', 'calcit-intro.mp4'])
