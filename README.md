@@ -58,6 +58,11 @@ yarn dev
 
 CI 保留 Snapshot 格式、严格 entry/公开定义检查、文档示例、状态树测试和实际构建。COS 生产路径为 `calcit-lang/calcit-lang.org/`，PR 预览为其下的 `pr/<number>/<run-id>/<attempt>/`，预览与生产分开串行上传。PR 构建成功不等于生产部署完成，也不替代浏览器验收。
 
+上传使用 COS Action 1.2.0 的内置公开 URL 校验，不另外维护上传验证脚本。
+待运行上传通过 `queue: max` 保留；main 发布前只读一次最新 HEAD，过期运行跳过 COS 和服务器部署。
+原生产路径及所有源码/文档/测试门禁不变。此部署更新仍使用 Calcit/procs 0.27.0，
+不代表完成 0.28 源码或类型迁移，也不代表 Markdown 的临时修复提交已发布为正式版本。
+
 - [Respo Calcit Workflow](https://github.com/calcit-lang/respo-calcit-workflow)：浏览器应用起点
 - [Calcium Workflow](https://github.com/Cumulo/calcium-workflow)：状态同步应用参考
 
