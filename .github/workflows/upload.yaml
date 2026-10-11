@@ -39,14 +39,13 @@ jobs:
       uses: calcit-lang/setup-calcit@ca701be5a471759e442aa053cd100720bbe1f09f # v1.5.0
       with:
         tools: calcit,caps
+        version: "0.29.0"
         caps-version: "0.1.1"
 
     - name: Resolve immutable dependencies
       run: |
         set -euo pipefail
-        # Published dependencies request different compatible js-ffi and
-        # Respo versions; Caps records the deterministic highest selections.
-        caps --ci
+        caps --strict --ci
         yarn install --immutable
         caps verify --toolchain
 
@@ -57,18 +56,12 @@ jobs:
         test -f deps.cirru
         test ! -e compact.cirru
         test ! -e package.cirru
-        test "$(calcit --version)" = "0.27.0"
+        test "$(calcit --version)" = "0.29.0"
         calcit edit format
         git diff --exit-code -- calcit.cirru
-        calcit calcit.cirru --check-only
+        calcit calcit.cirru --check-only --all-defs
         yarn test:docs
-        calcit calcit.cirru analyze check-public \
-          --ns app.comp.container \
-          --ns app.config \
-          --ns app.main \
-          --ns app.schema \
-          --ns app.updater \
-          --summary-only --format json
+        calcit analyze weak-types --only deprecated-call --summary-only --format json | jq -e '.data.summary.calls == 0'
 
     - name: Select CDN asset path
       id: asset-path
