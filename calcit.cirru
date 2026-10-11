@@ -97,8 +97,8 @@
         'comp-container $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-container (reel)
             let
-                store $ read-field reel :store
-                states $ read-field store :states
+                store $ :store reel
+                states $ :states store
               div
                 {} $ :class-name $ str-spaced css/preset css/global
                 comp-bg
@@ -114,16 +114,18 @@
                     comp-section-head "|语言一瞥" "|不可变数据、模式匹配、管道宏和 Respo 组件。切换标签查看示例。"
                     let
                         snippet-states $ >> states :snippets
-                        snippet-cursor $ assert-type (read-field snippet-states :cursor) (:: 'List 'Tag)
-                        snippet-selection $ assert-type
-                          either (read-field snippet-states :data) :match
+                        snippet-cursor $ decode-map-as
+                          option:unwrap $ get snippet-states :cursor
+                          :: 'List 'Tag
+                        snippet-selection $ decode-map-as
+                          option:unwrap-or (get snippet-states :data) :match
                           , 'Tag
                       comp-snippet-demo snippet-cursor snippet-selection
                   comp-start-section
                   comp-ecosystem
                   comp-deep-read
                   comp-footer
-                when dev? $ comp-reel (>> states :reel) (reel-view/view-data reel) ({})
+                when dev? $ comp-typed-reel (>> states :reel) reel $ {}
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] $ :: 'reel.typed/State 'app.schema/Op 'app.schema/Store
@@ -346,16 +348,14 @@
                 [] (%:: ui-schema/TabRoute :tab :match "|Pattern matching") (%:: ui-schema/TabRoute :tab :component |Component) (%:: ui-schema/TabRoute :tab :persistent-data "|Persistent data") (%:: ui-schema/TabRoute :tab :pipeline "|Pipeline macro")
                 fn (info d!)
                   hint-fn $ {}
-                    :args $ [] (:: 'respo-ui.schema/TabRoute 'Tag) 'DynFn
+                    :args $ [] (:: 'respo-ui.schema/TabRoute 'Tag)
+                      :: 'Fn $ {}
+                        :args $ [] 'app.schema/Op
+                        :return 'Unit
                     :return 'Unit
-                  let
-                      dispatch $ assert-type d! $ :: 'Fn
-                        {}
-                          :args $ [] 'app.schema/Op
-                          :return 'Unit
-                    match info $
-                      :tab value display
-                      dispatch $ app.schema/Op :states cursor value
+                  match info $
+                    :tab value display
+                    d! $ app.schema/Op :states cursor value
               comp-cirru-snippet $ trim $ pick-demo state
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
@@ -474,7 +474,7 @@
             :features $ #{} :js-ffi
         'pick-demo $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn pick-demo (k)
-            case-default k demo-match (:match demo-match) (:pipeline demo-pipeline) (:component demo-component) (:persistent-data demo-persistent-data)
+            match k (:match demo-match) (:pipeline demo-pipeline) (:component demo-component) (:persistent-data demo-persistent-data) (_ demo-match)
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'String)
             :args $ [] 'Tag
@@ -740,7 +740,7 @@
             respo.util.format :refer $ hsl
             respo.core :refer $ defcomp defeffect <> >> div button textarea span input a body img list-> h2 pre create-element
             respo.comp.space :refer $ =<
-            reel.comp.reel :refer $ comp-reel
+            reel.comp.reel :refer $ comp-typed-reel
             respo-md.comp.md :refer $ comp-md comp-md-block
             app.config :refer $ dev?
             |cirru-color :as cirru-color
@@ -749,8 +749,6 @@
             app.schema :refer $ doc-features doc-columns
             respo-ui.comp :refer $ comp-tabs comp-cirru-snippet
             respo-ui.schema :as ui-schema
-            reel.schema :refer $ read-field
-            reel.typed-compat :as reel-view
     'app.config $ %{} 'FileEntry
       :defs $ {}
         'cdn? $ %{} 'CodeEntry (:doc |)
@@ -777,32 +775,28 @@
     'app.main $ %{} 'FileEntry
       :defs $ {}
         '*reel $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defatom *reel (typed/new-reel schema/store)
+          :code $ quote $ defref *reel (typed/new-reel schema/store)
           :examples $ []
           :schema $ :: 'Ref $ :: 'reel.typed/State 'app.schema/Op 'app.schema/Store
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             when config/dev? $ println |Dispatch: op
-            let
-                typed-op $ assert-type op 'Enum
-                control $ typed/decode-control typed-op
-              reset! *reel $ assert-type
-                match control
-                  (:some action) (typed/apply-control updater @*reel action)
-                  (:none)
-                    typed/record-op updater @*reel (assert-type typed-op 'app.schema/Op) (generate-id!)
-                      :timestamp $ shared/date-now-snapshot
-                :: 'reel.typed/State 'app.schema/Op 'app.schema/Store
-              , &unit
+            match (typed/decode-control op)
+              (:some action)
+                reset! *reel $ typed/apply-control updater @*reel action
+              (:none)
+                reset! *reel $ typed/record-op updater @*reel (assert-type op 'app.schema/Op) (generate-id!)
+                  :timestamp $ shared/date-now-snapshot
+            , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] 'Dynamic
+            :args $ [] 'Enum
             :features $ #{} :js-ffi
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             println "|Running mode:" $ if config/dev? |dev |release
             render-app!
-            add-watch *reel :changes $ fn (reel prev) (render-app!)
+            add-watch! *reel :changes $ fn (reel prev) (render-app!)
             listen-devtools! |a dispatch!
             ; .addEventListener js/window |beforeunload $ fn (event) (persist-storage!)
             ; repeat! 60 persist-storage!
@@ -817,10 +811,12 @@
             :args $ []
             :features $ #{} :js-ffi
         'mount-target $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ def mount-target
-            option:unwrap $ browser/query-selector |.app
+          :code $ quote $ defn mount-target ()
+            narrow-element $ option:unwrap $ browser/query-selector |.app
           :examples $ []
-          :schema $ :: 'js-ffi.browser/DomElementHost
+          :schema $ :: 'Fn $ {} (:return 'respo.dom/DomElement)
+            :args $ []
+            :features $ #{} :js-ffi
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             browser/storage-set! (:storage-key config/site)
@@ -833,8 +829,8 @@
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! ()
             if (nil? build-errors)
-              do (remove-watch *reel :changes) (clear-cache!)
-                add-watch *reel :changes $ fn (reel prev) (render-app!)
+              do (remove-watch! *reel :changes) (clear-cache!)
+                add-watch! *reel :changes $ fn (reel prev) (render-app!)
                 reset! *reel $ typed/refresh updater @*reel schema/store
                 hud! |ok~ |Ok
               hud! |error build-errors
@@ -844,7 +840,7 @@
             :features $ #{} :js-ffi
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
-            render! mount-target (comp-container @*reel) dispatch!
+            render! (mount-target) (comp-container @*reel) dispatch!
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
@@ -878,18 +874,29 @@
             js-ffi.shared :as shared
             |./calcit.build-errors :default build-errors
             |bottom-tip :default hud!
+            respo.ffi.browser :refer $ narrow-element
     'app.schema $ %{} 'FileEntry
       :defs $ {}
         'Op $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defenum Op (:states 'List 'Dynamic) (:hydrate-storage 'app.schema/Store) (:reel/toggle) (:reel/recall 'Number) (:reel/merge) (:reel/reset) (:reel/step) (:reel/run) (:reel/remove 'Number)
+          :code $ quote $ defenum Op
+            :states (:: 'List 'Dynamic) 'Dynamic
+            :hydrate-storage 'app.schema/Store
+            :reel/toggle
+            :reel/recall 'Number
+            :reel/merge
+            :reel/reset
+            :reel/step
+            :reel/run
+            :reel/remove 'Number
           :examples $ []
-          :schema $ :: 'Enum
+          :schema $ :: 'EnumDef
         'SiteConfig $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct SiteConfig (:dev-ui 'String) (:release-ui 'String) (:cdn-url 'String) (:title 'String) (:icon 'String) (:storage-key 'String)
           :examples $ []
-          :schema $ :: 'Enum
+          :schema $ :: 'StructDef
         'Store $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defstruct Store (:states 'Map)
+          :code $ quote $ defstruct Store
+            :states $ :: 'Map 'Dynamic 'Dynamic
           :examples $ []
           :schema $ :: 'StructDef
         'decode-store $ %{} 'CodeEntry (:doc |)
@@ -899,7 +906,7 @@
               match (get data :states)
                 (:some states)
                   if (map? states)
-                    Option :some $ Store :states $ assert-type states 'Map
+                    Option :some $ Store :states $ decode-map-as states (:: 'Map 'Dynamic 'Dynamic)
                     Option :none
                 (:none) (Option :none)
               Option :none
@@ -950,7 +957,7 @@
               (:states cursor data)
                 assoc store :states $ assert-type
                   update-state-tree (:states store) cursor data
-                  , 'Map
+                  :: 'Map 'Dynamic 'Dynamic
               (:hydrate-storage data) data
               _ store
           :examples $ []

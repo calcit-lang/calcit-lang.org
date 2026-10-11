@@ -42,21 +42,28 @@ test('homepage feature text and complete Markdown documents render without inval
 });
 
 test('each snippet tab calls a real callback and emits the selected typed operation', () => {
-  const tabTags = clt.init_tags(['match', 'component', 'persistent-data', 'pipeline', 'tree', 'children', 'event', 'click', 'name', 'comp-tabs']);
+  const tabTags = clt.init_tags(['match', 'component', 'persistent-data', 'pipeline', 'tree', 'children', 'node', 'event', 'click', 'name', 'comp-tabs']);
   const cursor = clt._$L_(t.tabs);
   const callbacks = [];
   const optionalField = (node, key, fallback) => clt.option_$o_unwrap_or(clt.get(node, key), fallback);
   const visit = (node, inTabs = false) => {
+    if (clt.enum_$q_(node)) {
+      visit(clt._$n_enum_$o_nth(node, 1), inTabs);
+      return;
+    }
     const collect = inTabs || clt._$e_(optionalField(node, tabTags.name, null), tabTags['comp-tabs']);
     const tree = optionalField(node, tabTags.tree, null);
-    if (tree !== null) visit(clt.option_$o_unwrap(tree), collect);
+    if (tree !== null && clt.option_$o_some_$q_(tree)) visit(clt.option_$o_unwrap(tree), collect);
     const events = optionalField(node, tabTags.event, null);
     if (events !== null) {
       const click = optionalField(events, tabTags.click, null);
       if (collect && click !== null) callbacks.push(click);
     }
     const children = optionalField(node, tabTags.children, clt._$L_());
-    for (const pair of clt.listToArray(children)) visit(clt.listToArray(pair)[1], collect);
+    for (const pair of clt.listToArray(children)) {
+      const child = optionalField(pair, tabTags.node, null);
+      if (child !== null && clt.option_$o_some_$q_(child)) visit(clt.option_$o_unwrap(child), collect);
+    }
   };
   visit(comp_snippet_demo(cursor, tabTags.match));
   const selections = [tabTags.match, tabTags.component, tabTags['persistent-data'], tabTags.pipeline];
