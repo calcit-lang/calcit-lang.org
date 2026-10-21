@@ -41,12 +41,13 @@
 
 ### 开发与验收
 
-使用 Calcit/`@calcit/procs` **0.29.0**、Node **24**、Yarn **4.18.0**。先确认 `calcit --version` 与 `deps.cirru` 匹配，再运行：
+使用正式 Calcit/`@calcit/procs` **0.30.1**、Node **24**、Yarn **4.18.0**。先确认 `calcit --version` 与 `deps.cirru` 匹配，再运行：
 
 ```bash
 caps --strict --ci
 yarn install --immutable
 calcit --check-only
+calcit fix --workflow strict --verify
 yarn test
 yarn build
 yarn dev
@@ -54,9 +55,11 @@ yarn dev
 
 `yarn test` 执行正文中的 Cirru 示例，重新生成 JavaScript，再运行原有状态树回归测试；`yarn build` 编译并打包。`yarn dev` 初始编译后启动 Vite；结构化源码的实时编译可在另一终端运行 `calcit js -w`。不要用本机 alpha 编译器替代稳定版，也不要通过 `--compat-types` 隐藏版本错配。
 
-Markdown 使用包含内联子节点与 UI options 修复的正式版本 **0.4.49**，不再固定到提交 hash。Reel **0.6.34** 与 UI **0.7.33** 保持一致的严格发布图；现有回归文件保留两篇完整正文的 HTML 渲染和全部 snippet tab 的真实点击回调检查。
+Markdown 使用正式版本 **0.4.58**，Reel **0.6.39**、UI **0.7.41**、Respo **0.16.122**、js-ffi **0.2.3** 保持一致的正式依赖图，不固定到提交 hash。现有回归文件保留两篇完整正文的 HTML 渲染和全部 snippet tab 的真实点击回调检查，并覆盖旧 Map/具名 Store 的状态恢复。
 
-CI 保留 Snapshot 格式、严格 all-defs 检查、零弃用调用、文档示例、状态树测试和实际构建。COS 生产路径为 `calcit-lang/calcit-lang.org/`，PR 预览为其下的 `pr/<number>/<run-id>/<attempt>/`，预览与生产分开串行上传。PR 构建成功不等于生产部署完成，也不替代浏览器验收。
+生态链接和功能条目使用具名 Enum 约束内容，文案、链接和排列不变。状态树更新与事件入口在运行时解码，不依靠强断言；异构 UI 状态仍保留真实 Dynamic 边界。缺失 `.app` 容器会明确报错，热更新保持原通知行为并显式返回 Unit。
+
+CI 保留 Snapshot 格式、all-defs 检查、零弃用调用、文档示例、状态树测试和实际构建，增加完整 strict 与零 unsafe 门禁。COS 生产路径为 `calcit-lang/calcit-lang.org/`，PR 预览为其下的 `pr/<number>/<run-id>/<attempt>/`，预览与生产分开串行上传。PR 构建成功不等于生产部署完成，也不替代浏览器验收。
 
 上传使用 COS Action 1.2.0 的内置公开 URL 校验，不另外维护上传验证脚本。
 待运行上传通过 `queue: max` 保留；main 发布前只读一次最新 HEAD，过期运行跳过 COS 和服务器部署。
