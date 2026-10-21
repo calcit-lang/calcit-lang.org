@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import * as clt from '../js-out/calcit.core.mjs';
-import { store, Op } from '../js-out/app.schema.mjs';
+import { store, Op, decode_store } from '../js-out/app.schema.mjs';
 import { updater } from '../js-out/app.updater.mjs';
 import { comp_md, comp_md_block } from '../js-out/respo-md.comp.md.mjs';
 import { make_string } from '../js-out/respo.render.html.mjs';
@@ -28,6 +28,16 @@ test('root updates preserve nested branches and repeated updates replace data', 
   const next = updater(root, op(clt._$L_(t.tabs), data('syntax')), 'tabs-2', 3);
   assert.equal(field(field(field(field(next, t.states), t.tabs), t.data), t.selected), 'syntax');
   assert.equal(field(field(field(next, t.states), t.data), t.selected), 'root');
+});
+
+test('legacy Map and typed Store hydration preserve the existing state tree', () => {
+  const next = updater(store, op(clt._$L_(t.tabs), data('syntax')), 'tabs', 1);
+  const tree = field(next, t.states);
+  const legacy = clt._$n__$M_(t.states, tree);
+  for (const value of [legacy, next]) {
+    const restored = clt.option_$o_unwrap(decode_store(value));
+    assert.equal(clt._$e_(field(restored, t.states), tree), true);
+  }
 });
 
 test('homepage feature text and complete Markdown documents render without invalid children', () => {

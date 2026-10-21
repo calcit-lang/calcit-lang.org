@@ -169,10 +169,8 @@
                       <> col-title style-feature-title
                       list->
                         {} $ :style $ {} (:margin-top 8)
-                        ->
-                          assert-type links $ :: 'List 'Enum
-                          map-indexed $ fn (idx link)
-                            [] idx $ comp-link link
+                        -> links $ map-indexed $ fn (idx link)
+                          [] idx $ comp-link link
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ []
@@ -244,7 +242,7 @@
                   <> sub-title $ str-spaced css/font-fancy style-sub-title
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] 'Enum
+            :args $ [] 'app.schema/DocLink
         'comp-nav $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-nav ()
             div
@@ -785,7 +783,14 @@
               (:some action)
                 reset! *reel $ typed/apply-control updater @*reel action
               (:none)
-                reset! *reel $ typed/record-op updater @*reel (assert-type op 'app.schema/Op) (generate-id!)
+                reset! *reel $ typed/record-op updater @*reel
+                  match op
+                    (:hydrate-storage data)
+                      match (schema/decode-store data)
+                        (:some store) (schema/Op :hydrate-storage store)
+                        (:none) (raise |Invalid-persisted-store)
+                    _ $ decode-map-as op 'app.schema/Op
+                  generate-id!
                   :timestamp $ shared/date-now-snapshot
             , &unit
           :examples $ []
@@ -812,7 +817,9 @@
             :features $ #{} :js-ffi
         'mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn mount-target ()
-            narrow-element $ option:unwrap $ browser/query-selector |.app
+            match (respo-dom/query-selector |.app)
+              (:some element) element
+              (:none) (raise |Missing-app-element)
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.dom/DomElement)
             :args $ []
@@ -834,13 +841,16 @@
                 reset! *reel $ typed/refresh updater @*reel schema/store
                 hud! |ok~ |Ok
               hud! |error build-errors
+            , &unit
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
             :features $ #{} :js-ffi
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
-            render! (mount-target) (comp-container @*reel) dispatch!
+            render! (mount-target) (comp-container @*reel)
+              fn (op)
+                if (enum? op) (dispatch! op) (raise |Expected-operation)
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
             :args $ []
@@ -874,9 +884,22 @@
             js-ffi.shared :as shared
             |./calcit.build-errors :default build-errors
             |bottom-tip :default hud!
-            respo.ffi.browser :refer $ narrow-element
+            respo.ffi.browser :as respo-dom
     'app.schema $ %{} 'FileEntry
       :defs $ {}
+        'DocColumn $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defenum DocColumn
+            :column 'String $ :: 'List 'app.schema/DocLink
+          :examples $ []
+          :schema $ :: 'EnumDef
+        'DocFeature $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defenum DocFeature (:feature 'String 'String)
+          :examples $ []
+          :schema $ :: 'EnumDef
+        'DocLink $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defenum DocLink (:link 'String 'String 'String)
+          :examples $ []
+          :schema $ :: 'EnumDef
         'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum Op
             :states (:: 'List 'Dynamic) 'Dynamic
@@ -913,35 +936,34 @@
           :examples $ []
           :schema $ :: 'Fn $ {}
             :args $ [] 'Dynamic
-            :features $ #{} :js-ffi
             :return $ :: 'calcit.core/Option 'app.schema/Store
         'doc-columns $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def doc-columns
             []
-              :: :column "|起点" $ [] (:: :link |Guidebook "|语言与工具的完整指南" |https://repo.calcit-lang.org/guidebook/)
-                :: :link "|Agents 指南" |CalcitAgent.md |https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md
-                :: :link "|WASM Playground" "|在线试代码片段" |https://repo.calcit-lang.org/calcit-wasm-play/
-                :: :link "|Respo Calcit Workflow" "|浏览器应用模板" |https://github.com/calcit-lang/respo-calcit-workflow
-              :: :column "|框架与类库" $ [] (:: :link |Respo "|虚拟 DOM 框架" |https://github.com/Respo/respo.calcit) (:: :link |Cumulo "|实时小应用模板" |https://github.com/Cumulo/calcium-workflow) (:: :link |Recollect "|diff/patch 同步" |https://github.com/calcit-lang/recollect) (:: :link |Phlox "|PIXI 虚拟 DOM 封装" |https://github.com/Quamolit/phlox.calcit) (:: :link |Lagopus "|WebGPU 薄封装" |https://github.com/Triadica/lagopus)
-              :: :column "|工具" $ [] (:: :link |caps "|依赖管理" |https://github.com/calcit-lang/caps) (:: :link |setup-calcit "|GitHub Actions" |https://github.com/calcit-lang/setup-calcit)
-                :: :link "|Error viewer" | |https://github.com/calcit-lang/calcit-error-viewer
-                :: :link "|IR viewer" | |https://github.com/calcit-lang/calcit-ir-viewer
-              :: :column "|视频" $ [] (:: :link "|命令行接入 AI 代码生成的探索" | |https://www.bilibili.com/video/BV1Rbv6BtE48/) (:: :link "|更新记录: Traits" | |https://www.bilibili.com/video/BV1JWF9ziEpc/) (:: :link "|更新记录: 类型标注相关的思考" | |https://www.bilibili.com/video/BV18DzDBZExw/)
+              DocColumn :column "|起点" $ [] (DocLink :link |Guidebook "|语言与工具的完整指南" |https://repo.calcit-lang.org/guidebook/)
+                DocLink :link "|Agents 指南" |CalcitAgent.md |https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md
+                DocLink :link "|WASM Playground" "|在线试代码片段" |https://repo.calcit-lang.org/calcit-wasm-play/
+                DocLink :link "|Respo Calcit Workflow" "|浏览器应用模板" |https://github.com/calcit-lang/respo-calcit-workflow
+              DocColumn :column "|框架与类库" $ [] (DocLink :link |Respo "|虚拟 DOM 框架" |https://github.com/Respo/respo.calcit) (DocLink :link |Cumulo "|实时小应用模板" |https://github.com/Cumulo/calcium-workflow) (DocLink :link |Recollect "|diff/patch 同步" |https://github.com/calcit-lang/recollect) (DocLink :link |Phlox "|PIXI 虚拟 DOM 封装" |https://github.com/Quamolit/phlox.calcit) (DocLink :link |Lagopus "|WebGPU 薄封装" |https://github.com/Triadica/lagopus)
+              DocColumn :column "|工具" $ [] (DocLink :link |caps "|依赖管理" |https://github.com/calcit-lang/caps) (DocLink :link |setup-calcit "|GitHub Actions" |https://github.com/calcit-lang/setup-calcit)
+                DocLink :link "|Error viewer" | |https://github.com/calcit-lang/calcit-error-viewer
+                DocLink :link "|IR viewer" | |https://github.com/calcit-lang/calcit-ir-viewer
+              DocColumn :column "|视频" $ [] (DocLink :link "|命令行接入 AI 代码生成的探索" | |https://www.bilibili.com/video/BV1Rbv6BtE48/) (DocLink :link "|更新记录: Traits" | |https://www.bilibili.com/video/BV1JWF9ziEpc/) (DocLink :link "|更新记录: 类型标注相关的思考" | |https://www.bilibili.com/video/BV18DzDBZExw/)
           :examples $ []
-          :schema $ :: 'List 'Enum
+          :schema $ :: 'List 'app.schema/DocColumn
         'doc-features $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def doc-features
             []
-              :: :feature "|结构化源码与查询" "|query、tree、edit、cursor、transaction 与 analyze 命令围绕 calcit.cirru 的语法树工作, 人类和 AI Agent 都能按“查询, 修改, 验证”的闭环操作。"
-              :: :feature "|名义类型数据" "|Struct 与 Enum 让数据边界明确, Option 表示缺失, Result 表示失败, 持久化集合在 Rust 与 JavaScript 上保持一致语义。"
-              :: :feature "|严格类型诊断" "|默认严格检查, 已知矛盾带源码位置报告; Dynamic 只用于开放边界, calcit fix 提供可审阅的确定性迁移。"
-              :: :feature "|类型化 JavaScript 边界" "|JS FFI 的类型契约与静态字段访问让 ES Module 边界携带类型证据, 同时保留显式的动态互操作出口。"
-              :: :feature "|Traits 与方法" "|用 trait 描述能力, 方法调用保持清晰; 遇到同名方法时可显式消歧, 不依赖隐式转换。"
-              :: :feature "|JavaScript 与 native" "|生成可读的 ES Modules 供 Vite、浏览器和 Node.js 使用, 也能用 Rust 解释器直接运行脚本; WASM/WASI 是受限目标。"
-              :: :feature "|热更新友好" "|watch 模式重新编译并调用显式的 reload 函数, 在开发 Respo 等应用时保留状态。"
-              :: :feature "|文档同样可验证" "|docs check-md 会执行文档里的 Cirru 示例, calcit docs 可从命令行查询语言与模块文档。"
+              DocFeature :feature "|结构化源码与查询" "|query、tree、edit、cursor、transaction 与 analyze 命令围绕 calcit.cirru 的语法树工作, 人类和 AI Agent 都能按“查询, 修改, 验证”的闭环操作。"
+              DocFeature :feature "|名义类型数据" "|Struct 与 Enum 让数据边界明确, Option 表示缺失, Result 表示失败, 持久化集合在 Rust 与 JavaScript 上保持一致语义。"
+              DocFeature :feature "|严格类型诊断" "|默认严格检查, 已知矛盾带源码位置报告; Dynamic 只用于开放边界, calcit fix 提供可审阅的确定性迁移。"
+              DocFeature :feature "|类型化 JavaScript 边界" "|JS FFI 的类型契约与静态字段访问让 ES Module 边界携带类型证据, 同时保留显式的动态互操作出口。"
+              DocFeature :feature "|Traits 与方法" "|用 trait 描述能力, 方法调用保持清晰; 遇到同名方法时可显式消歧, 不依赖隐式转换。"
+              DocFeature :feature "|JavaScript 与 native" "|生成可读的 ES Modules 供 Vite、浏览器和 Node.js 使用, 也能用 Rust 解释器直接运行脚本; WASM/WASI 是受限目标。"
+              DocFeature :feature "|热更新友好" "|watch 模式重新编译并调用显式的 reload 函数, 在开发 Respo 等应用时保留状态。"
+              DocFeature :feature "|文档同样可验证" "|docs check-md 会执行文档里的 Cirru 示例, calcit docs 可从命令行查询语言与模块文档。"
           :examples $ []
-          :schema $ :: 'List 'Enum
+          :schema $ :: 'List 'app.schema/DocFeature
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             Store :states $ {} $ :cursor ([])
@@ -955,7 +977,7 @@
           :code $ quote $ defn updater (store op op-id op-time)
             match op
               (:states cursor data)
-                assoc store :states $ assert-type
+                assoc store :states $ decode-map-as
                   update-state-tree (:states store) cursor data
                   :: 'Map 'Dynamic 'Dynamic
               (:hydrate-storage data) data

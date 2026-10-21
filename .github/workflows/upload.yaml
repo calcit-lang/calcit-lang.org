@@ -39,7 +39,7 @@ jobs:
       uses: calcit-lang/setup-calcit@ca701be5a471759e442aa053cd100720bbe1f09f # v1.5.0
       with:
         tools: calcit,caps
-        version: "0.29.0"
+        version: "0.30.1"
         caps-version: "0.1.1"
 
     - name: Resolve immutable dependencies
@@ -56,12 +56,14 @@ jobs:
         test -f deps.cirru
         test ! -e compact.cirru
         test ! -e package.cirru
-        test "$(calcit --version)" = "0.29.0"
+        test "$(calcit --version)" = "0.30.1"
         calcit edit format
         git diff --exit-code -- calcit.cirru
         calcit calcit.cirru --check-only --all-defs
+        calcit fix --workflow strict --verify
         yarn test:docs
         calcit analyze weak-types --only deprecated-call --summary-only --format json | jq -e '.data.summary.calls == 0'
+        calcit analyze weak-types --only unsafe-coerce --summary-only --format json | jq -e '.data.summary.hits == 0'
 
     - name: Select CDN asset path
       id: asset-path
