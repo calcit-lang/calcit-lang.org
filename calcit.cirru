@@ -115,10 +115,10 @@
                     let
                         snippet-states $ >> states :snippets
                         snippet-cursor $ decode-map-as
-                          option:unwrap $ get snippet-states :cursor
+                          .unwrap $ get snippet-states :cursor
                           :: 'List 'Tag
                         snippet-selection $ decode-map-as
-                          option:unwrap-or (get snippet-states :data) :match
+                          .unwrap-or (get snippet-states :data) :match
                           , 'Tag
                       comp-snippet-demo snippet-cursor snippet-selection
                   comp-start-section
@@ -755,7 +755,7 @@
           :schema $ :: 'Bool
         'detect-cdn? $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn detect-cdn? ()
-            = |true $ option:unwrap-or (get-env |cdn) |false
+            = |true $ .unwrap-or (get-env |cdn) |false
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Bool)
             :args $ []

@@ -66,6 +66,8 @@ CI 保留 Snapshot 格式、all-defs 检查、零弃用调用、文档示例、�
 原生产路径及所有源码/文档/测试门禁保留。应用使用具名 Store/Op 和 typed Reel，
 DOM 查询经过 Element 边界收窄，snippet 状态在运行时解码；不会用类型断言代替外部数据验证。
 
+剩余三处 Option helper 调用已统一为 `.unwrap` / `.unwrap-or` 方法：CDN 环境开关和 snippet 的 cursor/selection 读取保持原参数、默认值、缺值失败及后续解码。此次不改正文示例、页面内容、状态协议、存档恢复顺序或依赖版本，也不将生成代码中的 JS 运行时实现名当作应用源码迁移目标。
+
 - [Respo Calcit Workflow](https://github.com/calcit-lang/respo-calcit-workflow)：浏览器应用起点
 - [Calcium Workflow](https://github.com/Cumulo/calcium-workflow)：状态同步应用参考
 
