@@ -14,8 +14,7 @@
           :code $ quote $ defn add-link (title url)
             a $ {} (:inner-text title) (:class-name css/link) (:href url) (:target |_blank)
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Element)
-            :args $ [] 'String 'String
+          :schema $ quote $ Fn String String (-> respo.schema/Element)
         'comp-agent-section $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-agent-section ()
             div
@@ -29,16 +28,14 @@
                 comp-step-card |04 "|严格验证" "|--check-only 与 calcit test 默认严格诊断, calcit fix 给出可审阅的迁移。"
               comp-terminal "|$ calcit docs agents --contract\n$ calcit query search 'Store' --source project\n$ calcit tree show app.schema/store --path ''\n$ calcit tree replace app.schema/store --path '<path>' \\\n    --input-format cirru --code 'quote <node>'\n$ calcit --check-only\n$ calcit test app.schema/store --require-match"
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ []
+          :schema $ quote $ Fn (-> respo.schema/Component)
         'comp-bg $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-bg ()
             ; img $ {} (:src |https://cdn.tiye.me/logo/calcit.png)
               :style $ {} (:width |60vw) (:z-index -10) (:min-width |480px) (:position :fixed) (:opacity 0.12) (:right 0) (:top |10vh)
             div $ {} $ :class-name (str-spaced |tile style-bg)
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ []
+          :schema $ quote $ Fn (-> respo.schema/Component)
         'comp-compare-section $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-compare-section ()
             div
@@ -92,8 +89,7 @@
                   {} $ :class-name $ str-spaced style-compare-cell style-compare-good
                   <> "|默认严格检查, 定义可附带测试"
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ []
+          :schema $ quote $ Fn (-> respo.schema/Component)
         'comp-container $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-container (reel)
             let
@@ -116,7 +112,7 @@
                         snippet-states $ >> states :snippets
                         snippet-cursor $ decode-map-as
                           .unwrap $ get snippet-states :cursor
-                          :: 'List 'Tag
+                          quote $ List Tag
                         snippet-selection $ decode-map-as
                           .unwrap-or (get snippet-states :data) :match
                           , 'Tag
@@ -125,10 +121,11 @@
                   comp-ecosystem
                   comp-deep-read
                   comp-footer
-                when dev? $ comp-typed-reel (>> states :reel) reel $ {}
+                , & $ if dev?
+                  [] $ comp-typed-reel (>> states :reel) reel $ {}
+                  []
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] $ :: 'reel.typed/State 'app.schema/Op 'app.schema/Store
+          :schema $ quote $ Fn (reel.typed/State app.schema/Op app.schema/Store) (-> respo.schema/Component)
         'comp-deep-read $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-deep-read ()
             div
@@ -139,21 +136,16 @@
                   {} $ :style $ {} (:cursor :pointer) (:font-weight |700) (:margin-bottom |16px)
                   <> "|展开: 安装与运行、类型推断、目标平台"
                 comp-md-block (inline-content! |content/intro.md)
-                  {} (:class-name |)
-                    :highlight $ fn (code lang)
-                      str $ cirru-color/generateHtml code
+                  {} $ :class-name |
               =< nil 16
               create-element :details ({})
                 create-element :summary
                   {} $ :style $ {} (:cursor :pointer) (:font-weight |700) (:margin-bottom |16px)
                   <> "|展开: 结构化源码与 AI Agent 完整流程"
                 comp-md-block (inline-content! |content/cirru.md)
-                  {} (:class-name |)
-                    :highlight $ fn (code lang)
-                      str $ cirru-color/generateHtml code
+                  {} $ :class-name |
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ []
+          :schema $ quote $ Fn (-> respo.schema/Component)
         'comp-ecosystem $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-ecosystem ()
             div
@@ -172,8 +164,7 @@
                         -> links $ map-indexed $ fn (idx link)
                           [] idx $ comp-link link
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ []
+          :schema $ quote $ Fn (-> respo.schema/Component)
         'comp-footer $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-footer ()
             div
@@ -184,8 +175,7 @@
               div ({}) (add-link |GitHub |https://github.com/calcit-lang/) (=< 16 nil)
                 add-link |Discussions |https://github.com/calcit-lang/calcit/discussions
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ []
+          :schema $ quote $ Fn (-> respo.schema/Component)
         'comp-hero $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-hero ()
             div
@@ -229,20 +219,19 @@
                   {} $ :class-name style-install
                   <> "|cargo install calcit --locked && cargo install calcit-caps"
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ []
+          :schema $ quote $ Fn (-> respo.schema/Component)
         'comp-link $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-link (link)
             match link $
               :link title sub-title url
               div ({})
                 a $ {} (:href url) (:inner-text title) (:target |_blank) (:class-name style-display-link)
-                if (not= sub-title |) (=< 8 nil)
-                if (not= sub-title |)
-                  <> sub-title $ str-spaced css/font-fancy style-sub-title
+                , & $ if (not= sub-title |)
+                  [] (=< 8 nil)
+                    <> sub-title $ str-spaced css/font-fancy style-sub-title
+                  []
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] 'app.schema/DocLink
+          :schema $ quote $ Fn app.schema/DocLink (-> respo.schema/Component)
         'comp-nav $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-nav ()
             div
@@ -264,8 +253,7 @@
                 a $ {} (:inner-text "|生态") (:href |#ecosystem) (:class-name style-nav-link)
                 a $ {} (:inner-text |GitHub) (:href |https://github.com/calcit-lang/calcit/) (:target |_blank) (:class-name style-nav-link)
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ []
+          :schema $ quote $ Fn (-> respo.schema/Component)
         'comp-pillars $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-pillars ()
             div
@@ -295,8 +283,7 @@
                   {} $ :class-name style-feature-content
                   <> "|check、test、docs check-md 与 fix 构成闭环, 文档示例也会被执行。"
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ []
+          :schema $ quote $ Fn (-> respo.schema/Component)
         'comp-promotions $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-promotions ()
             div
@@ -321,8 +308,7 @@
                     open-window! |https://repo.calcit-lang.org/calcit/docs/CalcitAgent.md |_blank
                     , &unit
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ []
+          :schema $ quote $ Fn (-> respo.schema/Component)
         'comp-section-head $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-section-head (title lead)
             div ({})
@@ -333,31 +319,25 @@
                 {} $ :class-name style-section-lead
                 <> lead
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] 'String 'String
+          :schema $ quote $ Fn String String (-> respo.schema/Component)
         'comp-snippet-demo $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-snippet-demo (cursor state)
             div
               {} (:class-name css/row)
                 :style $ {} $ :flex-wrap :wrap
               comp-tabs
-                ui-schema/make-tabs-options state (Option :some true) (Option :none)
-                  Option :some $ {} (:margin-top 20) (:padding "|0 8px") (:min-width 160)
+                ui-schema/TabsOptions :selected (Option :some state) :vertical? (Option :some true) :style $ Option :some $ {} (:margin-top 20) (:padding "|0 8px") (:min-width 160)
                 [] (%:: ui-schema/TabRoute :tab :match "|Pattern matching") (%:: ui-schema/TabRoute :tab :component |Component) (%:: ui-schema/TabRoute :tab :persistent-data "|Persistent data") (%:: ui-schema/TabRoute :tab :pipeline "|Pipeline macro")
                 fn (info d!)
-                  hint-fn $ {}
-                    :args $ [] (:: 'respo-ui.schema/TabRoute 'Tag)
-                      :: 'Fn $ {}
-                        :args $ [] 'app.schema/Op
-                        :return 'Unit
-                    :return 'Unit
+                  hint-fn $ Fn (respo-ui.schema/TabRoute Tag)
+                    Fn app.schema/Op $ -> Unit
+                    -> Unit
                   match info $
                     :tab value display
                     d! $ app.schema/Op :states cursor value
               comp-cirru-snippet $ trim $ pick-demo state
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] (:: 'List 'Tag) 'Tag
+          :schema $ quote $ Fn (List Tag) Tag (-> respo.schema/Component)
         'comp-start-section $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-start-section ()
             div
@@ -372,8 +352,7 @@
                   comp-step |4 "|结构化修改" "|用 calcit query、tree、edit 改 calcit.cirru, 再 --check-only 与 calcit test 验证。"
                 comp-terminal "|$ ls\ncalcit.cirru  deps.cirru  package.json\n\n$ caps --ci\n$ calcit --check-only\n✓ Check passed\n\n$ calcit          # run :entries.default once\n$ calcit js       # emit ES Modules to js-out/\n$ calcit -w       # watch and hot reload"
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ []
+          :schema $ quote $ Fn (-> respo.schema/Component)
         'comp-step $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-step (idx title text)
             div
@@ -390,8 +369,7 @@
                   {} $ :class-name style-feature-content
                   <> text
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] 'String 'String 'String
+          :schema $ quote $ Fn String String String (-> respo.schema/Component)
         'comp-step-card $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-step-card (idx title text)
             div
@@ -406,14 +384,12 @@
                 {} $ :class-name style-feature-content
                 <> text
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] 'String 'String 'String
+          :schema $ quote $ Fn String String String (-> respo.schema/Component)
         'comp-terminal $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-terminal (text)
             pre $ {} (:class-name style-terminal) (:inner-text text)
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] 'String
+          :schema $ quote $ Fn String (-> respo.schema/Component)
         'comp-types-section $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-types-section ()
             div
@@ -422,13 +398,12 @@
               div
                 {} $ :class-name style-two-col
                 div ({})
-                  comp-terminal "|defn add-one (n) (+ n 1)\n; schema: Fn (Number) -> Number\n\ndefn main! ()\n  println $ add-one |hello"
+                  comp-terminal "|defn add-one (n)\n  hint-fn $ Fn Number (-> Number)\n  + n 1\n\ndefn main! ()\n  println $ add-one |hello"
                   =< nil 12
                   comp-terminal "|$ calcit --check-only\n[W_FN_ARG_TYPE_MISMATCH] Function `app.main/add-one`\n  arg 1 expects type `:number`, but got `:string`\n  Expression: `app.main/add-one |hello`\n  @app.main/main! @3.1"
                 div ({}) (comp-step |A "|名义 Struct / Enum" "|领域数据有明确字段与变体, match 做穷尽检查。") (comp-step |B "|Option / Result" "|缺失与失败留在容器里, 用方法组合, 不靠 nil 传播。") (comp-step |C "|Dynamic 只在边界" "|JS FFI 与外部数据显式声明为开放值, 用解码器验证后再使用。") (comp-step |D "|诊断带证据" "|错误码、期望类型、实际类型和 AST 路径都在输出里, Agent 按证据修复。")
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ []
+          :schema $ quote $ Fn (-> respo.schema/Component)
         'comp-visual $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-visual ()
             div ({})
@@ -438,54 +413,49 @@
                 img $ {} (:class-name style-editor-img)
                   :src |https://cos-sh.tiye.me/cos-up/00c992c3061ed59d8c7d533b7a31433b-calcit-editor.png
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ []
+          :schema $ quote $ Fn (-> respo.schema/Component)
         'demo-component $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def demo-component (inline-content! |content/demo/comp.cirru)
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'demo-match $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def demo-match (inline-content! |content/demo/match.cirru)
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'demo-persistent-data $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def demo-persistent-data (inline-content! |content/demo/persistent-data.cirru)
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'demo-pipeline $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def demo-pipeline (inline-content! |content/demo/pipeline.cirru)
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'inline-content! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defmacro inline-content! (path)
             read-file $ str path
           :examples $ []
-          :schema $ :: 'Macro $ {}
-            :capabilities $ #{} :fs-read
-            :expansion $ :: 'Expr 'String
-            :required $ [] $ :: 'Expr 'String
+          :schema $ quote $ Macro (Expr String)
+            -> $ Expr String
+            :capabilities :fs-read
         'open-window! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn open-window! (url target) (js/window.open url target) &unit
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] 'String 'String
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn String String (-> Unit) (:features :js-ffi)
         'pick-demo $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn pick-demo (k)
             match k (:match demo-match) (:pipeline demo-pipeline) (:component demo-component) (:persistent-data demo-persistent-data) (_ demo-match)
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'String)
-            :args $ [] 'Tag
+          :schema $ quote $ Fn Tag (-> String)
         'style-bg $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-bg
             {} $ |& $ {} (:width |100vw) (:z-index |-10) (:position :fixed) (:opacity |0.5)
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-cards-containers $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-cards-containers
             {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(min(300px, 100%), 1fr))") (:gap |20px) (:margin "|32px 0")
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-chip $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-chip
             {} $ |& $ {} (:display :inline-flex) (:align-items :center) (:gap |8px) (:padding "|6px 14px") (:border-radius |999px) (:font-size |13px) (:font-weight |600)
@@ -493,64 +463,64 @@
               :background-color $ hsl 0 0 100 0.7
               :border $ str "|1px solid " $ hsl 225 70 84
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-columns $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-columns
             {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(min(240px, 100%), 1fr))") (:gap |12px)
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-compare $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-compare
             {} $ |& $ {} (:display :grid) (:grid-template-columns "|minmax(56px, 96px) 1fr 1fr") (:border-radius |16px) (:overflow :hidden)
               :border $ str "|1px solid " $ hsl 225 60 86
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-compare-cell $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-compare-cell
             {} $ |& $ {} (:padding "|14px 18px") (:font-size |15px) (:line-height |1.6)
               :border-top $ str "|1px solid " $ hsl 225 60 90
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-compare-good $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-compare-good
             {} $ |& $ {}
               :background-color $ hsl 228 90 98
               :color $ hsl 230 50 25
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-compare-head $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-compare-head
             {} $ |& $ {} (:padding "|12px 18px") (:font-weight |700) (:font-size |14px)
               :background-color $ hsl 228 80 96
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-compare-plain $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-compare-plain
             {} $ |& $ {}
               :color $ hsl 0 0 45
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-content $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-content
             {} $ |& $ {} (:margin "|0 auto") (:max-width |1200px) (:padding "|0 clamp(16px, 4vw, 40px)")
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-display-link $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-display-link
             {} $ |& $ {} (:text-decoration :none)
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-editor-img $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-editor-img
             {} $ |& $ {} (:max-width "|min(100%, 720px)") (:margin :auto)
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-eyebrow $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-eyebrow
             {} $ |& $ {} (:font-size |13px) (:letter-spacing |3px) (:text-transform :uppercase) (:font-weight |600)
               :color $ hsl 240 70 60
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-feature $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-feature
             {}
@@ -565,7 +535,7 @@
               |&:hover $ {} $ :box-shadow
                 str "|1px 2px 4px " $ hsl 0 0 0 0.2
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-feature-content $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-feature-content
             {} $ |& $ {} (:line-height |1.7) (:font-size |15px)
@@ -573,47 +543,47 @@
               ; :font-family ui/font-fancy
               :font-weight 100
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-feature-title $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-feature-title
             {} $ |& $ {} (:font-size |16px) (:font-weight |900)
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-footer $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-footer
             {} $ |& $ {} (:margin-top |96px) (:padding "|24px 0 48px") (:font-size |14px)
               :border-top $ str "|1px solid " $ hsl 0 0 90
               :color $ hsl 0 0 45
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-hero $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-hero
             {} $ |& $ {} (:padding "|72px 0 40px") (:display :flex) (:flex-direction :column) (:align-items :center) (:text-align :center) (:gap |16px)
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-hero-tagline $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-hero-tagline
             {} $ |& $ {} (:font-size |22px) (:line-height |1.4) (:font-weight |600)
               :color $ hsl 240 50 40
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-hero-title $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-hero-title
             {} $ |& $ {} (:font-size "|clamp(34px, 5vw, 54px)") (:line-height |1.12) (:letter-spacing |-1.2px) (:font-weight |800) (:margin "|14px 0 18px")
               :color $ hsl 230 45 18
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-hero2 $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-hero2
             {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(min(420px, 100%), 1fr))") (:gap |48px) (:align-items :center) (:padding "|72px 0 24px")
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-install $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-install
             {} $ |& $ {} (:font-family "|Menlo, Consolas, monospace") (:font-size |14px) (:padding "|10px 20px") (:border-radius |8px) (:color :white)
               :background-color $ hsl 230 25 16
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-main-button $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-main-button
             {}
@@ -627,12 +597,12 @@
               |button&:active $ {} (:color :white)
                 :background-color $ hsl 220 80 70
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-main-title $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-main-title
             {} $ |& $ {} (:font-size |32px) (:line-height |1.2) (:letter-spacing |-0.5px) (:font-family "|Federo, cursive")
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-nav $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-nav
             {} $ |& $ {} (:position :sticky) (:top 12) (:z-index 20) (:display :flex) (:align-items :center) (:justify-content :space-between) (:padding "|8px 16px") (:margin-top |12px) (:gap |16px) (:flex-wrap :wrap) (:border-radius |16px)
@@ -641,35 +611,35 @@
               :border $ str "|1px solid " $ hsl 225 80 80 0.35
               :box-shadow "|0 4px 20px hsla(225,60%,50%,0.12)"
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-nav-brand $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-nav-brand
             {} $ |& $ {} (:font-family "|Federo, cursive") (:font-size |20px)
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-nav-link $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-nav-link
             {} $ |& $ {} (:text-decoration :none) (:font-size |14px) (:padding "|4px 10px") (:border-radius |8px)
               :color $ hsl 0 0 30
               :hover $ {} $ :background-color (hsl 240 60 95)
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-pillars $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-pillars
             {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(260px, 1fr))") (:gap |20px) (:margin-top |56px)
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-promo-button $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-promo-button
             {} $ |& $ {} (:line-height |40px) (:border-radius |24px) (:padding "|0 24px") (:font-size |15px) (; :font-family "|Federo, cursive")
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-secondary-title $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-secondary-title
             {} $ |& $ {} (:font-size |16px) (:line-height |1.6)
               :color $ hsl 0 0 40
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-section $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-section
             {} $ |& $ {} (:margin "|40px 0 0") (:padding "|clamp(24px, 4vw, 40px) clamp(18px, 4vw, 44px)") (:border-radius |24px)
@@ -678,60 +648,60 @@
               :border $ str "|1px solid " $ hsl 225 70 86 0.7
               :box-shadow "|0 12px 40px hsla(225,60%,40%,0.08)"
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-section-lead $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-section-lead
             {} $ |& $ {} (:font-size |16px) (:line-height |1.7) (:max-width |760px) (:margin-bottom |24px)
               :color $ hsl 0 0 38
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-section-title $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-section-title
             {} $ |& $ {} (:font-size |26px) (:font-weight |700) (:letter-spacing |-0.3px) (:margin-bottom |8px)
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-step-badge $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-step-badge
             {} $ |& $ {} (:width |28px) (:height |28px) (:border-radius |14px) (:display :flex) (:align-items :center) (:justify-content :center) (:font-weight |700) (:color :white) (:flex-shrink 0)
               :background-color $ hsl 240 90 76
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-step-card $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-step-card
             {} $ |& $ {} (:padding "|18px 20px") (:border-radius |16px) (:position :relative)
               :background-color $ hsl 228 90 97
               :border $ str "|1px solid " $ hsl 225 70 88
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-step-num $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-step-num
             {} $ |& $ {} (:font-family "|Federo, cursive") (:font-size |30px) (:line-height |1) (:margin-bottom |10px)
               :color $ hsl 240 80 68
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-sub-title $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-sub-title
             {} $ |& $ {}
               :color $ hsl 0 0 50
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-terminal $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-terminal
             {} $ |& $ {} (:font-family "|Menlo, Consolas, monospace") (:font-size |13px) (:line-height |1.7) (:padding "|16px 20px") (:border-radius |12px) (:margin 0) (:overflow-x :auto) (:white-space :pre) (:color :white)
               :background-color $ hsl 230 25 14
               :box-shadow "|0 8px 24px hsla(230,40%,20%,0.18)"
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-timeline $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-timeline
             {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(210px, 1fr))") (:gap |16px) (:margin-bottom |24px)
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
         'style-two-col $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstyle style-two-col
             {} $ |& $ {} (:display :grid) (:grid-template-columns "|repeat(auto-fit, minmax(min(340px, 100%), 1fr))") (:gap |24px) (:align-items :start)
           :examples $ []
-          :schema $ :: 'String
+          :schema $ quote String
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.comp.container
           :require (respo-ui.core :as ui)
@@ -741,7 +711,6 @@
             reel.comp.reel :refer $ comp-typed-reel
             respo-md.comp.md :refer $ comp-md comp-md-block
             app.config :refer $ dev?
-            |cirru-color :as cirru-color
             respo.css :refer $ defstyle
             respo-ui.css :as css
             app.schema :refer $ doc-features doc-columns
@@ -752,22 +721,21 @@
         'cdn? $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def cdn? (detect-cdn?)
           :examples $ []
-          :schema $ :: 'Bool
+          :schema $ quote Bool
         'detect-cdn? $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn detect-cdn? ()
             = |true $ .unwrap-or (get-env |cdn) |false
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Bool)
-            :args $ []
+          :schema $ quote $ Fn (-> Bool)
         'dev? $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def dev? true
           :examples $ []
-          :schema $ :: 'Bool
+          :schema $ quote Bool
         'site $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def site
             app.schema/SiteConfig :dev-ui |http://localhost:8100/main-fonts.css :release-ui |https://cdn.tiye.me/favored-fonts/main-fonts.css :cdn-url |https://cdn.tiye.me/calcit-workflow/ :title |Calcit :icon |https://cdn.tiye.me/logo/mvc-works.png :storage-key |workflow
           :examples $ []
-          :schema $ :: 'app.schema/SiteConfig
+          :schema $ quote app.schema/SiteConfig
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.config
     'app.main $ %{} 'FileEntry
@@ -775,7 +743,7 @@
         '*reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defref *reel (typed/new-reel schema/store)
           :examples $ []
-          :schema $ :: 'Ref $ :: 'reel.typed/State 'app.schema/Op 'app.schema/Store
+          :schema $ quote $ Ref (reel.typed/State app.schema/Op app.schema/Store)
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             when config/dev? $ println |Dispatch: op
@@ -794,9 +762,7 @@
                   :timestamp $ shared/date-now-snapshot
             , &unit
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] 'Enum
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn Enum (-> Unit) (:features :js-ffi)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             println "|Running mode:" $ if config/dev? |dev |release
@@ -812,27 +778,21 @@
             println "|App started."
             println "|@@@@@@@@@@@@@@@@\n@\n@  Well, code is not minified on purpose~\n@\n@   although it's still bundled with Vite.\n@\n@@@@@@@@@@@@@@@@"
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn mount-target ()
             match (respo-dom/query-selector |.app)
               (:some element) element
               (:none) (raise |Missing-app-element)
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.dom/DomElement)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> respo.dom/DomElement) (:features :js-ffi)
         'persist-storage! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn persist-storage! ()
             browser/storage-set! (:storage-key config/site)
               format-cirru-edn $ :store @*reel
             , &unit
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! ()
             if (nil? build-errors)
@@ -843,33 +803,27 @@
               hud! |error build-errors
             , &unit
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
             render! (mount-target) (comp-container @*reel)
               fn (op)
                 if (enum? op) (dispatch! op) (raise |Expected-operation)
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'repeat! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn repeat! (duration cb)
             browser/set-interval! cb $ * 1000 duration
             , &unit
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] 'Number $ :: 'Fn
-              {} (:return 'Unit)
-                :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn Number
+            Fn $ -> Unit
+            -> Unit
+            :features :js-ffi
         'snippets $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn snippets () (println config/cdn?)
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
+          :schema $ quote $ Fn (-> Unit)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.main
           :require
@@ -877,7 +831,7 @@
             app.comp.container :refer $ comp-container
             app.updater :refer $ updater
             app.schema :as schema
-            reel.util :refer $ listen-devtools! generate-id!
+            reel.util :refer $ listen-devtools!
             reel.typed :as typed
             app.config :as config
             js-ffi.browser :as browser
@@ -889,20 +843,22 @@
       :defs $ {}
         'DocColumn $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum DocColumn
-            :column 'String $ :: 'List 'app.schema/DocLink
+            :column 'String $ quote $ List app.schema/DocLink
           :examples $ []
-          :schema $ :: 'EnumDef
+          :schema $ quote EnumDef
         'DocFeature $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum DocFeature (:feature 'String 'String)
           :examples $ []
-          :schema $ :: 'EnumDef
+          :schema $ quote EnumDef
         'DocLink $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum DocLink (:link 'String 'String 'String)
           :examples $ []
-          :schema $ :: 'EnumDef
+          :schema $ quote EnumDef
         'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum Op
-            :states (:: 'List 'Dynamic) 'Dynamic
+            :states
+              quote $ List Dynamic
+              , 'Dynamic
             :hydrate-storage 'app.schema/Store
             :reel/toggle
             :reel/recall 'Number
@@ -912,16 +868,16 @@
             :reel/run
             :reel/remove 'Number
           :examples $ []
-          :schema $ :: 'EnumDef
+          :schema $ quote EnumDef
         'SiteConfig $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct SiteConfig (:dev-ui 'String) (:release-ui 'String) (:cdn-url 'String) (:title 'String) (:icon 'String) (:storage-key 'String)
           :examples $ []
-          :schema $ :: 'StructDef
+          :schema $ quote StructDef
         'Store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Store
-            :states $ :: 'Map 'Dynamic 'Dynamic
+            :states $ quote $ Map Dynamic Dynamic
           :examples $ []
-          :schema $ :: 'StructDef
+          :schema $ quote StructDef
         'decode-store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn decode-store (data)
             if
@@ -929,14 +885,14 @@
               match (get data :states)
                 (:some states)
                   if (map? states)
-                    Option :some $ Store :states $ decode-map-as states (:: 'Map 'Dynamic 'Dynamic)
+                    Option :some $ Store :states $ decode-map-as states
+                      quote $ Map Dynamic Dynamic
                     Option :none
                 (:none) (Option :none)
               Option :none
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :args $ [] 'Dynamic
-            :return $ :: 'calcit.core/Option 'app.schema/Store
+          :schema $ quote $ Fn Dynamic
+            -> $ calcit.core/Option app.schema/Store
         'doc-columns $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def doc-columns
             []
@@ -950,7 +906,7 @@
                 DocLink :link "|IR viewer" | |https://github.com/calcit-lang/calcit-ir-viewer
               DocColumn :column "|视频" $ [] (DocLink :link "|命令行接入 AI 代码生成的探索" | |https://www.bilibili.com/video/BV1Rbv6BtE48/) (DocLink :link "|更新记录: Traits" | |https://www.bilibili.com/video/BV1JWF9ziEpc/) (DocLink :link "|更新记录: 类型标注相关的思考" | |https://www.bilibili.com/video/BV18DzDBZExw/)
           :examples $ []
-          :schema $ :: 'List 'app.schema/DocColumn
+          :schema $ quote $ List app.schema/DocColumn
         'doc-features $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def doc-features
             []
@@ -963,12 +919,12 @@
               DocFeature :feature "|热更新友好" "|watch 模式重新编译并调用显式的 reload 函数, 在开发 Respo 等应用时保留状态。"
               DocFeature :feature "|文档同样可验证" "|docs check-md 会执行文档里的 Cirru 示例, calcit docs 可从命令行查询语言与模块文档。"
           :examples $ []
-          :schema $ :: 'List 'app.schema/DocFeature
+          :schema $ quote $ List app.schema/DocFeature
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             Store :states $ {} $ :cursor ([])
           :examples $ []
-          :schema $ :: 'app.schema/Store
+          :schema $ quote app.schema/Store
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.schema
     'app.updater $ %{} 'FileEntry
@@ -979,12 +935,11 @@
               (:states cursor data)
                 assoc store :states $ decode-map-as
                   update-state-tree (:states store) cursor data
-                  :: 'Map 'Dynamic 'Dynamic
+                  quote $ Map Dynamic Dynamic
               (:hydrate-storage data) data
               _ store
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'app.schema/Store)
-            :args $ [] 'app.schema/Store 'app.schema/Op 'String 'Number
+          :schema $ quote $ Fn app.schema/Store app.schema/Op String Number (-> app.schema/Store)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.updater
           :require $ respo.cursor :refer $ update-state-tree
