@@ -39,34 +39,36 @@
 | calcit-lang/calcit_wasmtime  | ![](https://img.shields.io/github/v/release/calcit-lang/calcit_wasmtime)  |
 | calcit-lang/calcit-graphviz  | ![](https://img.shields.io/github/v/release/calcit-lang/calcit-graphviz)  |
 
-### 开发与验收
+### 使用者影响与开发
 
-使用正式 Calcit/`@calcit/procs` **0.30.1**、Node **24**、Yarn **4.18.0**。先确认 `calcit --version` 与 `deps.cirru` 匹配，再运行：
+工具链配对正式 **Calcit / @calcit/procs 0.32.1**、Caps 0.1.1、Node 24 和 Yarn 4.18.0。升级后重装依赖、重新生成 JS、重启开发服务并刷新页面。正文安装版本与首页类型示例也对应 0.32.1；类型错误示例使用实际的 `hint-fn $ Fn Number (-> Number)`。
+
+正文使用 Markdown 模块的默认渲染：Cirru 代码仍高亮，bash 命令按原文展示，尖括号占位符不再被旧自定义高亮器当成 HTML。链接、副标题、四个 snippet 标签、Store/Op、状态树和热更新 HUD 保留。无副标题或生产环境无开发面板时不增加占位 DOM。
 
 ```bash
 caps --strict --ci
 yarn install --immutable
-calcit --check-only
+caps verify --toolchain
+calcit --check-only --all-defs
 calcit fix --workflow strict --verify
 yarn test
 yarn build
 yarn dev
 ```
 
-`yarn test` 执行正文中的 Cirru 示例，重新生成 JavaScript，再运行原有状态树回归测试；`yarn build` 编译并打包。`yarn dev` 初始编译后启动 Vite；结构化源码的实时编译可在另一终端运行 `calcit js -w`。不要用本机 alpha 编译器替代稳定版，也不要通过 `--compat-types` 隐藏版本错配。
+`yarn test` 执行两篇正文的 Cirru 示例、生成 JavaScript、运行原 5 项状态树/完整正文渲染/四个标签真实回调测试。开发时可另开终端运行 `calcit js -w`。CLI 必须来自项目固定的正式版本，不能仅凭本地 main 二进制打印相同版本号就视为已配对；不使用兼容开关绕过门禁。
 
-Markdown 使用正式版本 **0.4.58**，Reel **0.6.39**、UI **0.7.41**、Respo **0.16.122**、js-ffi **0.2.3** 保持一致的正式依赖图，不固定到提交 hash。现有回归文件保留两篇完整正文的 HTML 渲染和全部 snippet tab 的真实点击回调检查，并覆盖旧 Map/具名 Store 的状态恢复。
+真实发布模块为 Markdown 0.5.0、Reel 0.7.0、UI 0.9.0、Respo 0.17.1、js-ffi 0.2.9；传递 Router 保留已发布 0.9.0-alpha.4。新解析 npm 包至少发布60分钟，无单包例外，原锁文件按 immutable 安装。
 
-生态链接和功能条目使用具名 Enum 约束内容，文案、链接和排列不变。状态树更新与事件入口在运行时解码，不依靠强断言；异构 UI 状态仍保留真实 Dynamic 边界。缺失 `.app` 容器会明确报错，热更新保持原通知行为并显式返回 Unit。
+官方 formatter 转换 7 处旧类型形式；TabsOptions 改为当前构造，原参数/默认值和标签回调不变。删除失效且被核心同名函数遮蔽的 Reel generate-id! 导入。条件子节点用列表展开表达空集合，不新增空元素或 nil/类型强转。仅维护 calcit.cirru/deps.cirru，生成目录不提交；原类型门禁、零 unsafe 和原测试保留，不增加检查脚本或质量预算。
 
-CI 保留 Snapshot 格式、all-defs 检查、零弃用调用、文档示例、状态树测试和实际构建，增加完整 strict 与零 unsafe 门禁。COS 生产路径为 `calcit-lang/calcit-lang.org/`，PR 预览为其下的 `pr/<number>/<run-id>/<attempt>/`，预览与生产分开串行上传。PR 构建成功不等于生产部署完成，也不替代浏览器验收。
+原自动存档代码仍是注释，不在升级时启用；保留现有显式存储函数和原 Map/Store 解码，测试通过不代表新增了刷新自动恢复。页面验收不操作真实存档、账户或剪贴板。
 
-上传使用 COS Action 1.2.0 的内置公开 URL 校验，不另外维护上传验证脚本。
-待运行上传通过 `queue: max` 保留；main 发布前只读一次最新 HEAD，过期运行跳过 COS 和服务器部署。
-原生产路径及所有源码/文档/测试门禁保留。应用使用具名 Store/Op 和 typed Reel，
-DOM 查询经过 Element 边界收窄，snippet 状态在运行时解码；不会用类型断言代替外部数据验证。
+### 前端部署
 
-剩余三处 Option helper 调用已统一为 `.unwrap` / `.unwrap-or` 方法：CDN 环境开关和 snippet 的 cursor/selection 读取保持原参数、默认值、缺值失败及后续解码。此次不改正文示例、页面内容、状态协议、存档恢复顺序或依赖版本，也不将生成代码中的 JS 运行时实现名当作应用源码迁移目标。
+COS 生产路径仍为 `calcit-lang/calcit-lang.org/`，PR 使用独立 `pr/<number>/<run-id>/<attempt>/` 前缀，仅上传 dist。沿用 COS Action 1.2.0 自带 verify，不叠加校验脚本。原 main HEAD 过期检查、串行队列和 main-only rsync 目录保持，不改后端或生产路径。
+
+Action 使用与原已审查 SHA 对应的精确正式 tag，按既定要求接受 tag 可移动风险；原最小权限、同仓库凭据条件保持，不增加安全忽略配置。PR 构建或预览不等于生产部署，不替代实际页面验收。
 
 - [Respo Calcit Workflow](https://github.com/calcit-lang/respo-calcit-workflow)：浏览器应用起点
 - [Calcium Workflow](https://github.com/Cumulo/calcium-workflow)：状态同步应用参考
