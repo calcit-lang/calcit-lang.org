@@ -45,7 +45,7 @@
 
 ### 使用者影响与开发
 
-工具链配对正式 **Calcit / @calcit/procs 0.32.1**、Caps 0.1.1、Node 24 和 Yarn 4.18.0。升级后重装依赖、重新生成 JS、重启开发服务并刷新页面。正文安装版本与首页类型示例也对应 0.32.1；类型错误示例使用实际的 `hint-fn $ Fn Number (-> Number)`。
+工具链配对正式 **Calcit / @calcit/procs 0.34.1**、Caps 0.1.1、Node 24 和 Yarn 4.18.0。升级后重装依赖、重新生成 JS、重启开发服务并刷新页面。正文安装版本与首页类型示例也对应 0.34.1；类型错误示例使用实际的 `hint-fn $ Fn Number (-> Number)`。
 
 正文使用 Markdown 模块的默认渲染：Cirru 代码仍高亮，bash 命令按原文展示，尖括号占位符不再被旧自定义高亮器当成 HTML。链接、副标题、四个 snippet 标签、Store/Op、状态树和热更新 HUD 保留。无副标题或生产环境无开发面板时不增加占位 DOM。
 
