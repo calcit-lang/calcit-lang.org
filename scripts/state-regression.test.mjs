@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import * as clt from '../js-out/calcit.core.mjs';
-import { store, Op, decode_store } from '../js-out/app.schema.mjs';
+import { store, Op, decode_store, decode_op } from '../js-out/app.schema.mjs';
 import { updater } from '../js-out/app.updater.mjs';
 import { comp_md, comp_md_block } from '../js-out/respo-md.comp.md.mjs';
 import { make_string } from '../js-out/respo.render.html.mjs';
@@ -10,10 +10,16 @@ import { comp_snippet_demo } from '../js-out/app.comp.container.mjs';
 
 const t = clt.init_tags(['states', 'cursor', 'data', 'tabs', 'selected']);
 const field = (v, k) => clt.option_$o_unwrap(clt.get(v, k));
-const op = (cursor, data) => clt._PCT__$o__$o_(Op, t.states, cursor, data);
+const op = (cursor, data) => decode_op(clt._$o__$o_(t.states, cursor, data));
 const data = selected => clt._$n__$M_(t.selected, selected);
 
 test('nested state updates retain the cursor and do not nest another store', () => {
+  const mixed = clt._$L_(t.tabs, '名称', 2);
+  const decoded = op(mixed, false);
+  assert.equal(clt._$e_(clt._$n_enum_$o_nth(decoded, 1), mixed), true);
+  assert.equal(clt._$n_enum_$o_nth(decoded, 2), false);
+  assert.throws(() => op(clt._$L_(true), false), /CursorKey/);
+
   const next = updater(store, op(clt._$L_(t.tabs), data('architecture')), 'tabs', 1);
   const tree = field(next, t.states);
   assert.equal(field(field(field(tree, t.tabs), t.data), t.selected), 'architecture');
