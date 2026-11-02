@@ -1,5 +1,9 @@
 ## Calcit 官网
 
+本轮候选配对 Calcit / JS 运行时 0.34.1，使用 Reel 0.8.0、Respo 0.18.0、UI 0.12.0 和 Markdown 0.5.3。依赖正式发布后重新严格安装、编译前端并刷新页面。
+
+组件状态派发先检查匿名 states 操作，再构造本地 Op；游标仅接受 Tag、字符串和数字。存档状态仍按原字段入口恢复。
+
 官网介绍 Calcit 的结构化源码、名义 `Struct`/`Enum`、traits、方法和 `Option`/`Result`，重点展示人类与 AI Agent 可以实际使用的查询、编辑和验证流程。
 
 `calcit.cirru` 是程序树，只通过 Calcit 结构化命令修改；Markdown 正文在 `content/` 中。生成的 `js-out/` 和 `dist/` 不提交。规范见 [AGENTS.md](AGENTS.md)。

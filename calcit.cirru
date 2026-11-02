@@ -757,7 +757,7 @@
                       match (schema/decode-store data)
                         (:some store) (schema/Op :hydrate-storage store)
                         (:none) (raise |Invalid-persisted-store)
-                    _ $ decode-map-as op 'app.schema/Op
+                    _ $ schema/decode-op op
                   generate-id!
                   :timestamp $ shared/date-now-snapshot
             , &unit
@@ -841,36 +841,53 @@
             respo.ffi.browser :as respo-dom
     'app.schema $ %{} 'FileEntry
       :defs $ {}
+        'CursorKey $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defunion CursorKey Tag String Number
+          :examples $ []
+          :schema $ quote UnionDef
         'DocColumn $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum DocColumn
-            :column 'String $ quote $ List app.schema/DocLink
+            :column String $ quote $ List app.schema/DocLink
           :examples $ []
           :schema $ quote EnumDef
         'DocFeature $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defenum DocFeature (:feature 'String 'String)
+          :code $ quote $ defenum DocFeature (:feature String String)
           :examples $ []
           :schema $ quote EnumDef
         'DocLink $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defenum DocLink (:link 'String 'String 'String)
+          :code $ quote $ defenum DocLink (:link String String String)
           :examples $ []
           :schema $ quote EnumDef
         'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum Op
             :states
-              quote $ List Dynamic
-              , 'Dynamic
-            :hydrate-storage 'app.schema/Store
+              quote $ List app.schema/CursorKey
+              , Dynamic
+            :hydrate-storage app.schema/Store
             :reel/toggle
-            :reel/recall 'Number
+            :reel/recall Number
             :reel/merge
             :reel/reset
             :reel/step
             :reel/run
-            :reel/remove 'Number
+            :reel/remove Number
           :examples $ []
           :schema $ quote EnumDef
+          :tests $ [] $ %{} 'TestEntry (:name |checked-state-cursor)
+            :code $ quote $ let
+                cursor $ [] :tabs "|名称" 2
+              assert= (Op :states cursor false)
+                decode-op $ :: :states cursor false
+              assert |reject-bool-cursor $ try
+                do
+                  decode-op $ :: :states ([] true) false
+                  , false
+                fn (message)
+                  hint-fn $ Fn String $ -> Bool
+                  includes? message |CursorKey
+            :tags $ #{} :unit
         'SiteConfig $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defstruct SiteConfig (:dev-ui 'String) (:release-ui 'String) (:cdn-url 'String) (:title 'String) (:icon 'String) (:storage-key 'String)
+          :code $ quote $ defstruct SiteConfig (:dev-ui String) (:release-ui String) (:cdn-url String) (:title String) (:icon String) (:storage-key String)
           :examples $ []
           :schema $ quote StructDef
         'Store $ %{} 'CodeEntry (:doc |)
@@ -878,6 +895,16 @@
             :states $ quote $ Map Dynamic Dynamic
           :examples $ []
           :schema $ quote StructDef
+        'decode-op $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn decode-op (op)
+            match op
+              (:states cursor data)
+                Op :states
+                  decode-map-as cursor $ quote $ List app.schema/CursorKey
+                  , data
+              _ $ decode-map-as op $ quote app.schema/Op
+          :examples $ []
+          :schema $ quote $ Fn Enum (-> app.schema/Op)
         'decode-store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn decode-store (data)
             if
