@@ -4,10 +4,10 @@ Calcit 是以结构化源码为基础的类型化函数式语言，主要用于 
 
 ## 安装与运行
 
-本网站使用已发布的 Calcit **0.34.1**，对应 `@calcit/procs` **0.34.1**。开发分支可能包含尚未发布的 API 或更严格的规则；升级应用时应同时审阅编译器、运行时和模块版本。
+本网站使用已发布的 Calcit **0.35.1**，对应 `@calcit/procs` **0.35.1**。开发分支可能包含尚未发布的 API 或更严格的规则；升级应用时应同时审阅编译器、运行时和模块版本。
 
 ```bash
-cargo install calcit --version 0.34.1 --locked
+cargo +1.98.1 install calcit --version 0.35.1 --locked
 cargo install calcit-caps --version 0.1.1 --locked
 ```
 

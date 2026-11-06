@@ -112,7 +112,7 @@
                         snippet-states $ >> states :snippets
                         snippet-cursor $ decode-map-as
                           .unwrap $ get snippet-states :cursor
-                          quote $ List Tag
+                          List Tag
                         snippet-selection $ decode-map-as
                           .unwrap-or (get snippet-states :data) :match
                           , 'Tag
@@ -137,7 +137,7 @@
                   <> "|展开: 安装与运行、类型推断、目标平台"
                 comp-md-block (inline-content! |content/intro.md)
                   {} $ :class-name |
-              =< nil 16
+              space-y 16
               create-element :details ({})
                 create-element :summary
                   {} $ :style $ {} (:cursor :pointer) (:font-weight |700) (:margin-bottom |16px)
@@ -172,7 +172,7 @@
                 :class-name $ str-spaced style-footer css/row-parted
                 :style $ {} $ :flex-wrap :wrap
               <> "|Calcit · MIT"
-              div ({}) (add-link |GitHub |https://github.com/calcit-lang/) (=< 16 nil)
+              div ({}) (add-link |GitHub |https://github.com/calcit-lang/) (space-x 16)
                 add-link |Discussions |https://github.com/calcit-lang/calcit/discussions
           :examples $ []
           :schema $ quote $ Fn (-> respo.schema/Component)
@@ -190,7 +190,7 @@
                 div
                   {} $ :class-name style-secondary-title
                   <> "|Calcit 是一门类型化的函数式语言。源码存成可查询的语法树, 类型检查默认严格, 命令行把每次修改变成“查询, 编辑, 验证”的闭环。编译到 JavaScript ES Modules, 也能在 Rust 解释器中运行。"
-                =< nil 20
+                space-y 20
                 div
                   {} (:class-name css/row-middle)
                     :style $ {} (:gap |12px) (:flex-wrap :wrap)
@@ -203,7 +203,7 @@
                     :class-name $ str-spaced css/button style-promo-button
                     :on-click $ fn (e d!) (open-window! |https://repo.calcit-lang.org/guidebook/ |_blank) &unit
                   a $ {} (:inner-text "|GitHub →") (:href |https://github.com/calcit-lang/calcit/) (:target |_blank) (:class-name style-nav-link)
-                =< nil 24
+                space-y 24
                 div
                   {} (:class-name css/row-middle)
                     :style $ {} (:gap |8px) (:flex-wrap :wrap)
@@ -214,7 +214,7 @@
                     :src |https://img.shields.io/github/v/release/calcit-lang/calcit
               div ({})
                 comp-terminal "|$ calcit query defs app.schema\nDefinitions: 7\n  Op  SiteConfig  Store  decode-store  …\n\n$ calcit tree show app.schema/store --path ''\ndef store $ Store :states $ {}\n\n$ calcit --check-only\n✓ Check passed"
-                =< nil 12
+                space-y 12
                 div
                   {} $ :class-name style-install
                   <> "|cargo install calcit --locked && cargo install calcit-caps"
@@ -227,7 +227,7 @@
               div ({})
                 a $ {} (:href url) (:inner-text title) (:target |_blank) (:class-name style-display-link)
                 , & $ if (not= sub-title |)
-                  [] (=< 8 nil)
+                  [] (space-x 8)
                     <> sub-title $ str-spaced css/font-fancy style-sub-title
                   []
           :examples $ []
@@ -292,7 +292,7 @@
               div
                 {} $ :class-name css/row-middle
                 add-link |GitHub |https://github.com/calcit-lang/calcit/
-                =< 8 nil
+                space-x 8
                 img $ {} (:alt |Versions)
                   :src |https://img.shields.io/github/v/release/calcit-lang/calcit
               div
@@ -326,7 +326,9 @@
               {} (:class-name css/row)
                 :style $ {} $ :flex-wrap :wrap
               comp-tabs
-                ui-schema/TabsOptions :selected (Option :some state) :vertical? (Option :some true) :style $ Option :some $ {} (:margin-top 20) (:padding "|0 8px") (:min-width 160)
+                ui-schema/TabsOptions :selected (Option :some state) :vertical? (Option :some true) :style $ Option :some $ decode-map-as
+                  {} (:margin-top 20) (:padding "|0 8px") (:min-width 160)
+                  Map Tag respo-ui.schema/InlineStyleValue
                 [] (%:: ui-schema/TabRoute :tab :match "|Pattern matching") (%:: ui-schema/TabRoute :tab :component |Component) (%:: ui-schema/TabRoute :tab :persistent-data "|Persistent data") (%:: ui-schema/TabRoute :tab :pipeline "|Pipeline macro")
                 fn (info d!)
                   hint-fn $ Fn (respo-ui.schema/TabRoute Tag)
@@ -399,7 +401,7 @@
                 {} $ :class-name style-two-col
                 div ({})
                   comp-terminal "|defn add-one (n)\n  hint-fn $ Fn Number (-> Number)\n  + n 1\n\ndefn main! ()\n  println $ add-one |hello"
-                  =< nil 12
+                  space-y 12
                   comp-terminal "|$ calcit --check-only\n[W_FN_ARG_TYPE_MISMATCH] Function `app.main/add-one`\n  arg 1 expects type `:number`, but got `:string`\n  Expression: `app.main/add-one |hello`\n  @app.main/main! @3.1"
                 div ({}) (comp-step |A "|名义 Struct / Enum" "|领域数据有明确字段与变体, match 做穷尽检查。") (comp-step |B "|Option / Result" "|缺失与失败留在容器里, 用方法组合, 不靠 nil 传播。") (comp-step |C "|Dynamic 只在边界" "|JS FFI 与外部数据显式声明为开放值, 用解码器验证后再使用。") (comp-step |D "|诊断带证据" "|错误码、期望类型、实际类型和 AST 路径都在输出里, Agent 按证据修复。")
           :examples $ []
@@ -707,7 +709,7 @@
           :require (respo-ui.core :as ui)
             respo.util.format :refer $ hsl
             respo.core :refer $ defcomp defeffect <> >> div button textarea span input a body img list-> h2 pre create-element
-            respo.comp.space :refer $ =<
+            respo.comp.space :refer $ space-x space-y
             reel.comp.reel :refer $ comp-typed-reel
             respo-md.comp.md :refer $ comp-md comp-md-block
             app.config :refer $ dev?
@@ -762,7 +764,7 @@
                   :timestamp $ shared/date-now-snapshot
             , &unit
           :examples $ []
-          :schema $ quote $ Fn Enum (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn AnyEnum (-> Unit) (:features :js-ffi)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             println "|Running mode:" $ if config/dev? |dev |release
@@ -847,7 +849,7 @@
           :schema $ quote UnionDef
         'DocColumn $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum DocColumn
-            :column String $ quote $ List app.schema/DocLink
+            :column String $ List app.schema/DocLink
           :examples $ []
           :schema $ quote EnumDef
         'DocFeature $ %{} 'CodeEntry (:doc |)
@@ -860,9 +862,7 @@
           :schema $ quote EnumDef
         'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum Op
-            :states
-              quote $ List app.schema/CursorKey
-              , Dynamic
+            :states (List app.schema/CursorKey) Dynamic
             :hydrate-storage app.schema/Store
             :reel/toggle
             :reel/recall Number
@@ -892,7 +892,7 @@
           :schema $ quote StructDef
         'Store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Store
-            :states $ quote $ Map Dynamic Dynamic
+            :states $ Map Dynamic Dynamic
           :examples $ []
           :schema $ quote StructDef
         'decode-op $ %{} 'CodeEntry (:doc |)
@@ -900,11 +900,11 @@
             match op
               (:states cursor data)
                 Op :states
-                  decode-map-as cursor $ quote $ List app.schema/CursorKey
+                  decode-map-as cursor $ List app.schema/CursorKey
                   , data
               _ $ decode-map-as op $ quote app.schema/Op
           :examples $ []
-          :schema $ quote $ Fn Enum (-> app.schema/Op)
+          :schema $ quote $ Fn AnyEnum (-> app.schema/Op)
         'decode-store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn decode-store (data)
             if
@@ -912,8 +912,7 @@
               match (get data :states)
                 (:some states)
                   if (map? states)
-                    Option :some $ Store :states $ decode-map-as states
-                      quote $ Map Dynamic Dynamic
+                    Option :some $ Store :states $ decode-map-as states (Map Dynamic Dynamic)
                     Option :none
                 (:none) (Option :none)
               Option :none
@@ -962,7 +961,7 @@
               (:states cursor data)
                 assoc store :states $ decode-map-as
                   update-state-tree (:states store) cursor data
-                  quote $ Map Dynamic Dynamic
+                  Map Dynamic Dynamic
               (:hydrate-storage data) data
               _ store
           :examples $ []
