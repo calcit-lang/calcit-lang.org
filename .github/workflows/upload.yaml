@@ -39,7 +39,7 @@ jobs:
       uses: calcit-lang/setup-calcit@v1.5.0
       with:
         tools: calcit,caps
-        version: "0.35.1"
+        version: "0.37.0"
         caps-version: "0.1.1"
 
     - name: Resolve immutable dependencies
@@ -56,7 +56,7 @@ jobs:
         test -f deps.cirru
         test ! -e compact.cirru
         test ! -e package.cirru
-        test "$(calcit --version)" = "0.35.1"
+        test "$(calcit --version)" = "0.37.0"
         calcit edit format
         git diff --exit-code -- calcit.cirru
         calcit calcit.cirru --check-only --all-defs

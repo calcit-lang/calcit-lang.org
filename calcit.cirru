@@ -6,7 +6,7 @@
     {} (:description |) (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!) (:target :browser)
       :feature-policy $ {}
       :modules $ [] |respo.calcit/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/ |js-ffi/
-      :type-slots $ {} $ :dispatch-op |app.schema/Op
+      :type-slots $ {} $ :dispatch-op 'app.schema/DispatchOp
   :files $ {}
     'app.comp.container $ %{} 'FileEntry
       :defs $ {}
@@ -750,21 +750,27 @@
           :code $ quote $ defn dispatch! (op)
             when config/dev? $ println |Dispatch: op
             match (typed/decode-control op)
-              (:some action)
-                reset! *reel $ typed/apply-control updater @*reel action
+              (:some action) (dispatch-resolved! action)
               (:none)
-                reset! *reel $ typed/record-op updater @*reel
-                  match op
-                    (:hydrate-storage data)
-                      match (schema/decode-store data)
-                        (:some store) (schema/Op :hydrate-storage store)
-                        (:none) (raise |Invalid-persisted-store)
-                    _ $ schema/decode-op op
-                  generate-id!
-                  :timestamp $ shared/date-now-snapshot
+                dispatch-resolved! $ match op
+                  (:hydrate-storage data)
+                    match (schema/decode-store data)
+                      (:some store) (schema/Op :hydrate-storage store)
+                      (:none) (raise |Invalid-persisted-store)
+                  _ $ schema/decode-op op
             , &unit
           :examples $ []
           :schema $ quote $ Fn AnyEnum (-> Unit) (:features :js-ffi)
+        'dispatch-resolved! $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn dispatch-resolved! (op)
+            hint-fn $ Fn app.schema/ResolvedOp (-> Unit) (:features :js-ffi)
+            reset! *reel $ match op
+              (reel.typed/Control control) (typed/apply-control updater @*reel control)
+              (app.schema/Op action)
+                typed/record-op updater @*reel action (generate-id!)
+                  :timestamp $ shared/date-now-snapshot
+            , &unit
+          :examples $ []
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             println "|Running mode:" $ if config/dev? |dev |release
@@ -808,8 +814,10 @@
           :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
-            render! (mount-target) (comp-container @*reel)
+            render-with! (mount-target)
+              fn () $ comp-container @*reel
               fn (op)
+                hint-fn $ Fn AnyEnum $ -> Unit
                 if (enum? op) (dispatch! op) (raise |Expected-operation)
           :examples $ []
           :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
@@ -829,7 +837,7 @@
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.main
           :require
-            respo.core :refer $ render! clear-cache! realize-ssr!
+            respo.core :refer $ render-with! clear-cache!
             app.comp.container :refer $ comp-container
             app.updater :refer $ updater
             app.schema :as schema
@@ -847,6 +855,10 @@
           :code $ quote $ defunion CursorKey Tag String Number
           :examples $ []
           :schema $ quote UnionDef
+        'DispatchOp $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ def DispatchOp (:: :unhandled)
+          :examples $ []
+          :schema $ quote AnyEnum
         'DocColumn $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum DocColumn
             :column String $ List app.schema/DocLink
@@ -864,13 +876,6 @@
           :code $ quote $ defenum Op
             :states (List app.schema/CursorKey) Dynamic
             :hydrate-storage app.schema/Store
-            :reel/toggle
-            :reel/recall Number
-            :reel/merge
-            :reel/reset
-            :reel/step
-            :reel/run
-            :reel/remove Number
           :examples $ []
           :schema $ quote EnumDef
           :tests $ [] $ %{} 'TestEntry (:name |checked-state-cursor)
@@ -886,6 +891,10 @@
                   hint-fn $ Fn String $ -> Bool
                   includes? message |CursorKey
             :tags $ #{} :unit
+        'ResolvedOp $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defunion ResolvedOp Op reel.typed/Control
+          :examples $ []
+          :schema $ quote UnionDef
         'SiteConfig $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct SiteConfig (:dev-ui String) (:release-ui String) (:cdn-url String) (:title String) (:icon String) (:storage-key String)
           :examples $ []
