@@ -72,7 +72,7 @@ yarn dev
 
 COS 生产路径仍为 `calcit-lang/calcit-lang.org/`，PR 使用独立 `pr/<number>/<run-id>/<attempt>/` 前缀，仅上传 dist。使用固定到正式 1.3.0 提交的 COS Action 内置校验，不叠加校验脚本。原 main HEAD 过期检查、串行队列和 main-only rsync 目录保持，不改后端或生产路径。
 
-Action 使用与原已审查 SHA 对应的精确正式 tag，按既定要求接受 tag 可移动风险；原最小权限、同仓库凭据条件保持，不增加安全忽略配置。PR 构建或预览不等于生产部署，不替代实际页面验收。
+COS 上传 Action 固定完整提交 SHA，并注明对应的正式版本。Checkout、Node、Calcit 安装和 rsync Action 使用精确发布 tag。工作流保留原最小权限和同仓库凭据条件。
 
 - [Respo Calcit Workflow](https://github.com/calcit-lang/respo-calcit-workflow)：浏览器应用起点
 - [Calcium Workflow](https://github.com/Cumulo/calcium-workflow)：状态同步应用参考
