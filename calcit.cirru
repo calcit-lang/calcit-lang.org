@@ -6,7 +6,7 @@
     {} (:description |) (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!) (:target :browser)
       :feature-policy $ {}
       :modules $ [] |respo.calcit/ |respo-ui.calcit/ |respo-markdown.calcit/ |reel.calcit/ |js-ffi/
-      :type-slots $ {} $ :dispatch-op 'app.schema/DispatchOp
+      :type-slots $ {} $ :dispatch-op 'app.schema/Op
   :files $ {}
     'app.comp.container $ %{} 'FileEntry
       :defs $ {}
@@ -91,7 +91,7 @@
           :examples $ []
           :schema $ quote $ Fn (-> respo.schema/Component)
         'comp-container $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defcomp comp-container (reel)
+          :code $ quote $ defcomp comp-container (reel on-control)
             let
                 store $ :store reel
                 states $ :states store
@@ -122,10 +122,12 @@
                   comp-deep-read
                   comp-footer
                 , & $ if dev?
-                  [] $ comp-typed-reel (>> states :reel) reel $ {}
+                  [] $ comp-typed-reel (>> states :reel) reel ({}) on-control
                   []
           :examples $ []
-          :schema $ quote $ Fn (reel.typed/State app.schema/Op app.schema/Store) (-> respo.schema/Component)
+          :schema $ quote $ Fn (reel.typed/State app.schema/Op app.schema/Store)
+            Fn reel.typed/Control $ -> Unit
+            -> respo.schema/Component
         'comp-deep-read $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-deep-read ()
             div
@@ -746,21 +748,14 @@
           :code $ quote $ defref *reel (typed/new-reel schema/store)
           :examples $ []
           :schema $ quote $ Ref (reel.typed/State app.schema/Op app.schema/Store)
-        'dispatch! $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn dispatch! (op)
-            when config/dev? $ println |Dispatch: op
-            match (typed/decode-control op)
-              (:some action) (dispatch-resolved! action)
-              (:none)
-                dispatch-resolved! $ match op
-                  (:hydrate-storage data)
-                    match (schema/decode-store data)
-                      (:some store) (schema/Op :hydrate-storage store)
-                      (:none) (raise |Invalid-persisted-store)
-                  _ $ schema/decode-op op
-            , &unit
+        'dispatch-control! $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn dispatch-control! (action) (dispatch-resolved! action)
           :examples $ []
-          :schema $ quote $ Fn AnyEnum (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn reel.typed/Control (-> Unit)
+        'dispatch-op! $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn dispatch-op! (op) (dispatch-resolved! op)
+          :examples $ []
+          :schema $ quote $ Fn app.schema/Op (-> Unit)
         'dispatch-resolved! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch-resolved! (op)
             hint-fn $ Fn app.schema/ResolvedOp (-> Unit) (:features :js-ffi)
@@ -771,12 +766,13 @@
                   :timestamp $ shared/date-now-snapshot
             , &unit
           :examples $ []
+          :schema $ quote $ Fn app.schema/ResolvedOp (-> Unit) (:features :js-ffi)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             println "|Running mode:" $ if config/dev? |dev |release
             render-app!
             add-watch! *reel :changes $ fn (reel prev) (render-app!)
-            listen-devtools! |a dispatch!
+            listen-devtools! |a dispatch-control!
             ; .addEventListener js/window |beforeunload $ fn (event) (persist-storage!)
             ; repeat! 60 persist-storage!
             ; let
@@ -815,10 +811,8 @@
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
             render-with! (mount-target)
-              fn () $ comp-container @*reel
-              fn (op)
-                hint-fn $ Fn AnyEnum $ -> Unit
-                if (enum? op) (dispatch! op) (raise |Expected-operation)
+              fn () $ comp-container (deref *reel) dispatch-control!
+              , dispatch-op!
           :examples $ []
           :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'repeat! $ %{} 'CodeEntry (:doc |)
@@ -855,10 +849,6 @@
           :code $ quote $ defunion CursorKey Tag String Number
           :examples $ []
           :schema $ quote UnionDef
-        'DispatchOp $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ def DispatchOp (:: :unhandled)
-          :examples $ []
-          :schema $ quote AnyEnum
         'DocColumn $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum DocColumn
             :column String $ List app.schema/DocLink
