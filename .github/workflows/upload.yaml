@@ -36,10 +36,10 @@ jobs:
         yarn --version
 
     - name: Set up Calcit and Caps
-      uses: calcit-lang/setup-calcit@v1.5.0
+      uses: calcit-lang/setup-calcit@v1.5.1
       with:
         tools: calcit,caps
-        version: "0.37.0"
+        deps-file: deps.cirru
         caps-version: "0.1.1"
 
     - name: Resolve immutable dependencies
@@ -56,7 +56,7 @@ jobs:
         test -f deps.cirru
         test ! -e compact.cirru
         test ! -e package.cirru
-        test "$(calcit --version)" = "0.37.0"
+        test "$(calcit --version)" = "0.38.0"
         calcit edit format
         git diff --exit-code -- calcit.cirru
         calcit calcit.cirru --check-only --all-defs
@@ -126,7 +126,7 @@ jobs:
 
     - name: Upload and verify static assets on COS
       if: steps.deploy-head.outputs.current == 'true' && steps.cos-credentials.outputs.available == 'true'
-      uses: worktools/cos-upload-action@v1.2.0
+      uses: worktools/cos-upload-action@8c4f3d09a4478b0d4c8698ffb94759b41831cba8 # v1.3.0
       with:
         source-dir: dist
         bucket: ${{ secrets.COS_BUCKET }}
