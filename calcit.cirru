@@ -153,18 +153,18 @@
             div
               {} (:class-name style-section) (:id |ecosystem)
               comp-section-head "|生态" "|从这里开始逛。"
-              list->
+              keyed->
                 {} $ :class-name style-columns
                 -> doc-columns $ map-indexed $ fn (idx column)
-                  [] idx $ match column $
+                  keyed-element idx $ match column $
                     :column col-title links
                     div
                       {} $ :class-name style-feature
                       <> col-title style-feature-title
-                      list->
+                      keyed->
                         {} $ :style $ {} (:margin-top 8)
                         -> links $ map-indexed $ fn (idx link)
-                          [] idx $ comp-link link
+                          keyed-component idx $ comp-link link
           :examples $ []
           :schema $ quote $ Fn (-> respo.schema/Component)
         'comp-footer $ %{} 'CodeEntry (:doc |)
@@ -710,7 +710,7 @@
         :code $ quote $ ns app.comp.container
           :require (respo-ui.core :as ui)
             respo.util.format :refer $ hsl
-            respo.core :refer $ defcomp defeffect <> >> div button textarea span input a body img list-> h2 pre create-element
+            respo.core :refer $ defcomp defeffect <> >> div button textarea span input a body img keyed-> keyed-element keyed-component h2 pre create-element
             respo.comp.space :refer $ space-x space-y
             reel.comp.reel :refer $ comp-typed-reel
             respo-md.comp.md :refer $ comp-md comp-md-block
@@ -772,7 +772,7 @@
             println "|Running mode:" $ if config/dev? |dev |release
             render-app!
             add-watch! *reel :changes $ fn (reel prev) (render-app!)
-            listen-devtools! |a dispatch-control!
+            listen-devtools-toggle! |a $ fn () $ dispatch-control! (typed/Control :toggle)
             ; .addEventListener js/window |beforeunload $ fn (event) (persist-storage!)
             ; repeat! 60 persist-storage!
             ; let
@@ -835,7 +835,7 @@
             app.comp.container :refer $ comp-container
             app.updater :refer $ updater
             app.schema :as schema
-            reel.util :refer $ listen-devtools!
+            reel.util :refer $ listen-devtools-toggle!
             reel.typed :as typed
             app.config :as config
             js-ffi.browser :as browser
@@ -872,10 +872,12 @@
             :code $ quote $ let
                 cursor $ [] :tabs "|名称" 2
               assert= (Op :states cursor false)
-                decode-op $ :: :states cursor false
+                Op :states
+                  decode-map-as cursor $ List app.schema/CursorKey
+                  , false
               assert |reject-bool-cursor $ try
                 do
-                  decode-op $ :: :states ([] true) false
+                  decode-map-as ([] true) (List app.schema/CursorKey)
                   , false
                 fn (message)
                   hint-fn $ Fn String $ -> Bool
@@ -894,16 +896,6 @@
             :states $ Map Dynamic Dynamic
           :examples $ []
           :schema $ quote StructDef
-        'decode-op $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn decode-op (op)
-            match op
-              (:states cursor data)
-                Op :states
-                  decode-map-as cursor $ List app.schema/CursorKey
-                  , data
-              _ $ decode-map-as op $ quote app.schema/Op
-          :examples $ []
-          :schema $ quote $ Fn AnyEnum (-> app.schema/Op)
         'decode-store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn decode-store (data)
             if
