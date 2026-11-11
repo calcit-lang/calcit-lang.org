@@ -110,12 +110,8 @@
                     comp-section-head "|语言一瞥" "|不可变数据、模式匹配、管道宏和 Respo 组件。切换标签查看示例。"
                     let
                         snippet-states $ >> states :snippets
-                        snippet-cursor $ decode-map-as
-                          .unwrap $ get snippet-states :cursor
-                          List Tag
-                        snippet-selection $ decode-map-as
-                          .unwrap-or (get snippet-states :data) :match
-                          , 'Tag
+                        snippet-cursor $ decode-map-as (state-cursor snippet-states) (List Tag)
+                        snippet-selection $ pick-state snippet-states Tag :match
                       comp-snippet-demo snippet-cursor snippet-selection
                   comp-start-section
                   comp-ecosystem
@@ -333,12 +329,12 @@
                   Map Tag respo-ui.schema/InlineStyleValue
                 [] (%:: ui-schema/TabRoute :tab :match "|Pattern matching") (%:: ui-schema/TabRoute :tab :component |Component) (%:: ui-schema/TabRoute :tab :persistent-data "|Persistent data") (%:: ui-schema/TabRoute :tab :pipeline "|Pipeline macro")
                 fn (info d!)
-                  hint-fn $ Fn (respo-ui.schema/TabRoute Tag)
+                  hint-fn $ Fn (ui-schema/TabRoute Tag)
                     Fn app.schema/Op $ -> Unit
                     -> Unit
                   match info $
                     :tab value display
-                    d! $ app.schema/Op :states cursor value
+                    d! $ app.schema/Op :select-snippet cursor value
               comp-cirru-snippet $ trim $ pick-demo state
           :examples $ []
           :schema $ quote $ Fn (List Tag) Tag (-> respo.schema/Component)
@@ -710,7 +706,7 @@
         :code $ quote $ ns app.comp.container
           :require (respo-ui.core :as ui)
             respo.util.format :refer $ hsl
-            respo.core :refer $ defcomp defeffect <> >> div button textarea span input a body img keyed-> keyed-element keyed-component h2 pre create-element
+            respo.core :refer $ defcomp defeffect <> >> div button textarea span input a body img keyed-> keyed-element keyed-component h2 pre create-element state-cursor pick-state
             respo.comp.space :refer $ space-x space-y
             reel.comp.reel :refer $ comp-typed-reel
             respo-md.comp.md :refer $ comp-md comp-md-block
@@ -758,7 +754,7 @@
           :schema $ quote $ Fn schema/Op (-> Unit)
         'dispatch-resolved! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch-resolved! (op)
-            hint-fn $ Fn app.schema/ResolvedOp (-> Unit) (:features :js-ffi)
+            hint-fn $ Fn schema/ResolvedOp (-> Unit) (:features :js-ffi)
             reset! *reel $ match op
               (reel.typed/Control control) (typed/apply-control updater @*reel control)
               (app.schema/Op action)
@@ -864,17 +860,17 @@
           :schema $ quote EnumDef
         'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum Op
-            :states (List app.schema/CursorKey) Dynamic
+            :select-snippet (List app.schema/CursorKey) Tag
             :hydrate-storage app.schema/Store
           :examples $ []
           :schema $ quote EnumDef
           :tests $ [] $ %{} 'TestEntry (:name |checked-state-cursor)
             :code $ quote $ let
                 cursor $ [] :tabs "|名称" 2
-              assert= (Op :states cursor false)
-                Op :states
+              assert= (Op :select-snippet cursor :match)
+                Op :select-snippet
                   decode-map-as cursor $ List app.schema/CursorKey
-                  , false
+                  , :match
               assert |reject-bool-cursor $ try
                 do
                   decode-map-as ([] true) (List app.schema/CursorKey)
@@ -949,9 +945,9 @@
         %{} 'CodeEntry (:doc |)
           :code $ quote $ defn updater (store op op-id op-time)
             match op
-              (:states cursor data)
+              (:select-snippet cursor selection)
                 assoc store :states $ decode-map-as
-                  update-state-tree (:states store) cursor data
+                  update-state-tree (:states store) cursor selection
                   Map Dynamic Dynamic
               (:hydrate-storage data) data
               _ store
