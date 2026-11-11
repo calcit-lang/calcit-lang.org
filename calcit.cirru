@@ -328,7 +328,7 @@
               {} (:class-name css/row)
                 :style $ {} $ :flex-wrap :wrap
               comp-tabs
-                ui-schema/TabsOptions :selected (Option :some state) :vertical? (Option :some true) :style $ Option :some $ decode-map-as
+                ui-schema/TabsOptions :selected (Some state) :vertical? (Some true) :style $ Some $ decode-map-as
                   {} (:margin-top 20) (:padding "|0 8px") (:min-width 160)
                   Map Tag respo-ui.schema/InlineStyleValue
                 [] (%:: ui-schema/TabRoute :tab :match "|Pattern matching") (%:: ui-schema/TabRoute :tab :component |Component) (%:: ui-schema/TabRoute :tab :persistent-data "|Persistent data") (%:: ui-schema/TabRoute :tab :pipeline "|Pipeline macro")
@@ -747,15 +747,15 @@
         '*reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defref *reel (typed/new-reel schema/store)
           :examples $ []
-          :schema $ quote $ Ref (reel.typed/State app.schema/Op app.schema/Store)
+          :schema $ quote $ Ref (typed/State schema/Op schema/Store)
         'dispatch-control! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch-control! (action) (dispatch-resolved! action)
           :examples $ []
-          :schema $ quote $ Fn reel.typed/Control (-> Unit)
+          :schema $ quote $ Fn typed/Control (-> Unit)
         'dispatch-op! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch-op! (op) (dispatch-resolved! op)
           :examples $ []
-          :schema $ quote $ Fn app.schema/Op (-> Unit)
+          :schema $ quote $ Fn schema/Op (-> Unit)
         'dispatch-resolved! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch-resolved! (op)
             hint-fn $ Fn app.schema/ResolvedOp (-> Unit) (:features :js-ffi)
@@ -766,7 +766,7 @@
                   :timestamp $ shared/date-now-snapshot
             , &unit
           :examples $ []
-          :schema $ quote $ Fn app.schema/ResolvedOp (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn schema/ResolvedOp (-> Unit) (:features :js-ffi)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             println "|Running mode:" $ if config/dev? |dev |release
@@ -903,13 +903,13 @@
               match (get data :states)
                 (:some states)
                   if (map? states)
-                    Option :some $ Store :states $ decode-map-as states (Map Dynamic Dynamic)
-                    Option :none
-                (:none) (Option :none)
-              Option :none
+                    Some $ Store :states $ decode-map-as states (Map Dynamic Dynamic)
+                    , None
+                (:none) None
+              , None
           :examples $ []
           :schema $ quote $ Fn Dynamic
-            -> $ calcit.core/Option app.schema/Store
+            -> $ Option Store
         'doc-columns $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def doc-columns
             []
@@ -923,7 +923,7 @@
                 DocLink :link "|IR viewer" | |https://github.com/calcit-lang/calcit-ir-viewer
               DocColumn :column "|视频" $ [] (DocLink :link "|命令行接入 AI 代码生成的探索" | |https://www.bilibili.com/video/BV1Rbv6BtE48/) (DocLink :link "|更新记录: Traits" | |https://www.bilibili.com/video/BV1JWF9ziEpc/) (DocLink :link "|更新记录: 类型标注相关的思考" | |https://www.bilibili.com/video/BV18DzDBZExw/)
           :examples $ []
-          :schema $ quote $ List app.schema/DocColumn
+          :schema $ quote $ List DocColumn
         'doc-features $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def doc-features
             []
@@ -936,12 +936,12 @@
               DocFeature :feature "|热更新友好" "|watch 模式重新编译并调用显式的 reload 函数, 在开发 Respo 等应用时保留状态。"
               DocFeature :feature "|文档同样可验证" "|docs check-md 会执行文档里的 Cirru 示例, calcit docs 可从命令行查询语言与模块文档。"
           :examples $ []
-          :schema $ quote $ List app.schema/DocFeature
+          :schema $ quote $ List DocFeature
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             Store :states $ {} $ :cursor ([])
           :examples $ []
-          :schema $ quote app.schema/Store
+          :schema $ quote Store
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.schema
     'app.updater $ %{} 'FileEntry
