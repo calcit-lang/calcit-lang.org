@@ -4,11 +4,11 @@ Calcit 是以结构化源码为基础的类型化函数式语言，主要用于 
 
 ## 安装与运行
 
-本网站使用已发布的 Calcit **0.41.1**，对应 `@calcit/procs` **0.41.1**。开发分支可能包含尚未发布的 API 或更严格的规则；升级应用时应同时审阅编译器、运行时和模块版本。
+本网站使用已发布的 Calcit **0.42.0**，对应 `@calcit/procs` **0.42.0**。开发分支可能包含尚未发布的 API 或更严格的规则；升级应用时应同时审阅编译器、运行时和模块版本。
 
 ```bash
 rustup toolchain install 1.98.1
-cargo +1.98.1 install calcit --version 0.41.1 --locked
+cargo +1.98.1 install calcit --version 0.42.0 --locked
 cargo install calcit-caps --version 0.1.1 --locked
 ```
 
@@ -46,6 +46,16 @@ let
   assert= (Option :none) $ values.get 2
   assert= 0 $ (values.get 2).unwrap-or 0
   assert= true $ (parse-float |not-a-number).err?
+```
+
+如果一个值只可能来自几种已知类型，可用 `defunion` 声明成员，例如 `defunion CssValue Number String`。内置的 `CirruNode` 也是联合类型，由字符串叶子和递归列表组成。`match` 的分支可以直接使用各成员的具体类型。
+
+```cirru
+let
+    node $ decode-map-as ([] |add |1 |2) CirruNode
+  assert= 3 $ match node
+    (String token) (.len token)
+    (List children) (.len children)
 ```
 
 ## JavaScript、native 与 WASI
