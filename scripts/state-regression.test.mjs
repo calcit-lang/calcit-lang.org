@@ -8,42 +8,46 @@ import { comp_md, comp_md_block } from '../js-out/respo-md.comp.md.mjs';
 import { make_string } from '../js-out/respo.render.html.mjs';
 import { comp_snippet_demo } from '../js-out/app.comp.container.mjs';
 
-const t = clt.init_tags(['states', 'cursor', 'data', 'tabs', 'selected']);
+const t = clt.init_tags(['states', 'select-snippet', 'cursor', 'data', 'tabs', 'match', 'component', 'pipeline']);
 const field = (v, k) => clt.option_$o_unwrap(clt.get(v, k));
-const op = (cursor, data) => clt._PCT__$o__$o_(Op, t.states, cursor, data);
-const data = selected => clt._$n__$M_(t.selected, selected);
+const op = (cursor, selection) => clt._PCT__$o__$o_(Op, t['select-snippet'], cursor, selection);
 
 test('nested state updates retain the cursor and do not nest another store', () => {
   const mixed = clt._$L_(t.tabs, '名称', 2);
-  const decoded = op(mixed, false);
+  const decoded = op(mixed, t.match);
   assert.equal(clt._$e_(clt._$n_enum_$o_nth(decoded, 1), mixed), true);
-  assert.equal(clt._$n_enum_$o_nth(decoded, 2), false);
-  assert.throws(() => op(clt._$L_(true), false), /Op::states.*payload 1/);
+  assert.equal(clt._$n_enum_$o_nth(decoded, 2), t.match);
+  assert.throws(() => op(clt._$L_(true), t.match), /Op::select-snippet.*payload 1/);
 
-  const next = updater(store, op(clt._$L_(t.tabs), data('architecture')), 'tabs', 1);
+  assert.throws(() => op(mixed, false), /Op::select-snippet.*payload 2/);
+  const mixedTree = field(updater(store, decoded, 'mixed', 1), t.states);
+  assert.equal(field(field(field(field(mixedTree, t.tabs), '名称'), 2), t.data), t.match);
+  const next = updater(store, op(clt._$L_(t.tabs), t.component), 'tabs', 1);
   const tree = field(next, t.states);
-  assert.equal(field(field(field(tree, t.tabs), t.data), t.selected), 'architecture');
+  assert.equal(field(field(tree, t.tabs), t.data), t.component);
   assert.equal(clt.contains_$q_(tree, t.states), false);
   assert.equal(clt._$e_(field(tree, t.cursor), clt._$L_()), true);
 });
 
 test('root updates preserve nested branches and repeated updates replace data', () => {
-  const nested = updater(store, op(clt._$L_(t.tabs), data('architecture')), 'tabs', 1);
-  const root = updater(nested, op(clt._$L_(), data('root')), 'root', 2);
-  assert.equal(field(field(field(root, t.states), t.data), t.selected), 'root');
-  const next = updater(root, op(clt._$L_(t.tabs), data('syntax')), 'tabs-2', 3);
-  assert.equal(field(field(field(field(next, t.states), t.tabs), t.data), t.selected), 'syntax');
-  assert.equal(field(field(field(next, t.states), t.data), t.selected), 'root');
+  const nested = updater(store, op(clt._$L_(t.tabs), t.component), 'tabs', 1);
+  const root = updater(nested, op(clt._$L_(), t.match), 'root', 2);
+  assert.equal(field(field(root, t.states), t.data), t.match);
+  const next = updater(root, op(clt._$L_(t.tabs), t.pipeline), 'tabs-2', 3);
+  assert.equal(field(field(field(next, t.states), t.tabs), t.data), t.pipeline);
+  assert.equal(field(field(next, t.states), t.data), t.match);
 });
 
 test('legacy Map and typed Store hydration preserve the existing state tree', () => {
-  const next = updater(store, op(clt._$L_(t.tabs), data('syntax')), 'tabs', 1);
+  const next = updater(store, op(clt._$L_(t.tabs), t.pipeline), 'tabs', 1);
   const tree = field(next, t.states);
   const legacy = clt._$n__$M_(t.states, tree);
   for (const value of [legacy, next]) {
     const restored = clt.option_$o_unwrap(decode_store(value));
     assert.equal(clt._$e_(field(restored, t.states), tree), true);
   }
+  const invalidTree = clt._$n__$M_(t.tabs, clt._$n__$M_(t.data, false));
+  assert.equal(clt.option_$o_some_$q_(decode_store(clt._$n__$M_(t.states, invalidTree))), false);
 });
 
 test('homepage feature text and complete Markdown documents render without invalid children', () => {
