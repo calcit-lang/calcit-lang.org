@@ -110,7 +110,7 @@
                     comp-section-head "|语言一瞥" "|不可变数据、模式匹配、管道宏和 Respo 组件。切换标签查看示例。"
                     let
                         snippet-states $ >> states :snippets
-                        snippet-cursor $ decode-map-as (state-cursor snippet-states) (List Tag)
+                        snippet-cursor $ decode-map-as (state-cursor snippet-states) (List app.schema/CursorKey)
                         snippet-selection $ pick-state snippet-states Tag :match
                       comp-snippet-demo snippet-cursor snippet-selection
                   comp-start-section
@@ -337,7 +337,7 @@
                     d! $ app.schema/Op :select-snippet cursor value
               comp-cirru-snippet $ trim $ pick-demo state
           :examples $ []
-          :schema $ quote $ Fn (List Tag) Tag (-> respo.schema/Component)
+          :schema $ quote $ Fn (List app.schema/CursorKey) Tag (-> respo.schema/Component)
         'comp-start-section $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-start-section ()
             div
@@ -887,9 +887,13 @@
           :code $ quote $ defstruct SiteConfig (:dev-ui String) (:release-ui String) (:cdn-url String) (:title String) (:icon String) (:storage-key String)
           :examples $ []
           :schema $ quote StructDef
+        'SnippetStateNode $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defunion SnippetStateNode Tag (List CursorKey) (Map CursorKey SnippetStateNode)
+          :examples $ []
+          :schema $ quote UnionDef
         'Store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Store
-            :states $ Map Dynamic Dynamic
+            :states $ Map CursorKey SnippetStateNode
           :examples $ []
           :schema $ quote StructDef
         'decode-store $ %{} 'CodeEntry (:doc |)
@@ -898,9 +902,11 @@
               or (map? data) (struct? data)
               match (get data :states)
                 (:some states)
-                  if (map? states)
-                    Some $ Store :states $ decode-map-as states (Map Dynamic Dynamic)
-                    , None
+                  match
+                    try-decode-map-as states $ Map CursorKey SnippetStateNode
+                    (:ok tree)
+                      Some $ Store :states tree
+                    (:err _) None
                 (:none) None
               , None
           :examples $ []
@@ -948,7 +954,7 @@
               (:select-snippet cursor selection)
                 assoc store :states $ decode-map-as
                   update-state-tree (:states store) cursor selection
-                  Map Dynamic Dynamic
+                  Map app.schema/CursorKey app.schema/SnippetStateNode
               (:hydrate-storage data) data
               _ store
           :examples $ []

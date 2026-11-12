@@ -20,6 +20,8 @@ test('nested state updates retain the cursor and do not nest another store', () 
   assert.throws(() => op(clt._$L_(true), t.match), /Op::select-snippet.*payload 1/);
 
   assert.throws(() => op(mixed, false), /Op::select-snippet.*payload 2/);
+  const mixedTree = field(updater(store, decoded, 'mixed', 1), t.states);
+  assert.equal(field(field(field(field(mixedTree, t.tabs), '名称'), 2), t.data), t.match);
   const next = updater(store, op(clt._$L_(t.tabs), t.component), 'tabs', 1);
   const tree = field(next, t.states);
   assert.equal(field(field(tree, t.tabs), t.data), t.component);
@@ -44,6 +46,8 @@ test('legacy Map and typed Store hydration preserve the existing state tree', ()
     const restored = clt.option_$o_unwrap(decode_store(value));
     assert.equal(clt._$e_(field(restored, t.states), tree), true);
   }
+  const invalidTree = clt._$n__$M_(t.tabs, clt._$n__$M_(t.data, false));
+  assert.equal(clt.option_$o_some_$q_(decode_store(clt._$n__$M_(t.states, invalidTree))), false);
 });
 
 test('homepage feature text and complete Markdown documents render without invalid children', () => {
