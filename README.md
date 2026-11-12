@@ -1,6 +1,6 @@
 ## Calcit 官网
 
-本项目使用 Calcit / JS 运行时 0.41.1、Reel 0.11.0、Respo 0.19.5、UI 0.15.2 和 Markdown 0.8.2。升级后重新严格安装、编译前端并刷新页面。
+本项目使用 Calcit / JS 运行时 0.42.0、Reel 0.11.0、Respo 0.19.5、UI 0.15.2 和 Markdown 0.8.2。升级后重新严格安装、编译前端并刷新页面。
 
 Respo 的派发槽绑定具名 `Op`。Reel 面板和快捷键使用独立的 `Control` 回调，两条路径在 `ResolvedOp` union 中汇合。状态游标仅接受 Tag、字符串和数字。
 
@@ -45,7 +45,7 @@ Respo 的派发槽绑定具名 `Op`。Reel 面板和快捷键使用独立的 `Co
 
 ### 使用者影响与开发
 
-工具链配对正式 **Calcit / @calcit/procs 0.41.1**、Caps 0.1.1、Node 24 和 Yarn 4.18.0。升级后重装依赖、重新生成 JS、重启开发服务并刷新页面。正文安装版本与首页类型示例也对应 0.41.1；类型错误示例使用实际的 `hint-fn $ Fn Number (-> Number)`。
+工具链配对正式 **Calcit / @calcit/procs 0.42.0**、Caps 0.1.1、Node 24 和 Yarn 4.18.0。升级后重装依赖、重新生成 JS、重启开发服务并刷新页面。正文安装版本与首页类型示例也对应 0.42.0；类型错误示例使用实际的 `hint-fn $ Fn Number (-> Number)`。
 
 正文使用 Markdown 模块的默认渲染：Cirru 代码仍高亮，bash 命令按原文展示，尖括号占位符不再被旧自定义高亮器当成 HTML。链接、副标题、四个 snippet 标签、Store/Op、状态树和热更新 HUD 保留。无副标题或生产环境无开发面板时不增加占位 DOM。
 
