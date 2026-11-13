@@ -910,8 +910,9 @@
                 (:none) None
               , None
           :examples $ []
-          :schema $ quote $ Fn Dynamic
+          :schema $ quote $ Fn Input
             -> $ Option Store
+            :generics Input
         'doc-columns $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def doc-columns
             []
