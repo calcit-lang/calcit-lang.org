@@ -122,8 +122,9 @@
                   []
           :examples $ []
           :schema $ quote $ Fn (reel.typed/State app.schema/Op app.schema/Store)
-            Fn reel.typed/Control $ -> Unit
+            Fn reel.typed/Control (-> Unit) (:features :io :state)
             -> respo.schema/Component
+            :features :state
         'comp-deep-read $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-deep-read ()
             div
@@ -143,7 +144,7 @@
                 comp-md-block (inline-content! |content/cirru.md)
                   {} $ :class-name |
           :examples $ []
-          :schema $ quote $ Fn (-> respo.schema/Component)
+          :schema $ quote $ Fn (-> respo.schema/Component) (:features :state)
         'comp-ecosystem $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-ecosystem ()
             div
@@ -803,14 +804,14 @@
               hud! |error build-errors
             , &unit
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi :state)
+          :schema $ quote $ Fn (-> Unit) (:features :io :js-ffi :state)
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
             render-with! (mount-target)
               fn () $ comp-container (deref *reel) dispatch-control!
               , dispatch-op!
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi :state)
+          :schema $ quote $ Fn (-> Unit) (:features :io :js-ffi :state)
         'repeat! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn repeat! (duration cb)
             browser/set-interval! cb $ * 1000 duration
