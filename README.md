@@ -1,6 +1,6 @@
 ## Calcit 官网
 
-本项目使用 Calcit / JS 运行时 0.43.0、Reel 0.11.3、Respo 0.19.11、UI 0.15.5 和 Markdown 0.9.3。升级后重新严格安装、编译前端并刷新页面。
+本项目使用 Calcit / JS 运行时 0.44.0、Reel 0.11.3、Respo 0.19.11、UI 0.15.5 和 Markdown 0.9.3。升级后重新严格安装、编译前端并刷新页面。
 
 Respo 的派发槽绑定具名 `Op`。Reel 面板和快捷键使用独立的 `Control` 回调，两条路径在 `ResolvedOp` union 中汇合。状态游标仅接受 Tag、字符串和数字。
 
