@@ -14,7 +14,7 @@ cargo install calcit-caps --version 0.1.1 --locked
 
 资源不足的 Linux 机器可优先使用 [GitHub Releases](https://github.com/calcit-lang/calcit/releases) 的预编译文件，包括 Ubuntu 22.04 的无 WASM 版本；选择匹配系统与架构的文件，不需要本机编译完整工具链。
 
-在已有项目目录中安装依赖，再检查或构建：
+已有项目应先安装与其 `deps.cirru` 中声明版本一致的 Calcit 和 `@calcit/procs`；本网站使用的 0.44.0 不会自动替代项目的版本要求。在项目目录中安装依赖，再检查或构建：
 
 ```bash
 caps --strict --ci
