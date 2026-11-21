@@ -1,6 +1,6 @@
 ## Calcit 官网
 
-本项目使用 Calcit / JS 运行时 0.44.0、Reel 0.11.3、Respo 0.19.11、UI 0.15.5 和 Markdown 0.9.3。升级后重新严格安装、编译前端并刷新页面。
+本项目使用 Calcit / JS 运行时 0.44.0、Reel 0.11.5、Respo 0.19.13、UI 0.15.7 和 Markdown 0.9.5。升级后重新严格安装、编译前端并刷新页面。
 
 Respo 的派发槽绑定具名 `Op`。Reel 面板和快捷键使用独立的 `Control` 回调，两条路径在 `ResolvedOp` union 中汇合。状态游标仅接受 Tag、字符串和数字。
 
@@ -45,7 +45,7 @@ Respo 的派发槽绑定具名 `Op`。Reel 面板和快捷键使用独立的 `Co
 
 ### 使用者影响与开发
 
-工具链配对正式 **Calcit / @calcit/procs 0.43.0**、Caps 0.1.1、Node 24 和 Yarn 4.18.0。升级后重装依赖、重新生成 JS、重启开发服务并刷新页面。正文安装版本与首页类型示例也对应 0.43.0；类型错误示例使用实际的 `hint-fn $ Fn Number (-> Number)`。
+工具链配对正式 **Calcit / @calcit/procs 0.44.0**、Caps 0.1.1、Node 24 和 Yarn 4.18.0。升级后重装依赖、重新生成 JS、重启开发服务并刷新页面。正文安装版本与首页类型示例也对应 0.44.0；类型错误示例使用实际的 `hint-fn $ Fn Number (-> Number)`。
 
 正文使用 Markdown 模块的默认渲染：Cirru 代码仍高亮，bash 命令按原文展示，尖括号占位符不再被旧自定义高亮器当成 HTML。链接、副标题、四个 snippet 标签、Store/Op、状态树和热更新 HUD 保留。无副标题或生产环境无开发面板时不增加占位 DOM。
 
@@ -62,7 +62,7 @@ yarn dev
 
 `yarn test` 执行两篇正文的 Cirru 示例、生成 JavaScript、运行原 5 项状态树/完整正文渲染/四个标签真实回调测试。开发时可另开终端运行 `calcit js -w`。CLI 必须来自项目固定的正式版本，不能仅凭本地 main 二进制打印相同版本号就视为已配对；不使用兼容开关绕过门禁。
 
-正式模块为 Markdown 0.9.3、Reel 0.11.3、UI 0.15.5、Respo 0.19.11、JS FFI 0.2.18，传递 Router 为 0.12.9。新解析 npm 包至少发布60分钟，无单包例外，原锁文件按 immutable 安装。
+正式模块为 Markdown 0.9.5、Reel 0.11.5、UI 0.15.7、Respo 0.19.13、JS FFI 0.2.19，传递 Router 为 0.12.11。新解析 npm 包至少发布60分钟，无单包例外，原锁文件按 immutable 安装。
 
 官方 formatter 转换 7 处旧类型形式；TabsOptions 改为当前构造，原参数/默认值和标签回调不变。删除失效且被核心同名函数遮蔽的 Reel generate-id! 导入。条件子节点用列表展开表达空集合，不新增空元素或 nil/类型强转。仅维护 calcit.cirru/deps.cirru，生成目录不提交；原类型门禁、零 unsafe 和原测试保留，不增加检查脚本或质量预算。
 
