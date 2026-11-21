@@ -4,17 +4,17 @@ Calcit 是以结构化源码为基础的类型化函数式语言，主要用于 
 
 ## 安装与运行
 
-本网站使用已发布的 Calcit **0.43.0**，对应 `@calcit/procs` **0.43.0**。开发分支可能包含尚未发布的 API 或更严格的规则；升级应用时应同时审阅编译器、运行时和模块版本。
+本网站使用已发布的 Calcit **0.44.0**，对应 `@calcit/procs` **0.44.0**。开发分支可能包含尚未发布的 API 或更严格的规则；升级应用时应同时审阅编译器、运行时和模块版本。
 
 ```bash
-rustup toolchain install 1.98.1
-cargo +1.98.1 install calcit --version 0.43.0 --locked
+rustup toolchain install 1.100.0
+cargo +1.100.0 install calcit --version 0.44.0 --locked
 cargo install calcit-caps --version 0.1.1 --locked
 ```
 
 资源不足的 Linux 机器可优先使用 [GitHub Releases](https://github.com/calcit-lang/calcit/releases) 的预编译文件，包括 Ubuntu 22.04 的无 WASM 版本；选择匹配系统与架构的文件，不需要本机编译完整工具链。
 
-在已有项目目录中安装依赖，再检查或构建：
+已有项目应先安装与其 `deps.cirru` 中声明版本一致的 Calcit 和 `@calcit/procs`；本网站使用的 0.44.0 不会自动替代项目的版本要求。在项目目录中安装依赖，再检查或构建：
 
 ```bash
 caps --strict --ci
