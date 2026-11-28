@@ -328,7 +328,7 @@
                 ui-schema/TabsOptions :selected (Some state) :vertical? (Some true) :style $ Some $ decode-map-as
                   {} (:margin-top 20) (:padding "|0 8px") (:min-width 160)
                   Map Tag respo-ui.schema/InlineStyleValue
-                [] (%:: ui-schema/TabRoute :tab :match "|Pattern matching") (%:: ui-schema/TabRoute :tab :component |Component) (%:: ui-schema/TabRoute :tab :persistent-data "|Persistent data") (%:: ui-schema/TabRoute :tab :pipeline "|Pipeline macro")
+                [] (ui-schema/TabRoute :tab :match "|Pattern matching") (ui-schema/TabRoute :tab :component |Component) (ui-schema/TabRoute :tab :persistent-data "|Persistent data") (ui-schema/TabRoute :tab :pipeline "|Pipeline macro")
                 fn (info d!)
                   hint-fn $ Fn (ui-schema/TabRoute Tag)
                     Fn app.schema/Op $ -> Unit
